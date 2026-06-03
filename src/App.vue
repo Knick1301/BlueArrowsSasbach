@@ -96,7 +96,7 @@ const navItems = computed(() =>
             <img
               :src="basLogo"
               class="absolute left-1/2 -translate-x-1/2 max-w-none transition-transform group-hover:scale-105"
-              :class="['-top-6 w-28', 'lg:-top-10 lg:w-45']"
+              :class="['-top-10 w-28', 'lg:-top-10 lg:w-45']"
               alt="BAS Logo"
             />
           </router-link>
