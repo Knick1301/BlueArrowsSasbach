@@ -30,6 +30,10 @@ const allDays = {
   Sonntag: 'sunday',
 }
 
+const getGermanDayName = (dayKey: string): string => {
+  const found = Object.entries(allDays).find(([_, englishValue]) => englishValue === dayKey)
+  return found ? found[0] : dayKey
+}
 const trainingsPerDay = (dayName: string) => {
   const dayKey = allDays[dayName as keyof typeof allDays]
   return trainings.value.filter((training) => training.day === dayKey)
@@ -65,11 +69,11 @@ const getTrainingStyle = (from: string, to: string): CSSProperties => {
 }
 
 const teamMapping: Record<string, string> = {
-  herren: 'Herren',
-  junioren: 'Junioren (U19)',
-  jugend: 'Jugend (U16)',
-  schueler: 'Schüler (U13)',
   bambini: 'Bambini (U10)',
+  schueler: 'Schüler (U13)',
+  jugend: 'Jugend (U16)',
+  junioren: 'Junioren (U19)',
+  herren: 'Herren',
   hobby: 'Hobby',
 }
 
@@ -82,13 +86,69 @@ const calendarHours = computed(() => {
   }
   return hours
 })
+
+const trainingsByTeam = computed(() => {
+  const dayOrder = Object.values(allDays)
+
+  const grouped: Record<string, TrainingsBlok[]> = {}
+  Object.keys(teamMapping).forEach((teamKey) => {
+    grouped[teamKey] = []
+  })
+  trainings.value.forEach((training) => {
+    const teamKey = training.team
+
+    if (!grouped[teamKey]) {
+      grouped[teamKey] = []
+    }
+
+    grouped[teamKey].push(training)
+  })
+  Object.keys(grouped).forEach((teamKey) => {
+    const teamTrainings = grouped[teamKey]
+
+    if (teamTrainings) {
+      teamTrainings.sort((a, b) => {
+        return dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day)
+      })
+    }
+  })
+
+  return Object.entries(grouped).filter(([_, list]) => list.length > 0)
+})
 </script>
 <template>
-  <div v-if="story" v-editable="story" class="min-h-screen bg-gray-50 pb-12">
+  <div>
     <div class="w-full py-13 bg-[#032650] text-center px-4">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
-        {{ story.content.title || 'Teamseite' }}
+        {{ story?.content.title || 'Trainingszeiten' }}
       </h1>
+    </div>
+    <div class="max-w-[600px] mx-auto mt-10 px-4 lg:hidden">
+      <div
+        v-for="[teamKey, teamTrainings] in trainingsByTeam"
+        :key="teamKey"
+        class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-6 p-4 border-l-4 border-l-[#032650]"
+      >
+        <h3 class="font-black text-[#032650] text-xl mb-3 border-b pb-2 border-gray-100">
+          {{ teamMapping[teamKey] }}
+        </h3>
+
+        <div class="space-y-2">
+          <div
+            v-for="training in teamTrainings"
+            :key="training._uid"
+            class="flex justify-between items-center bg-[#f0f7fd] p-2.5 rounded-md"
+          >
+            <span class="font-bold text-gray-700 text-sm">
+              {{ getGermanDayName(training.day) }}
+            </span>
+
+            <span class="font-black text-[#032650] text-sm">
+              {{ training.from }} - {{ training.to }} Uhr
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="max-w-[1400px] mx-auto mt-10 px-4 hidden lg:grid grid-cols-[60px_1fr] gap-4">
