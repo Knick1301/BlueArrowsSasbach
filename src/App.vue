@@ -2,7 +2,8 @@
 import { STORYBLOK_VERSION, CONFIG_STORY } from '@/storyblok'
 
 import basLogo from '@/assets/BASlogo.png'
-
+import instagramLogo from '@/assets/InstagramLogo.png'
+import facebookLogo from '@/assets/FacebookLogo.png'
 import { useStoryblokApi } from '@storyblok/vue'
 
 import { computed, onMounted, ref } from 'vue'
@@ -251,8 +252,27 @@ const navItems = computed(() =>
       </Suspense>
     </main>
 
-    <footer class="bg-[#032650] flex justify-center items-center h-24 mt-auto">
+    <footer class="bg-[#032650] relative flex justify-center items-center h-24 mt-auto px-6">
       <img :src="basLogo" class="h-20 w-auto object-contain" alt="BAS Footer Logo" />
+
+      <a
+        href="https://www.facebook.com/bluearrows.de"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="absolute right-24 hover:scale-110 transition-transform"
+        aria-label="Facebook"
+      >
+        <img :src="facebookLogo" class="w-13 h-13 object-contain" alt="Facebook" />
+      </a>
+      <a
+        href="https://www.instagram.com/bluearrows.de/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="absolute right-6 hover:scale-110 transition-transform"
+        aria-label="Instagram"
+      >
+        <img :src="instagramLogo" class="w-13 h-13 object-contain" alt="Instagram" />
+      </a>
     </footer>
   </div>
 </template>

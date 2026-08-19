@@ -15,15 +15,19 @@ const router = createRouter({
       name: 'hockey',
       component: () => import('@/views/Hockey.vue')
     },
-    {
-      path:'/aktuelles',
-      name: 'aktuelles',
-      component: () => import('@/views/Aktuelles.vue')
+    {path: '/aktuelles/news/:slug',
+      name: 'artikel',
+      component: () => import ('@/views/Artikel.vue')
     },
     {
-      path:'/inlineSkating',
-      name: 'inlineSkating',
-      component: () => import('@/views/InlineSkating.vue')
+      path:'/aktuelles/news',
+      name: 'aktuelles',
+      component: () => import('@/views/News.vue')
+    },
+    {
+      path:'/skating/laufschule',
+      name: 'laufschule',
+      component: () => import('@/views/Laufschule.vue')
     },
     {
       path:'/events',

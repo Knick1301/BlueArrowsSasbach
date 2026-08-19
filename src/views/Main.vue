@@ -169,69 +169,82 @@ const filteredGames = computed(() => {
         </h2>
 
         <div class="mt-auto relative w-full h-[clamp(150px,20vh,250px)] px-8">
-          <button
-            class="news-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2.5"
-              stroke="currentColor"
-              class="w-6 h-6"
+          <template v-if="newsCards.length > 0">
+            <button
+              class="news-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-
-          <Swiper
-            :modules="modules"
-            :slides-per-view="2"
-            :space-between="16"
-            :navigation="{
-              prevEl: '.news-prev',
-              nextEl: '.news-next',
-            }"
-            class="w-full h-full pb-4"
-          >
-            <swiper-slide v-for="news in newsCards" :key="news._uid">
-              <router-link
-                :to="getUrl(news.link)"
-                v-editable="news"
-                class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
               >
-                <img
-                  :src="news.image?.filename"
-                  class="h-[60%] w-full object-cover"
-                  alt="News Image"
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
                 />
-                <div
-                  class="text-xs lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow"
-                >
-                  {{ news.title }}
-                </div>
-              </router-link>
-            </swiper-slide>
-          </Swiper>
+              </svg>
+            </button>
 
-          <button
-            class="news-next absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2.5"
-              stroke="currentColor"
-              class="w-6 h-6"
+            <Swiper
+              :modules="modules"
+              :slides-per-view="2"
+              :space-between="16"
+              :navigation="{
+                prevEl: '.news-prev',
+                nextEl: '.news-next',
+              }"
+              class="w-full h-full pb-4"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
+              <swiper-slide v-for="news in newsCards" :key="news._uid">
+                <router-link
+                  :to="getUrl(news.link)"
+                  v-editable="news"
+                  class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95"
+                >
+                  <img
+                    :src="news.image?.filename"
+                    class="h-[60%] w-full object-cover"
+                    alt="News Image"
+                  />
+                  <div
+                    class="text-xs lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow"
+                  >
+                    {{ news.title }}
+                  </div>
+                </router-link>
+              </swiper-slide>
+            </Swiper>
+
+            <button
+              class="news-next absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </template>
+
+          <div
+            v-else
+            class="w-full h-full flex items-center justify-center text-[#032650] font-medium text-center px-4"
+          >
+            Aktuell keine News verfügbar.
+          </div>
         </div>
       </div>
 
@@ -243,7 +256,7 @@ const filteredGames = computed(() => {
             <router-link to="/games">Nächste Spiele</router-link>
           </h2>
 
-          <div class="mt-auto flex flex-wrap gap-2 mb-4 pl-1">
+          <div v-if="teamOptions.length > 1" class="mt-auto flex flex-wrap gap-2 mb-4 pl-1">
             <button
               v-for="option in teamOptions"
               :key="option"
@@ -261,65 +274,78 @@ const filteredGames = computed(() => {
         </div>
 
         <div class="relative w-full mt-auto px-8">
-          <button
-            class="swiper-prev-custom absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2.5"
-              stroke="currentColor"
-              class="w-6 h-6"
+          <template v-if="filteredGames.length > 0">
+            <button
+              class="swiper-prev-custom absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+            </button>
 
-          <swiper
-            :modules="modules"
-            :slides-per-view="2"
-            :space-between="16"
-            :navigation="{
-              prevEl: '.swiper-prev-custom',
-              nextEl: '.swiper-next-custom',
-            }"
-            :key="filteredGames.length"
-            class="w-full h-[clamp(150px,20vh,250px)] overflow-hidden"
-          >
-            <swiper-slide v-for="game in filteredGames" :key="game._uid">
-              <GameCard
-                :date="game.date"
-                :home-team="game.homeTeam"
-                :away-team="game.awayTeam"
-                :homelogo="game.homelogo?.filename"
-                :awaylogo="game.awaylogo?.filename"
-                :venue="game.venue"
-                :team="game.team"
-                v-editable="game"
-                class="master-card-shadow"
-              />
-            </swiper-slide>
-          </swiper>
-
-          <button
-            class="swiper-next-custom absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2.5"
-              stroke="currentColor"
-              class="w-6 h-6"
+            <swiper
+              :modules="modules"
+              :slides-per-view="2"
+              :space-between="16"
+              :navigation="{
+                prevEl: '.swiper-prev-custom',
+                nextEl: '.swiper-next-custom',
+              }"
+              :key="filteredGames.length"
+              class="w-full h-[clamp(150px,20vh,250px)] overflow-hidden"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
+              <swiper-slide v-for="game in filteredGames" :key="game._uid">
+                <GameCard
+                  :date="game.date"
+                  :home-team="game.homeTeam"
+                  :away-team="game.awayTeam"
+                  :homelogo="game.homelogo?.filename"
+                  :awaylogo="game.awaylogo?.filename"
+                  :venue="game.venue"
+                  :team="game.team"
+                  v-editable="game"
+                  class="master-card-shadow"
+                />
+              </swiper-slide>
+            </swiper>
+
+            <button
+              class="swiper-next-custom absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </button>
+          </template>
+
+          <div
+            v-else
+            class="w-full h-[clamp(150px,20vh,250px)] flex items-center justify-center text-[#032650] font-bold text-center px-4 text-lg"
+          >
+            Aktuell keine Spiele geplant.
+          </div>
         </div>
       </div>
     </div>
