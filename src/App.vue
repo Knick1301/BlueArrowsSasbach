@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { STORYBLOK_VERSION, CONFIG_STORY } from '@/storyblok'
-
+import { useRoute } from 'vue-router'
 import basLogo from '@/assets/BASlogo.png'
 import instagramLogo from '@/assets/InstagramLogo.png'
 import facebookLogo from '@/assets/FacebookLogo.png'
@@ -9,6 +9,7 @@ import { useStoryblokApi } from '@storyblok/vue'
 import { computed, onMounted, ref } from 'vue'
 
 const isMenuOpen = ref(false)
+const route = useRoute()
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -248,7 +249,7 @@ const navItems = computed(() =>
 
     <main class="flex-grow flex flex-col">
       <Suspense>
-        <router-view :key="$route.fullPath" />
+        <router-view :key="route.fullPath" />
       </Suspense>
     </main>
 

@@ -55,8 +55,8 @@ const getTrainingStyle = (from: string, to: string): CSSProperties => {
   const toMinutes = timeToMinutes(to)
   const calenderStart = START_HOUR * 60
 
-  const top = (fromMinutes - calenderStart) * 1.5
-  const height = (toMinutes - fromMinutes) * 1.5 - 2
+  const top = (fromMinutes - calenderStart) * 1.75
+  const height = (toMinutes - fromMinutes) * 1.75 - 2
 
   return {
     position: 'absolute',
@@ -137,40 +137,62 @@ const trainingsByTeam = computed(() => {
           Aktuell sind alle Kurse voll belegt! Voranmeldungen für die Warteliste sind möglich.
         </div>
 
-        <p class="mb-6 text-lg font-medium text-gray-700 leading-relaxed">
+        <p class="mb-6 text-xl font-medium text-gray-700 leading-relaxed">
           Herzlich Willkommen bei der Inline-Skating Laufschule der Blue Arrows! Wir bringen Kindern
           (ab 3 Jahren) von den ersten Grundschritten an das Inlineskaten bei.
         </p>
 
         <h3
-          class="text-[#032650] text-xl font-bold border-b-[3px] border-[#032650] inline-block pb-1 mb-4"
+          class="text-[#032650] text-xl font-bold border-b-[3px] border-[#032650] w-fit pb-1 mb-4 mt-2"
         >
           Unsere Einteilung
         </h3>
-        <ul class="mb-6 space-y-3 list-disc pl-5 text-lg font-medium text-gray-700">
-          <li>
-            <strong class="text-[#032650] font-bold">Anfänger:</strong>
-            Kinder bis 8 Jahre & Anfänger unabhängig des Alters.
-          </li>
-          <li>
-            <strong class="text-[#032650] font-bold">Fortgeschrittene:</strong> Für alle Skater mit
-            ersten Erfahrungen.
-          </li>
-        </ul>
+        <div class="mb-8 space-y-4">
+          <div class="bg-blue-50 p-4 rounded-lg border-l-[4px] border-[#032650]">
+            <div class="text-[#032650] font-black text-lg uppercase tracking-wider mb-1">
+              Anfänger
+            </div>
+            <div class="text-lg font-medium text-gray-700">
+              Kinder bis 8 Jahre & Anfänger unabhängig des Alters.
+            </div>
+          </div>
+          <div class="bg-blue-50 p-4 rounded-lg border-l-[4px] border-[#032650]">
+            <div class="text-[#032650] font-black text-lg uppercase tracking-wider mb-1">
+              Fortgeschrittene
+            </div>
+            <div class="text-lg font-medium text-gray-700">
+              Für alle Skater mit ersten Erfahrungen.
+            </div>
+          </div>
+        </div>
 
         <h3
-          class="text-[#032650] text-xl font-bold border-b-[3px] border-[#032650] inline-block pb-1 mb-4"
+          class="text-[#032650] text-xl font-bold border-b-[3px] border-[#032650] w-fit pb-1 mb-4"
         >
           Eckdaten & Kosten
         </h3>
-        <ul class="mb-8 space-y-3 list-none text-lg font-medium text-gray-700">
-          <li><strong class="font-bold">Wo:</strong> Blue Arrows Hockeyarena</li>
-          <li>
-            <strong class="font-bold">Kosten:</strong> 15 EUR für 3 Monate
-            <span class="text-base text-gray-500">(+ 5 EUR einmalige Aufnahmegebühr)</span>
-          </li>
-          <li class="text-[#032650] font-bold">Einmal Schnuppern ist kostenfrei!</li>
-        </ul>
+        <div class="mb-8 space-y-4">
+          <div class="bg-gray-50 p-4 rounded-lg border-l-[4px] border-[#032650]">
+            <div class="text-[#032650] font-black text-lg uppercase tracking-wider mb-1">Wo</div>
+            <div class="text-lg font-medium text-gray-700">Blue Arrows Hockeyarena</div>
+          </div>
+          <div class="bg-gray-50 p-4 rounded-lg border-l-[4px] border-[#032650]">
+            <div class="text-[#032650] font-black text-lg uppercase tracking-wider mb-1">
+              Kosten
+            </div>
+            <div class="text-lg font-medium text-gray-700">
+              15 EUR für 3 Monate
+              <span class="text-[1.5vmin] text-gray-500 font-bold block mt-1"
+                >(+ 5 EUR einmalige Aufnahmegebühr)</span
+              >
+            </div>
+          </div>
+          <div
+            class="text-[#032650] font-black text-lg mt-6 bg-blue-100 p-4 rounded-lg text-center shadow-sm border border-blue-200"
+          >
+            Einmal Schnuppern ist kostenfrei!
+          </div>
+        </div>
 
         <div class="bg-gray-50 p-5 rounded-lg border border-gray-200 mt-auto">
           <h4 class="font-bold text-[#032650] text-lg mb-3">Anmeldung & Kontakt</h4>
@@ -182,7 +204,7 @@ const trainingsByTeam = computed(() => {
             <img
               src="../assets/DanielBuehler.jpg"
               alt="Daniel Bühler"
-              class="w-25 h-35 rounded-full border-2 border-[#032650] shadow-sm"
+              class="w-25 h-35 rounded-full border-2 border-[#032650] shadow-sm object-cover object-top"
             />
             <div class="flex flex-col">
               <span class="text-[#032650] font-black text-lg leading-tight">Daniel Bühler</span>
@@ -193,12 +215,14 @@ const trainingsByTeam = computed(() => {
           <div class="flex flex-col sm:flex-row gap-3">
             <a
               href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
+              target="_blank"
               class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-800 transition-colors text-sm"
             >
               Zur Warteliste
             </a>
             <a
               href="https://www.bluearrows.de/fileadmin/user_upload/downloads/Anmeldung-Inline-Skating-Laufschule.pdf"
+              target="_blank"
               class="text-center bg-gray-200 text-[#032650] px-4 py-2 rounded font-bold hover:bg-gray-300 transition-colors text-sm"
             >
               Formular (PDF)
@@ -207,7 +231,7 @@ const trainingsByTeam = computed(() => {
         </div>
       </div>
 
-      <div class="w-full lg:w-1/2">
+      <div class="w-full lg:w-1/2 sticky top-24 lg:-mt-2">
         <div class="lg:hidden">
           <div
             v-for="[teamKey, teamTrainings] in trainingsByTeam"
@@ -247,7 +271,7 @@ const trainingsByTeam = computed(() => {
           </div>
 
           <div class="flex flex-col text-sm font-bold text-gray-400 text-right pr-4">
-            <div v-for="hour in calendarHours" :key="hour" class="h-[90px]">{{ hour }}:00</div>
+            <div v-for="hour in calendarHours" :key="hour" class="h-[105px]">{{ hour }}:00</div>
           </div>
 
           <div class="grid grid-cols-2 gap-6">
@@ -256,10 +280,10 @@ const trainingsByTeam = computed(() => {
               :key="day"
               class="relative bg-white rounded-lg border border-gray-300 overflow-hidden shadow-[inset_0_8px_16px_rgba(0,0,0,0.12)]"
               :style="{
-                height: `${(END_HOUR - START_HOUR) * 90}px`,
+                height: `${(END_HOUR - START_HOUR) * 105}px`,
                 backgroundImage:
                   'linear-gradient(to bottom, rgba(229, 231, 235, 0.5) 1px, transparent 2px)',
-                backgroundSize: '100% 90px',
+                backgroundSize: '100% 105px',
               }"
             >
               <div
