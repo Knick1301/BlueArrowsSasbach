@@ -182,7 +182,7 @@ const trainingsByTeam = computed(() => {
             </div>
             <div class="text-lg font-medium text-gray-700">
               15 EUR für 3 Monate
-              <span class="text-[1.5vmin] text-gray-500 font-bold block mt-1"
+              <span class="text-sm text-gray-500 font-bold block mt-1"
                 >(+ 5 EUR einmalige Aufnahmegebühr)</span
               >
             </div>
