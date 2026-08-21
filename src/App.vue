@@ -90,7 +90,6 @@ const navItems = computed(() =>
 
           <div class="hidden lg:flex items-center gap-1">
             <div v-for="item in navItems" :key="item._uid" class="relative group">
-
               <div v-editable="item"
                 class="px-4 py-2 text-base font-semibold text-[#032650] hover:text-blue-700 transition-all rounded-full flex items-center gap-1 select-none cursor-pointer">
                 {{ item.title }}
@@ -140,18 +139,20 @@ const navItems = computed(() =>
           class="fixed inset-0 bg-white z-[1050] flex flex-col pt-24 px-8 lg:hidden overflow-y-auto">
           <div class="flex flex-col gap-4">
             <div v-for="item in navItems" :key="item._uid" class="border-b border-gray-100 pb-2">
-              <div class="flex justify-between items-center py-2">
+              <button type="button" @click="item.subLinks?.length ? toggleSubMenu(item._uid) : null"
+                class="w-full flex justify-between items-center py-2 text-left"
+                :class="{ 'cursor-pointer': item.subLinks?.length }">
                 <span class="text-2xl font-bold text-[#032650]">
                   {{ item.title }}
                 </span>
 
-                <button v-if="item.subLinks?.length" @click="toggleSubMenu(item._uid)" class="p-2 text-[#032650]">
+                <span v-if="item.subLinks?.length" class="p-2 text-[#032650]">
                   <svg :class="{ 'rotate-180': openSubMenu === item._uid }" class="w-6 h-6 transition-transform"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
-              </div>
+                </span>
+              </button>
 
               <div v-if="openSubMenu === item._uid && item.subLinks?.length"
                 class="pl-4 flex flex-col gap-4 pb-4 mt-2 border-l-2 border-blue-100 transition-all">
