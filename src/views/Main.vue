@@ -76,13 +76,13 @@ const storyblokApi = useStoryblokApi()
 
 
 const { data: newsData } = await storyblokApi.get('cdn/stories', {
-  version: STORYBLOK_VERSION, // oder 'draft' zum Testen
+  version: STORYBLOK_VERSION,
   starts_with: 'aktuelles/news/',
   is_startpage: false,
   sort_by: 'content.date:desc',
 })
 
-// 4. Formatiere die echten News so, dass deine Home-Karten sie verstehen
+
 const newsCards = computed(() => {
   if (!newsData || !newsData.stories) return []
 
