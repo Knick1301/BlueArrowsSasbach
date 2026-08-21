@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useStoryblok } from '@storyblok/vue'
+import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
@@ -72,6 +72,31 @@ const teamOptions = computed(() => {
 
 const story = await useStoryblok('home', { version: STORYBLOK_VERSION })
 
+const storyblokApi = useStoryblokApi()
+
+
+const { data: newsData } = await storyblokApi.get('cdn/stories', {
+  version: STORYBLOK_VERSION,
+  starts_with: 'aktuelles/news/',
+  is_startpage: false,
+  sort_by: 'content.date:desc',
+})
+
+
+const newsCards = computed(() => {
+  if (!newsData || !newsData.stories) return []
+
+  return newsData.stories.map((newsItem: any) => ({
+    _uid: newsItem.uuid,
+    title: newsItem.content.title,
+    image: newsItem.content.image,
+    link: {
+      linktype: 'story',
+      cached_url: newsItem.full_slug
+    }
+  }))
+})
+
 const teaser = computed(() =>
   story.value?.content.body.find((blok: any): blok is TeaserBlok => blok.component === 'teaser'),
 )
@@ -83,12 +108,6 @@ const teamCards = computed(
     ) || [],
 )
 
-const newsCards = computed(
-  () =>
-    story.value?.content.body.filter(
-      (blok: any): blok is CardBlok => blok.component === 'NewsCard',
-    ) || [],
-)
 
 const nextGames = computed(
   () =>
@@ -149,7 +168,7 @@ const filteredGames = computed(() => {
       <div class="lg:col-span-3 col-span-1 flex flex-col lg:pl-4 h-full order-1 lg:order-2">
         <h2
           class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 mt-4 text-2xl self-start">
-          <router-link to="/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
+          <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
         </h2>
 
         <div class="mt-auto relative w-full h-[clamp(150px,20vh,250px)] px-8">
@@ -169,7 +188,7 @@ const filteredGames = computed(() => {
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
-                  <img :src="news.image?.filename" class="h-[60%] w-full object-cover" alt="News Image" />
+                  <img :src="news.image?.filename" class="h-[80%] w-full object-cover" alt="News Image" />
                   <div
                     class="text-xs lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
                     {{ news.title }}
