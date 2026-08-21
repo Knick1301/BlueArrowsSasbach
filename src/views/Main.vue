@@ -188,7 +188,7 @@ const filteredGames = computed(() => {
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
-                  <img :src="news.image?.filename" class="h-[60%] w-full object-cover" alt="News Image" />
+                  <img :src="news.image?.filename" class="h-[80%] w-full object-cover" alt="News Image" />
                   <div
                     class="text-xs lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
                     {{ news.title }}
