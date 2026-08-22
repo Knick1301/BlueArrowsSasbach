@@ -19,14 +19,14 @@ interface StoryblokLink {
   url?: string
 }
 
-interface NextGameBlok {
+interface GamesBlok {
   _uid: string
   component: string
   date: string
-  homeTeam: string
-  awayTeam: string
-  homelogo?: { filename: string }
-  awaylogo?: { filename: string }
+  hometeam: string
+  awayteam: string
+  homeLogo?: { filename: string }
+  awayLogo?: { filename: string }
   venue?: string
   team: string
 }
@@ -50,6 +50,63 @@ interface CardBlok {
 
 const teamOrder = ['Herren', 'Junioren', 'Jugend', 'Schüler', 'Bambini']
 
+const storyblokApi = useStoryblokApi()
+
+const story = await useStoryblok('home', { version: STORYBLOK_VERSION })
+
+const { data: newsData } = await storyblokApi.get('cdn/stories', {
+  version: STORYBLOK_VERSION,
+  starts_with: 'aktuelles/news/',
+  is_startpage: false,
+  sort_by: 'content.date:desc',
+})
+
+const { data: allStoriesData } = await storyblokApi.get('cdn/stories', {
+  version: STORYBLOK_VERSION,
+  per_page: 100,
+})
+
+const extractGames = (bloks: any[], teamName: string): any[] => {
+  let games: any[] = []
+  if (!bloks || !Array.isArray(bloks)) return games
+
+  for (const blok of bloks) {
+    if (blok.component === 'Games' || blok.component === 'NextGame' || blok.component === 'games' || blok.component === 'game') {
+      games.push({ ...blok, team: blok.team || teamName })
+    }
+    for (const key in blok) {
+      if (Array.isArray(blok[key]) && blok[key].length > 0 && typeof blok[key][0] === 'object' && blok[key][0].component) {
+        games.push(...extractGames(blok[key], teamName))
+      }
+    }
+  }
+  return games
+}
+
+const nextGames = computed(() => {
+  let games: any[] = []
+  if (allStoriesData && allStoriesData.stories) {
+    allStoriesData.stories.forEach((storyItem: any) => {
+      const currentTeamName = storyItem.name
+
+      if (storyItem.content) {
+        if (storyItem.content.body) {
+          games.push(...extractGames(storyItem.content.body, currentTeamName))
+        }
+        for (const key in storyItem.content) {
+          const field = storyItem.content[key]
+          if (Array.isArray(field) && field.length > 0 && typeof field[0] === 'object' && field[0].component) {
+            if (key !== 'body') {
+              games.push(...extractGames(field, currentTeamName))
+            }
+          }
+        }
+      }
+    })
+  }
+  return games
+})
+
 const teamOptions = computed(() => {
   const now = new Date()
 
@@ -69,19 +126,6 @@ const teamOptions = computed(() => {
 
   return ['Alle', ...sortedTeams]
 })
-
-const story = await useStoryblok('home', { version: STORYBLOK_VERSION })
-
-const storyblokApi = useStoryblokApi()
-
-
-const { data: newsData } = await storyblokApi.get('cdn/stories', {
-  version: STORYBLOK_VERSION,
-  starts_with: 'aktuelles/news/',
-  is_startpage: false,
-  sort_by: 'content.date:desc',
-})
-
 
 const newsCards = computed(() => {
   if (!newsData || !newsData.stories) return []
@@ -108,14 +152,6 @@ const teamCards = computed(
     ) || [],
 )
 
-
-const nextGames = computed(
-  () =>
-    story.value?.content.body.filter(
-      (blok: any): blok is NextGameBlok => blok.component === 'NextGame',
-    ) || [],
-)
-
 const getUrl = (link: StoryblokLink | undefined): string => {
   if (!link) return '#'
   if (link.linktype === 'story' && link.cached_url) {
@@ -127,7 +163,10 @@ const getUrl = (link: StoryblokLink | undefined): string => {
 const filteredGames = computed(() => {
   const now = new Date()
   return nextGames.value
-    .filter((g: any) => new Date(g.date) >= now)
+    .filter((g: any) => {
+      const gameDate = new Date(g.date)
+      return !isNaN(gameDate.getTime()) && gameDate >= now
+    })
     .filter((g: any) => selectedTeam.value === 'Alle' || g.team === selectedTeam.value)
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4)
@@ -135,7 +174,7 @@ const filteredGames = computed(() => {
 </script>
 
 <template v-if="story && story.content">
-  <div class="mainPicture w-full flex items-center h-[25vh] lg:h-[45vh] m-0 p-0">
+  <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[43vh] m-0 p-0">
     <h1 v-if="teaser"
       class="text-white text-[5vmin] font-extrabold leading-loose ml-[10vmin] drop-shadow-[2px_2px_8px_rgba(255,255,255,0.2)]"
       v-editable="teaser">
@@ -146,32 +185,33 @@ const filteredGames = computed(() => {
   </div>
 
   <div class="bg-[#f2eded] p-6 pt-0 flex-grow flex flex-col">
-    <div class="grid grid-cols-1 sm:gap-10 lg:grid-cols-12 lg:gap-20 items-stretch">
-      <div class="lg:col-span-4 col-span-1 flex flex-col h-full order-2 lg:order-1">
+    <div class="grid grid-cols-1 sm:gap-10 xl:grid-cols-12 xl:gap-8 items-stretch">
+
+      <div class="xl:col-span-4 col-span-1 flex flex-col h-full order-2 xl:order-1">
         <h2 class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start">
           Unsere Teams
         </h2>
 
         <div
-          class="flex flex-wrap lg:flex-nowrap h-auto lg:h-[clamp(150px,20vh,250px)] mt-auto justify-between gap-y-4 lg:gap-y-0">
+          class="flex flex-wrap xl:flex-nowrap h-auto xl:h-[clamp(150px,23vh,350px)] mt-auto justify-between gap-y-4 xl:gap-y-0">
           <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
-            class="bg-white w-[48%] lg:w-[23%] rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
-            <img :src="team.image?.filename" class="aspect-video lg:h-[80%] w-full object-cover" alt="Team Image" />
+            class="bg-white w-[48%] xl:w-[23%] rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
+            <img :src="team.image?.filename" class="aspect-video xl:h-[80%] w-full object-cover" alt="Team Image" />
             <div
-              class="text-xm lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center h-[20%] px-2 text-center">
+              class="text-sm xl:text-lg font-bold text-[#032650] flex items-center justify-center h-[20%] text-center">
               {{ team.title }}
             </div>
           </router-link>
         </div>
       </div>
 
-      <div class="lg:col-span-3 col-span-1 flex flex-col lg:pl-4 h-full order-1 lg:order-2">
+      <div class="xl:col-span-4 col-span-1 flex flex-col xl:pl-4 h-full order-1 xl:order-2">
         <h2
-          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 mt-4 text-2xl self-start">
+          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 xl:mx-8 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
         </h2>
 
-        <div class="mt-auto relative w-full h-[clamp(150px,20vh,250px)] px-8">
+        <div class="mt-auto relative w-full h-[clamp(150px,23vh,350px)] px-8">
           <template v-if="newsCards.length > 0">
             <button
               class="news-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
@@ -181,7 +221,10 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
-            <Swiper :modules="modules" :slides-per-view="2" :space-between="16" :navigation="{
+            <Swiper :modules="modules" :space-between="16" :breakpoints="{
+              0: { slidesPerView: 1 },
+              1280: { slidesPerView: 2 }
+            }" :navigation="{
               prevEl: '.news-prev',
               nextEl: '.news-next',
             }" class="w-full h-full pb-4">
@@ -190,7 +233,7 @@ const filteredGames = computed(() => {
                   class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
                   <img :src="news.image?.filename" class="h-[80%] w-full object-cover" alt="News Image" />
                   <div
-                    class="text-xs lg:text-[1.7vmin] font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
+                    class="text-sm xl:text-lg font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
                     {{ news.title }}
                   </div>
                 </router-link>
@@ -213,10 +256,10 @@ const filteredGames = computed(() => {
         </div>
       </div>
 
-      <div class="lg:col-span-5 col-span-1 flex flex-col lg:pl-6 h-full order-3">
+      <div class="xl:col-span-4 col-span-1 flex flex-col xl:pl-4 h-full order-3">
         <div class="px-8">
           <h2
-            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-6 mt-4 text-2xl self-start ml-1">
+            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-6 mt-4 text-2xl self-start xl:ml-1">
             Nächste Spiele
           </h2>
 
@@ -232,7 +275,7 @@ const filteredGames = computed(() => {
           </div>
         </div>
 
-        <div class="relative w-full mt-auto px-8">
+        <div class="relative w-full mt-auto px-8 h-[clamp(150px,20vh,220px)]">
           <template v-if="filteredGames.length > 0">
             <button
               class="swiper-prev-custom absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
@@ -242,14 +285,18 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
-            <swiper :modules="modules" :slides-per-view="2" :space-between="16" :navigation="{
+            <swiper :modules="modules" :space-between="16" :breakpoints="{
+              0: { slidesPerView: 1 },
+              1280: { slidesPerView: 2 }
+            }" :navigation="{
               prevEl: '.swiper-prev-custom',
               nextEl: '.swiper-next-custom',
-            }" :key="filteredGames.length" class="w-full h-[clamp(150px,20vh,250px)] overflow-hidden">
+            }" :key="filteredGames.length" class="w-full h-full overflow-hidden">
               <swiper-slide v-for="game in filteredGames" :key="game._uid">
-                <GameCard :date="game.date" :home-team="game.homeTeam" :away-team="game.awayTeam"
-                  :homelogo="game.homelogo?.filename" :awaylogo="game.awaylogo?.filename" :venue="game.venue"
-                  :team="game.team" v-editable="game" class="master-card-shadow" />
+                <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam"
+                  :away-team="game.awayteam || game.awayTeam" :homeLogo="game.homeLogo?.filename"
+                  :awayLogo="game.awayLogo?.filename" :venue="game.venue" :team="game.team" v-editable="game"
+                  class="master-card-shadow" />
               </swiper-slide>
             </swiper>
 
@@ -263,7 +310,7 @@ const filteredGames = computed(() => {
           </template>
 
           <div v-else
-            class="w-full h-[clamp(150px,20vh,250px)] flex items-center justify-center text-[#032650] font-bold text-center px-4 text-lg">
+            class="w-full h-full flex items-center justify-center text-[#032650] font-bold text-center px-4 text-lg">
             Aktuell keine Spiele geplant.
           </div>
         </div>
