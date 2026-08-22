@@ -257,7 +257,7 @@ const filteredGames = computed(() => {
       </div>
 
       <div class="xl:col-span-4 col-span-1 flex flex-col xl:pl-4 h-full order-3">
-        <div class="px-8">
+        <div class="xl:px-8">
           <h2
             class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-6 mt-4 text-2xl self-start xl:ml-1">
             Nächste Spiele
