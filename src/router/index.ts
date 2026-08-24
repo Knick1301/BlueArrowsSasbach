@@ -58,8 +58,14 @@ const router = createRouter({
       path:'/skating/schuleFerien',
       name: 'schuleFerien',
       component: () => import('@/views/SchuleFerien.vue')
-    }
+    },
+        {
+      path:'/events/burgerista',
+      name: 'burgerista',
+      component: () => import('@/views/Burgerista.vue')
+    },
 
+ 
 
   ],
 })
