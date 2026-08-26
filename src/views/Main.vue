@@ -184,7 +184,7 @@ const filteredGames = computed(() => {
     </h1>
   </div>
 
-  <div class="bg-[#f2eded] p-6 pt-0 flex-grow flex flex-col">
+  <div class="p-6 pt-0 flex-grow flex flex-col">
     <div class="grid grid-cols-1 sm:gap-10 xl:grid-cols-12 xl:gap-8 items-stretch">
 
       <div class="xl:col-span-4 col-span-1 flex flex-col h-full order-2 xl:order-1">

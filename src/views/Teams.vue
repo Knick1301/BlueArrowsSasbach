@@ -74,8 +74,8 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 </script>
 
 <template>
-  <div v-if="story" v-editable="story" class="min-h-screen bg-gray-50 pb-12">
-    <div class="w-full py-8 bg-[#032650] text-center px-4">
+  <div v-if="story" v-editable="story" class="min-h-screen mb-15">
+    <div class="w-full py-8 bg-[#032650] text-center px-4 mb-15">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story.content.title || 'Teamseite' }}
       </h1>
@@ -84,16 +84,13 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
       </h5>
     </div>
 
-    <div v-if="story.content.heroImage?.filename" class="block lg:hidden mx-auto px-4 mt-6">
-      <img
-        :src="story.content.heroImage.filename"
-        alt="Teamfoto kompakt"
-        class="w-full h-auto rounded-xl shadow-sm"
-      />
+    <div v-if="story.content.heroImage?.filename" class="block xl:hidden mx-auto px-4 mt-6">
+      <img :src="story.content.heroImage.filename" alt="Teamfoto kompakt"
+        class="w-full h-auto rounded-xl shadow-sm border border-gray-200" />
     </div>
 
-    <div class="mx-auto px-4 mt-8 flex flex-col lg:grid lg:grid-cols-5 gap-8 relative">
-      <div class="order-4 lg:order-1 lg:col-span-3">
+    <div class="mx-auto px-4 mt-8 flex flex-col xl:grid xl:grid-cols-5 gap-8 relative">
+      <div class="order-4 xl:order-1 xl:col-span-3">
         <h2 class="text-3xl font-bold text-[#032650] border-b-3 border-blue-200 pb-2 mb-6">
           Kader
         </h2>
@@ -104,96 +101,54 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 
         <div v-else class="space-y-8">
           <div v-if="goalies.length">
-            <h3
-              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4"
-            >
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
               Torhüter
             </h3>
-            <div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
-              <PlayerCard
-                v-for="player in goalies"
-                :key="player._uid"
-                :name="player.name"
-                :position="player.position"
-                :nummer="player.nummer"
-                :bild="player.bild?.filename"
-                :blok="player"
-              />
+            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+              <PlayerCard v-for="player in goalies" :key="player._uid" :name="player.name" :position="player.position"
+                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
           </div>
 
           <div v-if="defenders.length">
-            <h3
-              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4"
-            >
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
               Verteidigung
             </h3>
-            <div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
-              <PlayerCard
-                v-for="player in defenders"
-                :key="player._uid"
-                :name="player.name"
-                :position="player.position"
-                :nummer="player.nummer"
-                :bild="player.bild?.filename"
-                :blok="player"
-              />
+            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+              <PlayerCard v-for="player in defenders" :key="player._uid" :name="player.name" :position="player.position"
+                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
           </div>
 
           <div v-if="forwards.length">
-            <h3
-              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4"
-            >
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
               Sturm
             </h3>
-            <div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
-              <PlayerCard
-                v-for="player in forwards"
-                :key="player._uid"
-                :name="player.name"
-                :position="player.position"
-                :nummer="player.nummer"
-                :bild="player.bild?.filename"
-                :blok="player"
-              />
+            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+              <PlayerCard v-for="player in forwards" :key="player._uid" :name="player.name" :position="player.position"
+                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="order-1 lg:order-2 lg:col-span-2">
+      <div class="order-1 xl:order-2 xl:col-span-2">
         <div class="sticky top-32 flex flex-col gap-5">
-          <div
-            v-if="story.content.heroImage?.filename"
-            class="bg-white p-3 rounded-2xl shadow-md border border-gray-100 hidden lg:block"
-          >
-            <img
-              :src="story.content.heroImage.filename"
-              alt="Teamfoto kompakt"
-              class="w-full h-auto rounded-xl shadow-sm"
-            />
+          <div v-if="story.content.heroImage?.filename"
+            class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 hidden xl:block">
+            <img :src="story.content.heroImage.filename" alt="Teamfoto kompakt" class="w-full h-auto rounded-lg" />
           </div>
 
-          <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-100">
-            <h3
-              class="font-bold text-[#032650] mb-4 uppercase tracking-wider text-sm border-b-2 pb-2"
-            >
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="font-bold text-[#032650] mb-4 uppercase tracking-wider text-sm border-b-2 pb-2">
               Ansprechpartner
             </h3>
             <div class="flex flex-col mt-4">
-              <div
-                v-for="member in staff"
-                :key="member._uid"
-                class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-100 last:border-0 last:pb-0"
-              >
+              <div v-for="member in staff" :key="member._uid"
+                class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-100 last:border-0 last:pb-0">
                 <div class="flex items-center gap-3">
-                  <img
-                    v-if="member.bild?.filename"
-                    :src="member.bild.filename"
-                    class="w-10 h-10 rounded-full object-cover shrink-0"
-                    alt="Profilbild"
-                  />
+                  <img v-if="member.bild?.filename" :src="member.bild.filename"
+                    class="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" alt="Profilbild" />
                   <div class="flex flex-col">
                     <span class="font-bold text-[#032650]">{{ member.name }}</span>
                     <span v-if="member.role?.length" class="text-xs uppercase tracking-wide mt-0.5">
@@ -201,10 +156,8 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                     </span>
                   </div>
                 </div>
-                <a
-                  :href="`mailto:${member.email}`"
-                  class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
-                >
+                <a :href="`mailto:${member.email}`"
+                  class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors">
                   {{ member.email }}
                 </a>
               </div>
@@ -213,11 +166,11 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
         </div>
       </div>
 
-      <div class="order-2 lg:order-3 lg:col-span-3">
+      <div class="order-2 xl:order-3 xl:col-span-3">
         <GameTable :games="allTeamGames" />
       </div>
 
-      <div class="order-3 lg:order-4 lg:col-span-2">
+      <div class="order-3 xl:order-4 xl:col-span-2">
         <Table :teams="allTeamTable" />
       </div>
     </div>

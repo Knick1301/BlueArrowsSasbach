@@ -24,7 +24,7 @@ const aktuelleTermine = computed(() => {
         </div>
 
 
-        <div class="max-w-[1400px] mx-auto mt-10 px-4 flex flex-col xl:flex-row gap-10 xl:gap-16 items-start">
+        <div class="max-w-[1400px] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-16 items-start">
 
 
             <div class="w-full xl:w-2/5 h-full sticky top-32 hidden  xl:block">

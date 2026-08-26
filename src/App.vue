@@ -75,7 +75,7 @@ const navItems = computed(() =>
 </script>
 
 <template v-if="body.length > 0">
-  <div class="min-h-screen flex flex-col font-sans">
+  <div class="min-h-screen flex flex-col font-sans bg-gray-100">
     <header class="sticky top-0 z-[1000] w-full h-24 bg-white shadow-md flex items-center px-4 overflow-visible">
       <div class="max-w-7xl mx-auto w-full flex items-center justify-between overflow-visible relative">
         <div class="hidden lg:block w-20"></div>

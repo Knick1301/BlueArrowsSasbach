@@ -85,7 +85,7 @@ const buttonText = computed(() => {
 </script>
 
 <template>
-  <div class="bg-white p-5 rounded-2xl shadow-xl border border-gray-100 h-full flex flex-col">
+  <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
     <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
       <div class="flex items-center gap-3">
         <div class="w-2 h-6 bg-[#032650] rounded-full"></div>
@@ -94,28 +94,26 @@ const buttonText = computed(() => {
 
       <span class="flex space-x-1 bg-gray-100 p-1 rounded-lg">
         <button @click="switchTab('prev')" :class="activeGamesTab === 'prev'
-          ? 'bg-white shadow-sm text-[#032650] font-bold'
-          : 'text-gray-500 hover:text-gray-700'
+          ? 'bg-white shadow-sm text-[#032650] font-bold border border-gray-200'
+          : 'text-gray-500 font-medium hover:text-gray-700'
           " class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer">
           Vorherige
         </button>
         <button @click="activeGamesTab = 'next'" :class="activeGamesTab === 'next'
-          ? 'bg-white shadow-sm text-[#032650] font-bold'
-          : 'text-gray-500 hover:text-gray-700'
+          ? 'bg-white shadow-sm text-[#032650] font-bold border border-gray-200'
+          : 'text-gray-500 font-medium hover:text-gray-700'
           " class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer">
           Nächste
         </button>
       </span>
     </div>
 
-    <div class="overflow-x-auto rounded-xl border border-gray-50 flex-grow">
+    <div class="overflow-x-auto rounded-xl border border-gray-100 flex-grow">
       <table class="w-full text-sm text-left border-collapse">
-        <thead class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100">
+        <thead class="bg-gray-50/80 text-[11px] text-gray-500 uppercase tracking-widest border-b border-gray-100">
           <tr>
             <th class="px-4 py-3 font-bold">Datum</th>
             <th class="px-4 py-3 font-bold text-center"> Partie
-
-
             </th>
             <th class="px-4 py-3 font-bold text-center">Erg.</th>
           </tr>
@@ -133,7 +131,7 @@ const buttonText = computed(() => {
                 </span>
               </div>
 
-              <div class="text-[11px] font-bold text-gray-400 mt-0.5">
+              <div class="text-[11px] font-bold text-gray-500 mt-0.5">
                 {{ formatTime(game.date) }} UHR
               </div>
             </td>
@@ -147,7 +145,7 @@ const buttonText = computed(() => {
 
                   <div class="flex flex-col items-center text-center">
                     <span class="font-bold text-[#032650]">{{ game.hometeam }} - {{ game.awayteam }}</span>
-                    <span v-if="game.venue" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                    <span v-if="game.venue" class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">
                       @ {{ game.venue }}
                     </span>
                   </div>
@@ -175,11 +173,11 @@ const buttonText = computed(() => {
         </tbody>
       </table>
     </div>
-    <div v-if="hasMoreGames" class="border-t border-gray-50 pt-4 flex justify-center">
+    <div v-if="hasMoreGames" class="border-t border-gray-100 pt-4 flex justify-center mt-2">
       <button @click="showAllGames = !showAllGames"
-        class="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors" :class="showAllGames
-          ? 'text-gray-400 hover:text-gray-600'
-          : 'text-[#032650] bg-gray-50 hover:bg-gray-100'
+        class="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors border" :class="showAllGames
+          ? 'text-gray-500 hover:text-gray-700 border-gray-200 bg-white'
+          : 'text-[#032650] bg-gray-50 hover:bg-gray-100 border-gray-200'
           ">
         {{ buttonText }}
       </button>

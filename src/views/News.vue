@@ -12,7 +12,7 @@ const { data } = await storyblokApi.get('cdn/stories', {
   sort_by: 'content.date:desc',
 })
 
-const visibleLimit = ref(5)
+const visibleLimit = ref(4)
 
 const news = computed(() => {
   return data.stories.map((story: any) => ({
@@ -35,7 +35,11 @@ const olderNews = computed(() => {
 })
 
 const loadMore = () => {
-  visibleLimit.value += 4
+  visibleLimit.value += 3
+}
+
+const loadLess = () => {
+  visibleLimit.value = 4
 }
 
 const hasMoreNews = computed(() => {
@@ -44,14 +48,14 @@ const hasMoreNews = computed(() => {
 </script>
 
 <template>
-  <div class="bg-gray-50 min-h-screen pb-0">
+  <div class="bg-gray-100 min-h-screen pb-10">
 
-    <div class="w-full py-13 bg-[#032650] text-center px-4 mb-10">
+    <div class="w-full py-13 bg-[#032650] text-center px-4 mb-15">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">Aktuelle News</h1>
     </div>
 
     <div v-if="latestNews"
-      class="relative w-[100%] max-w-[1300px] mx-auto bg-blue-100 rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-12 flex flex-col md:flex-row transition-all hover:shadow-md md:h-[400px]">
+      class="w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg md:h-[400px]">
 
       <div class="md:w-1/2 w-full relative h-[300px] md:h-full shrink-0">
         <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
@@ -59,72 +63,80 @@ const hasMoreNews = computed(() => {
         <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
       </div>
 
-      <div class="md:w-1/2 w-full p-8 lg:p-10 flex flex-col h-full">
-        <span class="text-[#032650] font-bold text-sm uppercase tracking-wider mb-2">
-          {{ formatDate(latestNews.date) }}
-        </span>
+      <div class="md:w-1/2 w-full p-8 lg:p-10 flex flex-col h-full bg-[#004a87] text-white">
+        <div class="flex items-center justify-between">
+          <span class="flex items-center gap-2 text-gray-300 font-bold text-sm uppercase tracking-wider gap-2">
+            {{ formatDate(latestNews.date) }}
+          </span>
 
-        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 leading-tight mb-6 line-clamp-2">
+          <span v-if="latestNews.score"
+            class="bg-white text-[#032650] text-md font-bold px-2.5 py-1 rounded-md tracking-wide shrink-0">
+            {{ latestNews.score }}
+          </span>
+        </div>
+
+        <h2 class="text-3xl lg:text-4xl font-black leading-tight mb-4 line-clamp-1">
           {{ latestNews.title }}
         </h2>
 
-        <span v-if="latestNews.score"
-          class="absolute top-4 right-4 bg-[#032650] text-white text-lg font-black px-4 py-1.5 rounded-lg shadow-md">
-          {{ latestNews.score }}
-        </span>
-
-        <div class="text-gray-600 text-lg mb-8 line-clamp-5 flex-grow break-words"
+        <div class="text-gray-200 text-md mb-7 line-clamp-5 flex-grow break-words"
           v-html="renderRichText(latestNews.content)"></div>
 
         <router-link :to="`/aktuelles/news/${latestNews.slug}`"
-          class="bg-[#032650] text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-800 transition-colors mt-auto w-full text-center block text-lg shrink-0">
+          class="bg-white text-[#032650] px-8 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors mt-auto w-full text-center block text-md shrink-0">
           Ganzen Artikel lesen
         </router-link>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[100%] max-w-[1300px] mx-auto mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[80%] max-w-[1300px] mx-auto mb-10">
       <div v-for="newsItem in olderNews" :key="newsItem._uid"
-        class="bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md h-full">
+        class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
-        <div class="relative w-full h-[240px] shrink-0">
+        <div class="w-full h-[240px] shrink-0">
           <img v-if="newsItem.image?.filename" :src="newsItem.image.filename" alt="News Image"
             class="w-full h-full object-cover" />
           <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
-
-          <span v-if="newsItem.score"
-            class="absolute top-3 right-3 bg-[#032650] text-white text-sm font-black px-3 py-1 rounded-lg shadow-md">
-            {{ newsItem.score }}
-          </span>
         </div>
 
-        <div class="p-5 flex flex-col flex-grow">
-          <div class="flex justify-between items-start gap-3 mb-3">
-            <h3 class="text-xl font-black text-gray-900 leading-tight line-clamp-2">
-              {{ newsItem.title }}
-            </h3>
-            <span class="text-[#032650] font-bold text-xs uppercase tracking-wider shrink-0 pt-1">
+        <div class="p-5 pt-3 flex flex-col flex-grow">
+          <div class="flex items-center justify-between">
+            <span class="flex items-center text-[#032650] font-bold text-sm uppercase tracking-wider gap-2">
               {{ formatDate(newsItem.date) }}
+            </span>
+
+            <span v-if="newsItem.score"
+              class="bg-[#032650] text-white text-sm font-bold px-2.5 py-1 rounded-md tracking-wide shrink-0">
+              {{ newsItem.score }}
             </span>
           </div>
 
-          <div class="text-gray-600 text-sm mb-5 line-clamp-3 flex-grow break-words"
+          <h3 class="text-xl font-black text-gray-900 leading-tight line-clamp-2 mb-3">
+            {{ newsItem.title }}
+          </h3>
+
+          <div class="text-gray-700 text-md mb-4 line-clamp-2 font-medium flex-grow break-words"
             v-html="renderRichText(newsItem.content)"></div>
 
           <router-link :to="`/aktuelles/news/${newsItem.slug}`"
-            class="bg-gray-100 text-[#032650] border border-gray-200 px-4 py-3 rounded-lg font-bold hover:bg-[#032650] hover:text-white transition-colors mt-auto w-full text-center block text-sm">
+            class="bg-blue-100 text-[#032650] border border-gray-200 px-4 py-2 rounded-lg font-bold hover:bg-[#032650] hover:text-white transition-colors mt-auto w-full text-center block text-sm">
             Artikel lesen
           </router-link>
         </div>
       </div>
     </div>
 
-    <div v-if="hasMoreNews" class="text-center mb-10">
+    <div v-if="hasMoreNews" class="text-center">
       <button @click="loadMore"
         class="bg-white border-2 border-[#032650] text-[#032650] px-8 py-3 rounded-full font-bold hover:bg-[#032650] hover:text-white transition-colors cursor-pointer shadow-sm">
         Weitere News laden
       </button>
     </div>
-
+    <div v-else class="text-center text-gray-600 font-medium">
+      <button @click="loadLess"
+        class="bg-white border-2 border-[#032650] text-[#032650] px-8 py-3 rounded-full font-bold hover:bg-[#032650] hover:text-white transition-colors cursor-pointer shadow-sm">
+        Weniger News anzeigen
+      </button>
+    </div>
   </div>
 </template>

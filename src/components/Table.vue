@@ -23,23 +23,20 @@ const sortedTable = computed(() => {
   return [...props.teams].sort((a, b) => b.points - a.points)
 })
 </script>
+
 <template>
-  <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-auto flex flex-col">
+  <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-auto flex flex-col">
     <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
       <div class="flex items-center gap-3">
         <div class="w-2 h-6 bg-[#032650] rounded-full"></div>
         <h3 class="font-bold text-[#032650] uppercase tracking-widest text-sm">Ligatabelle</h3>
       </div>
-      <span class="text-[13px] text-gray-400 font-bold uppercase tracking-tighter"
-        >Saison 2026</span
-      >
+      <span class="text-[13px] text-gray-400 font-bold uppercase tracking-tighter">Saison 2026</span>
     </div>
 
-    <div class="overflow-x-auto rounded-xl border border-gray-50 flex-grow">
+    <div class="overflow-x-auto rounded-xl border border-gray-100 flex-grow">
       <table class="w-full text-sm text-left border-collapse">
-        <thead
-          class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100"
-        >
+        <thead class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100">
           <tr>
             <th class="px-3 py-3 font-bold text-center w-12">Pos.</th>
             <th class="px-4 py-3 font-bold">Mannschaft</th>
@@ -53,17 +50,12 @@ const sortedTable = computed(() => {
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-          <tr
-            v-for="(row, index) in sortedTable"
-            :key="row._uid"
-            v-editable="row"
-            class="group transition-all duration-200"
-            :class="[
+          <tr v-for="(row, index) in sortedTable" :key="row._uid" v-editable="row"
+            class="group transition-all duration-200" :class="[
               row.team.toLowerCase().includes('blue arrows')
-                ? 'bg-blue-100/60 hover:bg-blue-100'
+                ? 'bg-blue-50/50 hover:bg-blue-50'
                 : 'hover:bg-gray-50',
-            ]"
-          >
+            ]">
             <td class="px-3 py-4 text-center font-bold text-gray-400 group-hover:text-[#032650]">
               {{ index + 1 }}.
             </td>
@@ -71,23 +63,14 @@ const sortedTable = computed(() => {
             <td class="px-4 py-4">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 flex items-center justify-center shrink-0">
-                  <img
-                    v-if="row.logo?.filename"
-                    :src="row.logo.filename"
-                    class="max-w-full max-h-full object-contain"
-                    alt="Logo"
-                  />
-                  <div
-                    v-else
-                    class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center"
-                  >
+                  <img v-if="row.logo?.filename" :src="row.logo.filename" class="max-w-full max-h-full object-contain"
+                    alt="Logo" />
+                  <div v-else class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
                     <i class="fa-solid fa-shield text-[10px] text-gray-300"></i>
                   </div>
                 </div>
-                <span
-                  class="text-[#032650] whitespace-nowrap truncate max-w-[120px] lg:max-w-full"
-                  :class="{ 'font-black': row.team.toLowerCase().includes('blue arrows') }"
-                >
+                <span class="text-[#032650] whitespace-nowrap truncate max-w-[120px] lg:max-w-full"
+                  :class="{ 'font-black': row.team.toLowerCase().includes('blue arrows') }">
                   {{ row.team }}
                 </span>
               </div>
@@ -99,23 +82,19 @@ const sortedTable = computed(() => {
             <td class="px-2 py-4 text-center text-gray-400">{{ row.losses }}</td>
             <td class="px-3 py-4 text-center text-gray-500 font-mono text-xs">{{ row.goals }}</td>
 
-            <td
-              class="px-3 py-4 text-center font-bold"
-              :class="[
-                row.goalDifference > 0
-                  ? 'text-emerald-500'
-                  : row.goalDifference < 0
-                    ? 'text-rose-400'
-                    : 'text-gray-300',
-              ]"
-            >
+            <td class="px-3 py-4 text-center font-bold" :class="[
+              row.goalDifference > 0
+                ? 'text-emerald-500'
+                : row.goalDifference < 0
+                  ? 'text-rose-400'
+                  : 'text-gray-300',
+            ]">
               {{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
             </td>
 
             <td class="px-4 py-4 text-center">
               <div
-                class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-50 group-hover:bg-[#032650] group-hover:text-white transition-colors font-black text-[#032650]"
-              >
+                class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#032650] group-hover:text-white transition-colors font-black text-[#032650]">
                 {{ row.points }}
               </div>
             </td>

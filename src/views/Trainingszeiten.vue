@@ -117,8 +117,8 @@ const trainingsByTeam = computed(() => {
 })
 </script>
 <template>
-  <div class="mb-10">
-    <div class="w-full py-13 bg-[#032650] text-center px-4">
+  <div class="mb-15">
+    <div class="w-full py-13 bg-[#032650] text-center px-4 mb-15">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story?.content.title || 'Trainingszeiten' }}
       </h1>
@@ -154,7 +154,7 @@ const trainingsByTeam = computed(() => {
         </div>
       </div>
 
-      <div class="flex flex-col text-xs font-bold text-gray-400 text-right pr-4">
+      <div class="flex flex-col text-xs font-bold text-gray-500 text-right pr-4">
         <div v-for="hour in calendarHours" :key="hour" class="h-[45px]">{{ hour }}:00</div>
       </div>
 
