@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
+interface StoryblokAsset {
+  filename: string
+  alt?: string
+}
+
 interface GameBlok {
   _uid: string
   component: 'games'
   date: string
   hometeam: string
   awayteam: string
+  homeLogo?: StoryblokAsset
+  awayLogo?: StoryblokAsset
   result?: string
   venue?: string
 }
@@ -86,26 +93,16 @@ const buttonText = computed(() => {
       </div>
 
       <span class="flex space-x-1 bg-gray-100 p-1 rounded-lg">
-        <button
-          @click="switchTab('prev')"
-          :class="
-            activeGamesTab === 'prev'
-              ? 'bg-white shadow-sm text-[#032650] font-bold'
-              : 'text-gray-500 hover:text-gray-700'
-          "
-          class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer"
-        >
+        <button @click="switchTab('prev')" :class="activeGamesTab === 'prev'
+          ? 'bg-white shadow-sm text-[#032650] font-bold'
+          : 'text-gray-500 hover:text-gray-700'
+          " class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer">
           Vorherige
         </button>
-        <button
-          @click="activeGamesTab = 'next'"
-          :class="
-            activeGamesTab === 'next'
-              ? 'bg-white shadow-sm text-[#032650] font-bold'
-              : 'text-gray-500 hover:text-gray-700'
-          "
-          class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer"
-        >
+        <button @click="activeGamesTab = 'next'" :class="activeGamesTab === 'next'
+          ? 'bg-white shadow-sm text-[#032650] font-bold'
+          : 'text-gray-500 hover:text-gray-700'
+          " class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer">
           Nächste
         </button>
       </span>
@@ -113,30 +110,25 @@ const buttonText = computed(() => {
 
     <div class="overflow-x-auto rounded-xl border border-gray-50 flex-grow">
       <table class="w-full text-sm text-left border-collapse">
-        <thead
-          class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100"
-        >
+        <thead class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100">
           <tr>
             <th class="px-4 py-3 font-bold">Datum</th>
-            <th class="px-4 py-3 font-bold">Partie</th>
+            <th class="px-4 py-3 font-bold text-center"> Partie
+
+
+            </th>
             <th class="px-4 py-3 font-bold text-center">Erg.</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
-          <tr
-            v-for="game in displayedGames"
-            :key="game._uid"
-            v-editable="game"
-            class="border-b border-gray-50 last:border-0 transition-colors hover:bg-gray-50/50"
-          >
+          <tr v-for="game in displayedGames" :key="game._uid" v-editable="game"
+            class="border-b border-gray-50 last:border-0 transition-colors hover:bg-gray-50/50">
             <td class="px-4 py-3.5 whitespace-nowrap text-[#032650] align-top">
               <div class="flex items-center gap-2">
                 <span class="font-medium">{{ formatDate(game.date) }}</span>
 
-                <span
-                  v-if="isHomeGame(game.hometeam)"
-                  class="bg-[#032650] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm"
-                >
+                <span v-if="isHomeGame(game.hometeam)"
+                  class="bg-[#032650] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm">
                   Heim
                 </span>
               </div>
@@ -147,22 +139,27 @@ const buttonText = computed(() => {
             </td>
 
             <td class="px-4 py-3.5">
-              <div class="flex flex-col">
-                <span class="font-bold text-[#032650]"
-                  >{{ game.hometeam }} - {{ game.awayteam }}</span
-                >
-                <span
-                  v-if="game.venue"
-                  class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1"
-                >
-                  @ {{ game.venue }}
-                </span>
+              <div class="flex justify-center">
+                <div class="flex items-center gap-6">
+                  <img v-if="game.homeLogo?.filename" :src="game.homeLogo.filename" :alt="game.hometeam"
+                    class="w-10 h-10 object-contain rounded-full flex-shrink-0" />
+                  <div v-else class="w-10 h-10 rounded-full flex-shrink-0"></div>
+
+                  <div class="flex flex-col items-center text-center">
+                    <span class="font-bold text-[#032650]">{{ game.hometeam }} - {{ game.awayteam }}</span>
+                    <span v-if="game.venue" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                      @ {{ game.venue }}
+                    </span>
+                  </div>
+
+                  <img v-if="game.awayLogo?.filename" :src="game.awayLogo.filename" :alt="game.awayteam"
+                    class="w-10 h-10 object-contain rounded-full flex-shrink-0" />
+                  <div v-else class="w-10 h-10 rounded-full flex-shrink-0"></div>
+                </div>
               </div>
             </td>
 
-            <td
-              class="px-4 py-3.5 text-center font-black text-[#032650] whitespace-nowrap align-top text-base"
-            >
+            <td class="px-4 py-3.5 text-center font-black text-[#032650] whitespace-nowrap align-top text-base">
               {{ game.result || '-:-' }}
             </td>
           </tr>
@@ -179,15 +176,11 @@ const buttonText = computed(() => {
       </table>
     </div>
     <div v-if="hasMoreGames" class="border-t border-gray-50 pt-4 flex justify-center">
-      <button
-        @click="showAllGames = !showAllGames"
-        class="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors"
-        :class="
-          showAllGames
-            ? 'text-gray-400 hover:text-gray-600'
-            : 'text-[#032650] bg-gray-50 hover:bg-gray-100'
-        "
-      >
+      <button @click="showAllGames = !showAllGames"
+        class="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors" :class="showAllGames
+          ? 'text-gray-400 hover:text-gray-600'
+          : 'text-[#032650] bg-gray-50 hover:bg-gray-100'
+          ">
         {{ buttonText }}
       </button>
     </div>

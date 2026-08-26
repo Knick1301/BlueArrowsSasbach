@@ -123,22 +123,16 @@ const trainingsByTeam = computed(() => {
         {{ story?.content.title || 'Trainingszeiten' }}
       </h1>
     </div>
-    <div class="max-w-[600px] mx-auto mt-10 px-4 lg:hidden">
-      <div
-        v-for="[teamKey, teamTrainings] in trainingsByTeam"
-        :key="teamKey"
-        class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-6 p-4 border-l-4 border-l-[#032650]"
-      >
+    <div class="max-w-[600px] mx-auto mt-10 px-4 xl:hidden">
+      <div v-for="[teamKey, teamTrainings] in trainingsByTeam" :key="teamKey"
+        class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-6 p-4 border-l-4 border-l-[#032650]">
         <h3 class="font-black text-[#032650] text-xl mb-3 border-b pb-2 border-gray-100">
           {{ teamMapping[teamKey] }}
         </h3>
 
         <div class="space-y-2">
-          <div
-            v-for="training in teamTrainings"
-            :key="training._uid"
-            class="flex justify-between items-center bg-[#f0f7fd] p-2.5 rounded-md"
-          >
+          <div v-for="training in teamTrainings" :key="training._uid"
+            class="flex justify-between items-center bg-[#f0f7fd] p-2.5 rounded-md">
             <span class="font-bold text-gray-700 text-sm">
               {{ getGermanDayName(training.day) }}
             </span>
@@ -151,15 +145,11 @@ const trainingsByTeam = computed(() => {
       </div>
     </div>
 
-    <div class="max-w-[1400px] mx-auto mt-10 px-4 hidden lg:grid grid-cols-[60px_1fr] gap-4">
+    <div class="max-w-[1400px] mx-auto mt-10 px-4 hidden xl:grid grid-cols-[60px_1fr] gap-4">
       <div></div>
 
       <div class="grid grid-cols-7 gap-4">
-        <div
-          v-for="day in weekDays"
-          :key="day"
-          class="text-[#032650] text-xl font-bold mb-2 text-center"
-        >
+        <div v-for="day in weekDays" :key="day" class="text-[#032650] text-xl font-bold mb-2 text-center">
           {{ day }}
         </div>
       </div>
@@ -169,29 +159,22 @@ const trainingsByTeam = computed(() => {
       </div>
 
       <div class="grid grid-cols-7 gap-4">
-        <div
-          v-for="day in weekDays"
-          :key="day"
-          class="relative bg-white rounded-lg border border-gray-300 overflow-hidden shadow-[inset_0_8px_16px_rgba(0,0,0,0.12)]"
+        <div v-for="day in weekDays" :key="day"
+          class="relative bg-white rounded-xl border border-gray-300 overflow-hidden shadow-[inset_0_8px_16px_rgba(0,0,0,0.12)]"
           :style="{
             height: `${(END_HOUR - START_HOUR) * 45}px`,
             backgroundImage:
               'linear-gradient(to bottom, rgba(229, 231, 235, 0.5) 1px, transparent 2px)',
             backgroundSize: '100% 45px',
-          }"
-        >
-          <div
-            v-for="training in trainingsPerDay(day)"
-            :key="training._uid"
+          }">
+          <div v-for="training in trainingsPerDay(day)" :key="training._uid"
             class="bg-[#f0f7fd] hover:bg-[#e0effc] rounded-md shadow border border-gray-200 border-l-4 border-l-[#032650] p-2 hover:shadow-md transition-shadow z-10 overflow-hidden flex flex-col"
-            :style="getTrainingStyle(training.from, training.to)"
-          >
-            <div class="text-[11px] text-gray-500 font-bold leading-none mb-1">
+            :style="getTrainingStyle(training.from, training.to)">
+            <div class="text-xs text-gray-500 font-bold leading-none mb-1">
               {{ training.from }} - {{ training.to }}
             </div>
             <div
-              class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-md leading-tight"
-            >
+              class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-md leading-tight">
               {{ teamMapping[training.team] || training.team }}
             </div>
           </div>

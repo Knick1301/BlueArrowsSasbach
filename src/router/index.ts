@@ -53,7 +53,19 @@ const router = createRouter({
       path:'/training/trainings',
       name: 'training',
       component: () => import('@/views/Trainingszeiten.vue')
-    }
+    },
+        {
+      path:'/skating/schuleFerien',
+      name: 'schuleFerien',
+      component: () => import('@/views/SchuleFerien.vue')
+    },
+        {
+      path:'/events/burgerista',
+      name: 'burgerista',
+      component: () => import('@/views/Burgerista.vue')
+    },
+
+ 
 
   ],
 })

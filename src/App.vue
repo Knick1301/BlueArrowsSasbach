@@ -177,11 +177,16 @@ const navItems = computed(() =>
       </Suspense>
     </main>
 
+
     <footer class="bg-[#032650] relative flex justify-center items-center h-24 mt-auto px-6">
+      <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
+        class="absolute left-6 hover:scale-110 transition-transform 2xl:hidden block" aria-label="Facebook">
+        <img :src="facebookLogo" class="w-13 h-13 object-contain" alt="Facebook" />
+      </a>
       <img :src="basLogo" class="h-20 w-auto object-contain" alt="BAS Footer Logo" />
 
       <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
-        class="absolute right-24 hover:scale-110 transition-transform" aria-label="Facebook">
+        class="absolute right-24 hover:scale-110 transition-transform hidden xl:block" aria-label="Facebook">
         <img :src="facebookLogo" class="w-13 h-13 object-contain" alt="Facebook" />
       </a>
       <a href="https://www.instagram.com/bluearrows.de/" target="_blank" rel="noopener noreferrer"
