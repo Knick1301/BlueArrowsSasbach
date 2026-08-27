@@ -185,27 +185,33 @@ const filteredGames = computed(() => {
   </div>
 
   <div class="p-6 pt-0 flex-grow flex flex-col">
-    <div class="grid grid-cols-1 sm:gap-10 xl:grid-cols-12 xl:gap-8 items-stretch">
+    <!-- HIER: Wieder items-start! Damit zieht sich nichts mehr gegenseitig künstlich in die Länge -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
 
-      <div class="xl:col-span-4 col-span-1 flex flex-col h-full order-2 xl:order-1">
+      <!-- ==================== SPALTE 1: TEAMS ==================== -->
+      <!-- Desktop: 4 Spalten | 4K: 4 Spalten -->
+      <div class="xl:col-span-4 2xl:col-span-4 flex flex-col h-full order-2 xl:order-1">
         <h2 class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start">
           Unsere Teams
         </h2>
 
-        <div
-          class="flex flex-wrap xl:flex-nowrap h-auto xl:h-[clamp(150px,23vh,350px)] mt-auto justify-between gap-y-4 xl:gap-y-0">
+        <!-- Feste Höhe für den Bereich, aspect-video für die Bilder -->
+        <div class="flex flex-wrap h-auto 2xl:h-[clamp(150px,23vh,350px)] mt-auto justify-between gap-y-4">
           <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
-            class="bg-white w-[48%] xl:w-[23%] rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
-            <img :src="team.image?.filename" class="aspect-video xl:h-[80%] w-full object-cover" alt="Team Image" />
+            class="bg-white w-[48%] rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
+            <img :src="team.image?.filename" class="aspect-video w-full object-cover border-b border-gray-100"
+              alt="Team Image" />
             <div
-              class="text-sm xl:text-lg font-bold text-[#032650] flex items-center justify-center h-[20%] text-center">
-              {{ team.title }}
+              class="text-sm 2xl:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center h-[20%] min-h-[40px] flex-grow">
+              <span class="line-clamp-2">{{ team.title }}</span>
             </div>
           </router-link>
         </div>
       </div>
 
-      <div class="xl:col-span-4 col-span-1 flex flex-col xl:pl-4 h-full order-1 xl:order-2">
+      <!-- ==================== SPALTE 2: NEWS ==================== -->
+      <!-- Desktop: 5 Spalten (Breiter!) | 4K: 4 Spalten -->
+      <div class="xl:col-span-5 2xl:col-span-4 flex flex-col xl:pl-4 h-full order-1 xl:order-2">
         <h2
           class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 xl:mx-8 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
@@ -221,20 +227,26 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
+            <!-- SWIPER LOGIK: 
+                 0-639px (Handy): 1 Karte
+                 640px+ (Tablet & iPads): 2 Karten
+                 1280px+ (Desktop): 2 Karten
+                 1921px+ (4K): 2 Karten 
+            -->
             <Swiper :modules="modules" :space-between="16" :breakpoints="{
               0: { slidesPerView: 1 },
-              1280: { slidesPerView: 2 }
-            }" :navigation="{
-              prevEl: '.news-prev',
-              nextEl: '.news-next',
-            }" class="w-full h-full pb-4">
+              640: { slidesPerView: 2 },
+              1280: { slidesPerView: 2 },
+              1921: { slidesPerView: 2 }
+            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-full pb-4">
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
-                  class="bg-white w-full h-full rounded-t-xl rounded-b-lg master-card-shadow hover:-translate-y-1 transition-all flex flex-col overflow-hidden active:scale-95">
-                  <img :src="news.image?.filename" class="h-[80%] w-full object-cover" alt="News Image" />
+                  class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
+                  <img :src="news.image?.filename"
+                    class="h-[75%] 2xl:h-[80%] w-full object-cover border-b border-gray-100" alt="News Image" />
                   <div
-                    class="text-sm xl:text-lg font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
-                    {{ news.title }}
+                    class="text-sm 2xl:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
+                    <span class="line-clamp-2">{{ news.title }}</span>
                   </div>
                 </router-link>
               </swiper-slide>
@@ -256,7 +268,9 @@ const filteredGames = computed(() => {
         </div>
       </div>
 
-      <div class="xl:col-span-4 col-span-1 flex flex-col xl:pl-4 h-full order-3">
+      <!-- ==================== SPALTE 3: SPIELE ==================== -->
+      <!-- Desktop: 3 Spalten (Schmaler) | 4K: 4 Spalten -->
+      <div class="xl:col-span-3 2xl:col-span-4 flex flex-col xl:pl-4 h-full order-3">
         <div class="xl:px-8">
           <h2
             class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-6 mt-4 text-2xl self-start xl:ml-1">
@@ -285,18 +299,24 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
+            <!-- SWIPER LOGIK: 
+                 0-639px (Handy): 1 Karte
+                 640px+ (Tablet & iPads): 2 Karten
+                 1280px+ (Desktop - wenig Platz): 1 Karte!
+                 1921px+ (4K - viel Platz): 2 Karten 
+            -->
             <swiper :modules="modules" :space-between="16" :breakpoints="{
               0: { slidesPerView: 1 },
-              1280: { slidesPerView: 2 }
-            }" :navigation="{
-              prevEl: '.swiper-prev-custom',
-              nextEl: '.swiper-next-custom',
-            }" :key="filteredGames.length" class="w-full h-full overflow-hidden">
+              640: { slidesPerView: 2 },
+              1280: { slidesPerView: 1 },
+              1921: { slidesPerView: 2 }
+            }" :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
+              :key="filteredGames.length" class="w-full h-full overflow-hidden">
               <swiper-slide v-for="game in filteredGames" :key="game._uid">
                 <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam"
                   :away-team="game.awayteam || game.awayTeam" :homeLogo="game.homeLogo?.filename"
                   :awayLogo="game.awayLogo?.filename" :venue="game.venue" :team="game.team" v-editable="game"
-                  class="master-card-shadow" />
+                  class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all" />
               </swiper-slide>
             </swiper>
 
