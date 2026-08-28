@@ -28,8 +28,8 @@ const formatTime = (dateStr: string) => {
 
 <template>
   <div
-    class="bg-white rounded-xl shadow-md h-full flex flex-col p-2 text-center transition-transform hover:scale-[1.01] border border-gray-50 overflow-hidden">
-    <div class="shrink-0 relative flex items-start justify-center min-h-[1.75rem]">
+    class="bg-white rounded-xl shadow-md h-full flex flex-col p-1.5 text-center transition-transform hover:scale-[1.01] border border-gray-50 overflow-hidden">
+    <div class="shrink-0 relative flex items-start justify-center min-h-[1.5rem]">
       <span
         class="inline-block bg-[#eef4ff] text-[#032650] text-[0.8rem] lg:text-xs font-semibold px-2 py-0.5 rounded-full mb-1 border border-[#032650]/10">
         {{ team }}
@@ -42,10 +42,10 @@ const formatTime = (dateStr: string) => {
       </span>
     </div>
 
-    <div class="flex-grow flex items-center justify-center gap-1 min-h-0">
+    <div class="flex-grow flex items-center justify-center gap-1">
       <div class="flex-1 min-w-0 flex flex-col items-center justify-center">
-        <img v-if="homeLogo" :src="homeLogo" class="w-10 h-10 lg:w-12 lg:h-12 object-contain" alt="Home Logo" />
-        <div class="text-[0.85rem] lg:text-sm font-bold mt-1 line-clamp-2 leading-tight px-1">
+        <img v-if="homeLogo" :src="homeLogo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" alt="Home Logo" />
+        <div class="text-[0.85rem] lg:text-sm font-bold mt-0.5 line-clamp-2 leading-tight px-1">
           {{ homeTeam }}
         </div>
       </div>
@@ -53,15 +53,15 @@ const formatTime = (dateStr: string) => {
       <div class="text-[0.8rem] lg:text-sm text-gray-400 font-bold shrink-0">vs</div>
 
       <div class="flex-1 min-w-0 flex flex-col items-center justify-center">
-        <img v-if="awayLogo" :src="awayLogo" class="w-10 h-10 lg:w-12 lg:h-12 object-contain" alt="Away Logo" />
-        <div class="text-[0.85rem] lg:text-sm font-bold mt-1 line-clamp-2 leading-tight px-1">
+        <img v-if="awayLogo" :src="awayLogo" class="w-9 h-9 lg:w-10 lg:h-10 object-contain" alt="Away Logo" />
+        <div class="text-[0.85rem] lg:text-sm font-bold mt-0.5 line-clamp-2 leading-tight px-1">
           {{ awayTeam }}
         </div>
       </div>
     </div>
 
-    <div class="shrink-0 mt-1">
-      <hr class="mb-2 border-gray-100" />
+    <div class="shrink-0 mt-1.5">
+      <hr class="mb-1.5 border-gray-100" />
       <div class="text-[0.8rem] lg:text-[0.85rem] font-medium text-gray-800 whitespace-nowrap">
         {{ formatDate(date) }} | {{ formatTime(date) }} Uhr
       </div>

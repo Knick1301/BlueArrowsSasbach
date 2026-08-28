@@ -31,7 +31,7 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
 
         <img v-if="story.content.image?.filename" :src="story.content.image.filename" alt="Artikel Bild"
-          class="w-full h-[300px] md:h-[500px] object-cover shrink-0" />
+          class="w-full aspect-[600/348] h-auto object-cover shrink-0" />
 
         <div class="p-6 md:p-10 lg:p-12">
           <p

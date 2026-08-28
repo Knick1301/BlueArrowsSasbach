@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -13,6 +13,24 @@ const modules = [Navigation]
 
 const selectedTeam = ref('Alle')
 
+const spieleChipsRow = ref<HTMLElement | null>(null)
+const spieleChipsExtraHeight = ref(44)
+let chipsResizeObserver: ResizeObserver | null = null
+
+onMounted(() => {
+  if (spieleChipsRow.value) {
+    chipsResizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (entry) spieleChipsExtraHeight.value = entry.contentRect.height + 16
+    })
+    chipsResizeObserver.observe(spieleChipsRow.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  chipsResizeObserver?.disconnect()
+})
+
 interface StoryblokLink {
   linktype: string
   cached_url?: string
@@ -23,12 +41,32 @@ interface GamesBlok {
   _uid: string
   component: string
   date: string
-  hometeam: string
-  awayteam: string
+  hometeam?: string
+  homeTeam?: string
+  awayteam?: string
+  awayTeam?: string
   homeLogo?: { filename: string }
   awayLogo?: { filename: string }
   venue?: string
   team: string
+}
+
+interface StoryblokBlok {
+  _uid: string
+  component: string
+  [key: string]: unknown
+}
+
+interface Story {
+  uuid: string
+  name: string
+  full_slug: string
+  content: {
+    title?: string
+    image?: { filename: string }
+    body?: StoryblokBlok[]
+    [key: string]: unknown
+  }
 }
 
 interface TeaserBlok {
@@ -66,17 +104,22 @@ const { data: allStoriesData } = await storyblokApi.get('cdn/stories', {
   per_page: 100,
 })
 
-const extractGames = (bloks: any[], teamName: string): any[] => {
-  let games: any[] = []
-  if (!bloks || !Array.isArray(bloks)) return games
+const GAME_COMPONENTS = new Set(['Games', 'NextGame', 'games', 'game'])
+
+const isBlokArray = (value: unknown): value is StoryblokBlok[] =>
+  Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null && 'component' in value[0]
+
+const extractGames = (bloks: StoryblokBlok[] | undefined, teamName: string): GamesBlok[] => {
+  const games: GamesBlok[] = []
+  if (!bloks) return games
 
   for (const blok of bloks) {
-    if (blok.component === 'Games' || blok.component === 'NextGame' || blok.component === 'games' || blok.component === 'game') {
-      games.push({ ...blok, team: blok.team || teamName })
+    if (GAME_COMPONENTS.has(blok.component)) {
+      games.push({ ...blok, team: (blok.team as string) || teamName } as GamesBlok)
     }
     for (const key in blok) {
-      if (Array.isArray(blok[key]) && blok[key].length > 0 && typeof blok[key][0] === 'object' && blok[key][0].component) {
-        games.push(...extractGames(blok[key], teamName))
+      if (isBlokArray(blok[key])) {
+        games.push(...extractGames(blok[key] as StoryblokBlok[], teamName))
       }
     }
   }
@@ -84,25 +127,23 @@ const extractGames = (bloks: any[], teamName: string): any[] => {
 }
 
 const nextGames = computed(() => {
-  let games: any[] = []
-  if (allStoriesData && allStoriesData.stories) {
-    allStoriesData.stories.forEach((storyItem: any) => {
-      const currentTeamName = storyItem.name
+  const games: GamesBlok[] = []
+  const stories = (allStoriesData?.stories ?? []) as Story[]
 
-      if (storyItem.content) {
-        if (storyItem.content.body) {
-          games.push(...extractGames(storyItem.content.body, currentTeamName))
-        }
-        for (const key in storyItem.content) {
-          const field = storyItem.content[key]
-          if (Array.isArray(field) && field.length > 0 && typeof field[0] === 'object' && field[0].component) {
-            if (key !== 'body') {
-              games.push(...extractGames(field, currentTeamName))
-            }
-          }
-        }
+  for (const storyItem of stories) {
+    const currentTeamName = storyItem.name
+    if (!storyItem.content) continue
+
+    if (storyItem.content.body) {
+      games.push(...extractGames(storyItem.content.body, currentTeamName))
+    }
+    for (const key in storyItem.content) {
+      if (key === 'body') continue
+      const field = storyItem.content[key]
+      if (isBlokArray(field)) {
+        games.push(...extractGames(field, currentTeamName))
       }
-    })
+    }
   }
   return games
 })
@@ -110,9 +151,9 @@ const nextGames = computed(() => {
 const teamOptions = computed(() => {
   const now = new Date()
 
-  const upcomingGames = nextGames.value.filter((g: any) => new Date(g.date) >= now)
+  const upcomingGames = nextGames.value.filter((g) => new Date(g.date) >= now)
 
-  const teams = [...new Set<string>(upcomingGames.map((g: any) => g.team as string))]
+  const teams = [...new Set(upcomingGames.map((g) => g.team))]
 
   const sortedTeams = teams.sort((a, b) => {
     let indexA = teamOrder.indexOf(a)
@@ -128,27 +169,29 @@ const teamOptions = computed(() => {
 })
 
 const newsCards = computed(() => {
-  if (!newsData || !newsData.stories) return []
+  const stories = (newsData?.stories ?? []) as Story[]
 
-  return newsData.stories.map((newsItem: any) => ({
+  return stories.map((newsItem) => ({
     _uid: newsItem.uuid,
-    title: newsItem.content.title,
+    title: newsItem.content.title ?? '',
     image: newsItem.content.image,
     link: {
       linktype: 'story',
-      cached_url: newsItem.full_slug
-    }
+      cached_url: newsItem.full_slug,
+    } satisfies StoryblokLink,
   }))
 })
 
 const teaser = computed(() =>
-  story.value?.content.body.find((blok: any): blok is TeaserBlok => blok.component === 'teaser'),
+  (story.value?.content.body as StoryblokBlok[] | undefined)?.find(
+    (blok): blok is StoryblokBlok & TeaserBlok => blok.component === 'teaser',
+  ),
 )
 
 const teamCards = computed(
   () =>
-    story.value?.content.body.filter(
-      (blok: any): blok is CardBlok => blok.component === 'TeamCard',
+    (story.value?.content.body as StoryblokBlok[] | undefined)?.filter(
+      (blok): blok is StoryblokBlok & CardBlok => blok.component === 'TeamCard',
     ) || [],
 )
 
@@ -163,12 +206,12 @@ const getUrl = (link: StoryblokLink | undefined): string => {
 const filteredGames = computed(() => {
   const now = new Date()
   return nextGames.value
-    .filter((g: any) => {
+    .filter((g) => {
       const gameDate = new Date(g.date)
       return !isNaN(gameDate.getTime()) && gameDate >= now
     })
-    .filter((g: any) => selectedTeam.value === 'Alle' || g.team === selectedTeam.value)
-    .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter((g) => selectedTeam.value === 'Alle' || g.team === selectedTeam.value)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4)
 })
 </script>
@@ -185,39 +228,38 @@ const filteredGames = computed(() => {
   </div>
 
   <div class="p-6 pt-0 flex-grow flex flex-col">
-    <!-- HIER: Wieder items-start! Damit zieht sich nichts mehr gegenseitig künstlich in die Länge -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start"
+      :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }">
 
-      <!-- ==================== SPALTE 1: TEAMS ==================== -->
-      <!-- Desktop: 4 Spalten | 4K: 4 Spalten -->
-      <div class="xl:col-span-4 2xl:col-span-4 flex flex-col h-full order-2 xl:order-1">
+      <div
+        class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
         <h2 class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start">
           Unsere Teams
         </h2>
 
-        <!-- Feste Höhe für den Bereich, aspect-video für die Bilder -->
-        <div class="flex flex-wrap h-auto 2xl:h-[clamp(150px,23vh,350px)] mt-auto justify-between gap-y-4">
+        <div
+          class="grid grid-cols-2 gap-3 min-[1550px]:auto-rows-fr min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))]">
           <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
-            class="bg-white w-[48%] rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
-            <img :src="team.image?.filename" class="aspect-video w-full object-cover border-b border-gray-100"
+            class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
+            <img :src="team.image?.filename"
+              class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
               alt="Team Image" />
             <div
-              class="text-sm 2xl:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center h-[20%] min-h-[40px] flex-grow">
+              class="text-sm lg:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center min-h-[40px] flex-grow min-w-0">
               <span class="line-clamp-2">{{ team.title }}</span>
             </div>
           </router-link>
         </div>
       </div>
 
-      <!-- ==================== SPALTE 2: NEWS ==================== -->
-      <!-- Desktop: 5 Spalten (Breiter!) | 4K: 4 Spalten -->
-      <div class="xl:col-span-5 2xl:col-span-4 flex flex-col xl:pl-4 h-full order-1 xl:order-2">
+      <div
+        class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-1 xl:order-2">
         <h2
           class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 xl:mx-8 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
         </h2>
 
-        <div class="mt-auto relative w-full h-[clamp(150px,23vh,350px)] px-8">
+        <div class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8">
           <template v-if="newsCards.length > 0">
             <button
               class="news-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
@@ -227,25 +269,20 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
-            <!-- SWIPER LOGIK: 
-                 0-639px (Handy): 1 Karte
-                 640px+ (Tablet & iPads): 2 Karten
-                 1280px+ (Desktop): 2 Karten
-                 1921px+ (4K): 2 Karten 
-            -->
-            <Swiper :modules="modules" :space-between="16" :breakpoints="{
+            <Swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="{
               0: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              1280: { slidesPerView: 2 },
-              1921: { slidesPerView: 2 }
-            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-full pb-4">
+              500: { slidesPerView: 2 },
+              900: { slidesPerView: 2 },
+              1550: { slidesPerView: 2, autoHeight: false },
+            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }"
+              class="w-full h-auto min-[1550px]:h-full pb-4">
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
                   <img :src="news.image?.filename"
-                    class="h-[75%] 2xl:h-[80%] w-full object-cover border-b border-gray-100" alt="News Image" />
+                    class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
                   <div
-                    class="text-sm 2xl:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
+                    class=" text-sm md:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
                     <span class="line-clamp-2">{{ news.title }}</span>
                   </div>
                 </router-link>
@@ -268,28 +305,31 @@ const filteredGames = computed(() => {
         </div>
       </div>
 
-      <!-- ==================== SPALTE 3: SPIELE ==================== -->
-      <!-- Desktop: 3 Spalten (Schmaler) | 4K: 4 Spalten -->
-      <div class="xl:col-span-3 2xl:col-span-4 flex flex-col xl:pl-4 h-full order-3">
+      <div class="xl:col-span-6 min-[1550px]:col-span-3! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-3">
         <div class="xl:px-8">
           <h2
-            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-6 mt-4 text-2xl self-start xl:ml-1">
+            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start xl:ml-1">
             Nächste Spiele
           </h2>
 
-          <div v-if="teamOptions.length > 1" class="mt-auto flex flex-wrap gap-2 mb-4 pl-1">
-            <button v-for="option in teamOptions" :key="option" @click="selectedTeam = option" :class="[
-              'px-3 py-1 text-sm font-medium rounded-full transition-colors cursor-pointer',
-              selectedTeam === option
-                ? 'bg-[#032650] text-white shadow-sm'
-                : 'border border-[#032650] text-[#032650] hover:bg-[#032650] hover:text-white',
-            ]">
-              {{ option }}
-            </button>
+          <div ref="spieleChipsRow" class="flex flex-nowrap gap-2 mb-4 pl-1 overflow-x-auto">
+            <template v-if="teamOptions.length > 1">
+              <button v-for="option in teamOptions" :key="option" @click="selectedTeam = option" :class="[
+                'shrink-0 px-3 py-1 text-sm font-medium rounded-full transition-colors cursor-pointer',
+                selectedTeam === option
+                  ? 'bg-[#032650] text-white shadow-sm'
+                  : 'border border-[#032650] text-[#032650] hover:bg-[#032650] hover:text-white',
+              ]">
+                {{ option }}
+              </button>
+            </template>
+            <button v-else class="shrink-0 px-3 py-1 text-sm font-medium rounded-full invisible"
+              aria-hidden="true">Alle</button>
           </div>
         </div>
 
-        <div class="relative w-full mt-auto px-8 h-[clamp(150px,20vh,220px)]">
+        <div
+          class="relative w-full px-8 h-auto min-[1550px]:max-[1799px]:min-h-[clamp(150px,19vh,300px)] min-[1550px]:max-[1799px]:max-h-[calc(clamp(150px,19vh,300px)+18px)] min-[1800px]:h-[clamp(150px,19vh,300px)]!">
           <template v-if="filteredGames.length > 0">
             <button
               class="swiper-prev-custom absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
@@ -299,22 +339,18 @@ const filteredGames = computed(() => {
               </svg>
             </button>
 
-            <!-- SWIPER LOGIK: 
-                 0-639px (Handy): 1 Karte
-                 640px+ (Tablet & iPads): 2 Karten
-                 1280px+ (Desktop - wenig Platz): 1 Karte!
-                 1921px+ (4K - viel Platz): 2 Karten 
-            -->
-            <swiper :modules="modules" :space-between="16" :breakpoints="{
+            <swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="{
               0: { slidesPerView: 1 },
               640: { slidesPerView: 2 },
-              1280: { slidesPerView: 1 },
-              1921: { slidesPerView: 2 }
+              1280: { slidesPerView: 2, autoHeight: false },
+              1550: { slidesPerView: 1, autoHeight: false },
+              1800: { slidesPerView: 2, autoHeight: false }
             }" :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
-              :key="filteredGames.length" class="w-full h-full overflow-hidden">
+              :key="filteredGames.length"
+              class="w-full h-auto min-[1550px]:max-[1799px]:min-h-full min-[1800px]:h-full! overflow-hidden">
               <swiper-slide v-for="game in filteredGames" :key="game._uid">
-                <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam"
-                  :away-team="game.awayteam || game.awayTeam" :homeLogo="game.homeLogo?.filename"
+                <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam || ''"
+                  :away-team="game.awayteam || game.awayTeam || ''" :homeLogo="game.homeLogo?.filename"
                   :awayLogo="game.awayLogo?.filename" :venue="game.venue" :team="game.team" v-editable="game"
                   class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all" />
               </swiper-slide>
@@ -359,6 +395,14 @@ const filteredGames = computed(() => {
   overflow: visible !important;
   clip-path: inset(-100px -3px -100px -3px);
   width: 100%;
+  height: 100%;
+}
+
+:deep(.swiper-autoheight .swiper-wrapper) {
+  align-items: stretch;
+}
+
+:deep(.swiper-autoheight .swiper-slide) {
   height: 100%;
 }
 

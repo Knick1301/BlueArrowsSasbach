@@ -35,7 +35,7 @@ const aktuelleTermine = computed(() => {
             <div
                 class="w-full xl:w-3/5 bg-white rounded-xl shadow-[0_2px_20px_rgba(0,0,0,0.1)] border-t-[5px] border-[#032650] p-6 md:p-10 text-gray-800 flex flex-col h-full">
                 <h2
-                    class="text-[#032650] text-2xl 2xl:text-3xl font-black mt-0 uppercase text-center tracking-wide mb-4">
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase text-center tracking-wide mb-4">
                     Skating-Angebote
                 </h2>
 

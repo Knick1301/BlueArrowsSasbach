@@ -55,15 +55,15 @@ const hasMoreNews = computed(() => {
     </div>
 
     <div v-if="latestNews"
-      class="w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg md:h-[400px]">
+      class="w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg">
 
-      <div class="md:w-1/2 w-full relative h-[300px] md:h-full shrink-0">
+      <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0">
         <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
           class="w-full h-full object-cover" />
         <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
       </div>
 
-      <div class="md:w-1/2 w-full p-8 lg:p-10 flex flex-col h-full bg-[#004a87] text-white">
+      <div class="md:w-1/2 w-full p-8 lg:p-10 flex flex-col bg-[#004a87] text-white">
         <div class="flex items-center justify-between">
           <span class="flex items-center gap-2 text-gray-300 font-bold text-sm uppercase tracking-wider gap-2">
             {{ formatDate(latestNews.date) }}
@@ -93,7 +93,7 @@ const hasMoreNews = computed(() => {
       <div v-for="newsItem in olderNews" :key="newsItem._uid"
         class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
-        <div class="w-full h-[240px] shrink-0">
+        <div class="w-full aspect-[600/348] shrink-0">
           <img v-if="newsItem.image?.filename" :src="newsItem.image.filename" alt="News Image"
             class="w-full h-full object-cover" />
           <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
