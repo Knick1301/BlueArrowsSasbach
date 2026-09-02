@@ -35,7 +35,7 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
 
         <div class="p-6 md:p-10 lg:p-12">
           <p
-            class="text-gray-500 font-bold uppercase tracking-wider text-sm mb-8 text-center border-b border-gray-100 pb-4 inline-block w-full">
+            class="text-gray-500 font-bold uppercase tracking-wider text-sm mb-8 text-center border-b border-gray-200 pb-4 inline-block w-full">
             {{ formatDate(story.content.date) }}
           </p>
 

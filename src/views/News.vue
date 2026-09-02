@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblokApi } from '@storyblok/vue'
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { formatDate } from '@/utils/methods.ts'
 
 const storyblokApi = useStoryblokApi()
@@ -13,6 +13,33 @@ const { data } = await storyblokApi.get('cdn/stories', {
 })
 
 const visibleLimit = ref(4)
+
+const getColumns = () => {
+  if (typeof window === 'undefined') return 3
+  if (window.matchMedia('(min-width: 1280px)').matches) return 3
+  if (window.matchMedia('(min-width: 768px)').matches) return 2
+  return 1
+}
+
+const columns = ref(getColumns())
+const updateColumns = () => {
+  columns.value = getColumns()
+}
+
+let mqlMd: MediaQueryList | undefined
+let mqlXl: MediaQueryList | undefined
+
+onMounted(() => {
+  mqlMd = window.matchMedia('(min-width: 768px)')
+  mqlXl = window.matchMedia('(min-width: 1280px)')
+  mqlMd.addEventListener('change', updateColumns)
+  mqlXl.addEventListener('change', updateColumns)
+})
+
+onBeforeUnmount(() => {
+  mqlMd?.removeEventListener('change', updateColumns)
+  mqlXl?.removeEventListener('change', updateColumns)
+})
 
 const news = computed(() => {
   return data.stories.map((story: any) => ({
@@ -34,17 +61,26 @@ const olderNews = computed(() => {
   return news.value.length > 1 ? news.value.slice(1, visibleLimit.value) : []
 })
 
+const hasMoreNews = computed(() => {
+  return news.value.length > visibleLimit.value
+})
+
+const displayedOlderNews = computed(() => {
+  const total = olderNews.value.length
+  const c = columns.value
+  if (c > 1 && total > c && total % c === 1 && hasMoreNews.value) {
+    return olderNews.value.slice(0, total - 1)
+  }
+  return olderNews.value
+})
+
 const loadMore = () => {
-  visibleLimit.value += 3
+  visibleLimit.value += columns.value
 }
 
 const loadLess = () => {
   visibleLimit.value = 4
 }
-
-const hasMoreNews = computed(() => {
-  return news.value.length > visibleLimit.value
-})
 </script>
 
 <template>
@@ -57,7 +93,7 @@ const hasMoreNews = computed(() => {
     <div v-if="latestNews"
       class="w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg">
 
-      <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0">
+      <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
         <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
           class="w-full h-full object-cover" />
         <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
@@ -90,10 +126,10 @@ const hasMoreNews = computed(() => {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[80%] max-w-[1300px] mx-auto mb-10">
-      <div v-for="newsItem in olderNews" :key="newsItem._uid"
+      <div v-for="newsItem in displayedOlderNews" :key="newsItem._uid"
         class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
-        <div class="w-full aspect-[600/348] shrink-0">
+        <div class="w-full aspect-[600/348] shrink-0 min-h-0">
           <img v-if="newsItem.image?.filename" :src="newsItem.image.filename" alt="News Image"
             class="w-full h-full object-cover" />
           <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>

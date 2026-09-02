@@ -232,7 +232,7 @@ const filteredGames = computed(() => {
       :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }">
 
       <div
-        class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
+        class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 px-8 2xl:px-0 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
         <h2 class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start">
           Unsere Teams
         </h2>
@@ -255,7 +255,7 @@ const filteredGames = computed(() => {
       <div
         class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-1 xl:order-2">
         <h2
-          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 xl:mx-8 mt-4 text-2xl self-start">
+          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
         </h2>
 
@@ -275,7 +275,7 @@ const filteredGames = computed(() => {
               900: { slidesPerView: 2 },
               1550: { slidesPerView: 2, autoHeight: false },
             }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }"
-              class="w-full h-auto min-[1550px]:h-full pb-4">
+              class="w-full h-auto min-[1550px]:h-full">
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
@@ -306,7 +306,7 @@ const filteredGames = computed(() => {
       </div>
 
       <div class="xl:col-span-6 min-[1550px]:col-span-3! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-3">
-        <div class="xl:px-8">
+        <div class="px-8">
           <h2
             class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start xl:ml-1">
             Nächste Spiele

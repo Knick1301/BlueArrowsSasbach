@@ -5,4 +5,11 @@ body {
   max-width: 100%;
   overflow-x: clip;
   position: relative;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 }
