@@ -24,16 +24,21 @@ const aktuelleTermine = computed(() => {
         </div>
 
 
-        <div class="max-w-[1400px] w-[90%] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-16 items-start">
+        <div class="max-w-[1400px] w-[90%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
 
 
-            <div class="w-full xl:w-2/5 h-full sticky top-32 hidden  xl:block">
+            <div class="w-full lg:hidden">
                 <img v-if="story?.content.bild?.filename" :src="story.content.bild.filename" alt="Schule & Ferien Bild"
-                    class="w-full h-[300px] md:h-[500px] xl:h-full object-cover rounded-xl shadow-lg border-2 border-gray-200" />
+                    class="w-full h-[340px] sm:h-[420px] object-cover object-top rounded-xl shadow-md border-2 border-gray-200" />
+            </div>
+
+            <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
+                <img v-if="story?.content.bild?.filename" :src="story.content.bild.filename" alt="Schule & Ferien Bild"
+                    class="w-full h-full object-cover object-top rounded-xl shadow-lg border-2 border-gray-200" />
             </div>
 
             <div
-                class="relative w-full xl:w-3/5 bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800 flex flex-col h-full">
+                class="relative w-full lg:w-3/5 bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800 flex flex-col h-full">
                 <div
                     class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
                 </div>
