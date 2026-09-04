@@ -121,7 +121,7 @@ const trainingsByTeam = computed(() => {
     </div>
 
     <div
-      class="max-w-[1400px] w-[90%] mx-auto mt-10 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
+      class="max-w-[1400px] w-[95%] mx-auto mt-10 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
       <div
         class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
         <div

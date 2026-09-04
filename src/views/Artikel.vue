@@ -27,7 +27,7 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
       </span>
     </div>
 
-    <div class="w-[90%] max-w-4xl mx-auto mt-10">
+    <div class="w-[95%] max-w-4xl mx-auto mt-10">
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
 
         <img v-if="story.content.image?.filename" :src="story.content.image.filename" alt="Artikel Bild"

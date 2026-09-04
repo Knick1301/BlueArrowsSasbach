@@ -24,7 +24,7 @@ const aktuelleTermine = computed(() => {
         </div>
 
 
-        <div class="max-w-[1400px] w-[90%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+        <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
 
 
             <div class="w-full lg:hidden">
@@ -34,7 +34,7 @@ const aktuelleTermine = computed(() => {
 
             <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
                 <img v-if="story?.content.bild?.filename" :src="story.content.bild.filename" alt="Schule & Ferien Bild"
-                    class="w-full h-full object-cover object-top rounded-xl shadow-lg border-2 border-gray-200" />
+                    class="w-full h-[400px] lg:h-[600px] object-cover object-top rounded-xl shadow-lg border-2 border-gray-200" />
             </div>
 
             <div

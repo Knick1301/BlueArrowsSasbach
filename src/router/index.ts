@@ -10,11 +10,6 @@ const router = createRouter({
       name: 'home',
       component: MainView,
     },
-    {
-      path:'/hockey',
-      name: 'hockey',
-      component: () => import('@/views/Hockey.vue')
-    },
     {path: '/aktuelles/news/:slug',
       name: 'artikel',
       component: () => import ('@/views/Artikel.vue')
@@ -28,21 +23,6 @@ const router = createRouter({
       path:'/skating/laufschule',
       name: 'laufschule',
       component: () => import('@/views/Laufschule.vue')
-    },
-    {
-      path:'/events',
-      name: 'events',
-      component: () => import('@/views/Events.vue')
-    },
-    {
-      path:'/verein',
-      name: 'verein',
-      component: () => import('@/views/Verein.vue')
-    },
-    {
-      path:'/fanzone',
-      name: 'fanzone',
-      component: () => import('@/views/Fanzone.vue')
     },
     {
       path:'/teams/:teamName',
@@ -63,6 +43,21 @@ const router = createRouter({
       path:'/events/burgerista',
       name: 'burgerista',
       component: () => import('@/views/Burgerista.vue')
+    },
+        {
+      path:'/events/inlinedisco',
+      name: 'inlinedisco',
+      component: () => import('@/views/InlineDisco.vue')
+    },
+        {
+      path:'/verein/mitgliedschaft',
+      name: 'mitgliedschaft',
+      component: () => import('@/views/Mitgliedschaft.vue')
+    },
+        {
+      path:'/verein/vereinsstaette',
+      name: 'vereinsstaette',
+      component: () => import('@/views/Vereinsstaette.vue')
     },
 
  
