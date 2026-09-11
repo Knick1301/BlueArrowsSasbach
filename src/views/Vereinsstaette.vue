@@ -57,9 +57,9 @@ try {
                         Spielstätte
                     </h3>
 
-                    <div
-                        class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
-                        <div v-if="story?.content.images?.length" class="md:w-1/2 w-full p-3 md:p-4 space-y-2 bg-gray-50">
+                    <div class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
+                        <div v-if="story?.content.images?.length"
+                            class="md:w-1/2 w-full p-3 md:p-4 space-y-2 bg-gray-50">
                             <figure v-if="story.content.images[0]">
                                 <img v-if="story.content.images[0].image?.filename"
                                     :src="story.content.images[0].image.filename"
@@ -96,7 +96,7 @@ try {
                                 Maschendraht-Fangzaun sorgt für einen guten Spielfluss. Für den Stilmat
                                 Evo-R Sportbelag eignen sich am besten Rollen der Härte 74A.
                             </p>
-                            <div class="bg-white/10 border-l-4 border-white p-4 rounded-xl font-bold text-sm">
+                            <div class="bg-white text-[#032650] p-4 rounded-lg font-bold text-sm mt-5">
                                 Nutzungshinweis: Schlägertape an Inline-Skates und Schlägerblättern ist
                                 untersagt.
                             </div>
@@ -109,8 +109,7 @@ try {
                         Vereinsheim
                     </h3>
 
-                    <div
-                        class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
+                    <div class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
                         <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
                             <img v-if="story?.content.bildVereinsheim?.filename"
                                 :src="story.content.bildVereinsheim.filename" alt="Vereinsheim"
