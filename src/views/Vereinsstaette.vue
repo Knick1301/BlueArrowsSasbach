@@ -39,51 +39,64 @@ try {
                     <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsstätte & Vereinsheim</span>
                 </h2>
 
-                <p
-                    class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
+                <a href="https://www.google.com/maps/search/?api=1&query=Sasbachrieder+Str.+93,+77880+Sasbach"
+                    target="_blank"
+                    class="block mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center hover:text-[#032650] transition-colors underline decoration-gray-300 hover:decoration-[#032650] w-fit mx-auto">
                     Sasbachrieder Str. 93, 77880 Sasbach
-                </p>
+                </a>
+
+                <div
+                    class="w-150 h-64 max-w-full rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm mx-auto mb-10 lg:mb-15">
+                    <iframe src="https://www.google.com/maps?q=Sasbachrieder+Str.+93,+77880+Sasbach&output=embed"
+                        class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="Karte Vereinsstätte Blue Arrows Sasbach"></iframe>
+                </div>
 
                 <div class="border-t-2 border-gray-200 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
                         Spielstätte
                     </h3>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                        <div v-if="story?.content.images?.length" class="space-y-4">
+                    <div
+                        class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
+                        <div v-if="story?.content.images?.length" class="md:w-1/2 w-full p-3 md:p-4 space-y-2 bg-gray-50">
                             <figure v-if="story.content.images[0]">
                                 <img v-if="story.content.images[0].image?.filename"
                                     :src="story.content.images[0].image.filename"
                                     :alt="story.content.images[0].title || 'Spielstätte'"
-                                    class="w-full h-[260px] object-cover rounded-xl shadow-sm border-2 border-gray-200" />
+                                    class="w-full aspect-[600/348] object-cover rounded-lg" />
                                 <figcaption v-if="story.content.images[0].title"
-                                    class="mt-2 text-sm text-gray-700 font-semibold text-center">
+                                    class="mt-1.5 text-xs text-gray-500 font-semibold text-center">
                                     {{ story.content.images[0].title }}
                                 </figcaption>
                             </figure>
 
-                            <div v-if="story.content.images.length > 1" class="grid grid-cols-2 gap-4">
+                            <div v-if="story.content.images.length > 1" class="grid grid-cols-2 gap-2">
                                 <figure v-for="(bild, index) in story.content.images.slice(1)" :key="index">
                                     <img v-if="bild.image?.filename" :src="bild.image.filename"
                                         :alt="bild.title || 'Spielstätte'"
-                                        class="w-full h-[130px] object-cover rounded-xl shadow-sm border-2 border-gray-200" />
+                                        class="w-full aspect-[600/348] object-cover rounded-lg" />
                                     <figcaption v-if="bild.title"
-                                        class="mt-2 text-xs text-gray-700 font-semibold text-center">
+                                        class="mt-1 text-xs text-gray-500 font-semibold text-center">
                                         {{ bild.title }}
                                     </figcaption>
                                 </figure>
                             </div>
                         </div>
 
-                        <div class="pt-2 lg:pt-0 lg:mt-2">
-                            <p class="mb-4 text-base font-medium text-gray-700 leading-relaxed">
+                        <div v-else
+                            class="md:w-1/2 w-full aspect-[600/348] md:aspect-auto bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-lg text-center px-4">
+                            Hier kommen Bilder der Spielstätte hin
+                        </div>
+
+                        <div class="md:w-1/2 w-full p-6 md:p-8 flex flex-col justify-center bg-[#004a87] text-white">
+                            <p class="mb-4 text-base font-medium leading-relaxed">
                                 Unsere Spiel- und Trainingsfläche misst 20x40m, mit Holzbanden an den
                                 Längsseiten und Rundungen nach aktuellem Regelwerk. Ein 5m hoher
                                 Maschendraht-Fangzaun sorgt für einen guten Spielfluss. Für den Stilmat
                                 Evo-R Sportbelag eignen sich am besten Rollen der Härte 74A.
                             </p>
-                            <div
-                                class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-bold text-sm">
+                            <div class="bg-white/10 border-l-4 border-white p-4 rounded-xl font-bold text-sm">
                                 Nutzungshinweis: Schlägertape an Inline-Skates und Schlägerblättern ist
                                 untersagt.
                             </div>
@@ -91,21 +104,30 @@ try {
                     </div>
                 </div>
 
-                <div class="border-t-2 border-gray-200 mt-16 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
+                <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
                         Vereinsheim
                     </h3>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                        <img v-if="story?.content.bildVereinsheim?.filename"
-                            :src="story.content.bildVereinsheim.filename" alt="Vereinsheim"
-                            class="w-full h-[260px] object-cover rounded-xl shadow-sm border-2 border-gray-200" />
+                    <div
+                        class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
+                        <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
+                            <img v-if="story?.content.bildVereinsheim?.filename"
+                                :src="story.content.bildVereinsheim.filename" alt="Vereinsheim"
+                                class="w-full h-full object-cover" />
+                            <div v-else
+                                class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-lg text-center px-4">
+                                Hier kommt ein Bild vom Vereinsheim hin
+                            </div>
+                        </div>
 
-                        <p class="text-base font-medium text-gray-700 leading-relaxed pt-2 lg:pt-0 lg:mt-2">
-                            Direkt neben der Spielfläche steht unser Vereinsheim – umgebaut aus
-                            Baucontainern und mit fest installierter Heizung, sodass auch bei kaltem Wetter
-                            ein komfortables Umziehen vor Ort möglich ist.
-                        </p>
+                        <div class="md:w-1/2 w-full p-6 md:p-8 flex flex-col justify-center bg-[#004a87] text-white">
+                            <p class="text-base font-medium leading-relaxed">
+                                Direkt neben der Spielfläche steht unser Vereinsheim – umgebaut aus
+                                Baucontainern und mit fest installierter Heizung, sodass auch bei kaltem Wetter
+                                ein komfortables Umziehen vor Ort möglich ist.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

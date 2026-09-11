@@ -144,8 +144,12 @@ const buttonText = computed(() => {
                   <div v-else class="w-10 h-10 rounded-full flex-shrink-0"></div>
 
                   <div class="flex flex-col items-center text-center">
-                    <span class="font-bold text-[#032650]">{{ game.hometeam }} - {{ game.awayteam }}</span>
-                    <span v-if="game.venue" class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">
+                    <div class="flex flex-col sm:flex-row items-center gap-0.5 sm:gap-1.5">
+                      <span class="font-bold text-[#032650] leading-tight">{{ game.hometeam }}</span>
+                      <span class="text-gray-500 text-xs font-bold leading-none">–</span>
+                      <span class="font-bold text-[#032650] leading-tight">{{ game.awayteam }}</span>
+                    </div>
+                    <span v-if="game.venue" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">
                       @ {{ game.venue }}
                     </span>
                   </div>

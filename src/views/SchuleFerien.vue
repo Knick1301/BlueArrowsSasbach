@@ -145,8 +145,7 @@ const aktuelleTermine = computed(() => {
                             <span class="text-[#032650] font-bold">Daniel Bühler</span>
                             <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
 
-                            <a href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
-                                target="_blank"
+                            <a href="mailto:info@bluearrows.de"
                                 class="text-center bg-[#032650] text-white px-4 py-2 rounded mt-3 font-bold hover:bg-blue-800 transition-colors text-sm">
                                 Kontakt
                             </a>
