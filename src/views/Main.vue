@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
+import { getUrl, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 
@@ -30,12 +31,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   chipsResizeObserver?.disconnect()
 })
-
-interface StoryblokLink {
-  linktype: string
-  cached_url?: string
-  url?: string
-}
 
 interface GamesBlok {
   _uid: string
@@ -194,14 +189,6 @@ const teamCards = computed(
       (blok): blok is StoryblokBlok & CardBlok => blok.component === 'TeamCard',
     ) || [],
 )
-
-const getUrl = (link: StoryblokLink | undefined): string => {
-  if (!link) return '#'
-  if (link.linktype === 'story' && link.cached_url) {
-    return link.cached_url.startsWith('/') ? link.cached_url : '/' + link.cached_url
-  }
-  return link.url || '#'
-}
 
 const filteredGames = computed(() => {
   const now = new Date()

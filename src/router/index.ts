@@ -59,6 +59,11 @@ const router = createRouter({
       name: 'vereinsstaette',
       component: () => import('@/views/Vereinsstaette.vue')
     },
+        {
+      path:'/verein/sponsoren',
+      name: 'sponsoren',
+      component: () => import('@/views/Sponsoren.vue')
+    },
 
  
 

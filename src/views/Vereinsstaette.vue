@@ -59,7 +59,7 @@ try {
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
-                            Route
+                            Maps
                         </span>
                     </div>
                     <p class="mt-1.5 text-[11px] text-gray-400 text-center">
