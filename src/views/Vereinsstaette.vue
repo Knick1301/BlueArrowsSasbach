@@ -39,18 +39,33 @@ try {
                     <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsstätte & Vereinsheim</span>
                 </h2>
 
-                <a href="https://www.google.com/maps/search/?api=1&query=Sasbachrieder+Str.+93,+77880+Sasbach"
-                    target="_blank"
-                    class="block mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center hover:text-[#032650] transition-colors underline decoration-gray-300 hover:decoration-[#032650] w-fit mx-auto">
+                <p
+                    class="block mb-6 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center w-fit mx-auto">
                     Sasbachrieder Str. 93, 77880 Sasbach
-                </a>
+                </p>
 
-                <div
-                    class="w-150 h-64 max-w-full rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm mx-auto mb-10 lg:mb-15">
-                    <iframe src="https://www.google.com/maps?q=Sasbachrieder+Str.+93,+77880+Sasbach&output=embed"
-                        class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                        title="Karte Vereinsstätte Blue Arrows Sasbach"></iframe>
-                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Sasbachrieder+Str.+93,+77880+Sasbach"
+                    target="_blank" class="block w-150 max-w-full mx-auto mb-10 lg:mb-15 group">
+                    <div class="relative">
+                        <img v-if="story?.content.mapsImage?.filename" :src="story.content.mapsImage.filename"
+                            alt="Luftbild Vereinsstätte Blue Arrows Sasbach"
+                            class="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-sm group-hover:opacity-90 transition-opacity" />
+                        <span
+                            class="absolute bottom-3 right-3 flex items-center gap-1.5 bg-[#032650] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="w-4 h-4 shrink-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+                            Route
+                        </span>
+                    </div>
+                    <p class="mt-1.5 text-[11px] text-gray-400 text-center">
+                        Datenquelle: LGL, www.lgl-bw.de
+                    </p>
+                </a>
 
                 <div class="border-t-2 border-gray-200 pt-8">
                     <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
