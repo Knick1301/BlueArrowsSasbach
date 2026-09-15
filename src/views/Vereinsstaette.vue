@@ -14,7 +14,7 @@ try {
 
         <div class="w-full py-13 bg-[#032650] text-center px-4">
             <h1 class="text-3xl font-black text-white uppercase tracking-wider">
-                {{ story?.content.title || 'Vereinsstätte und Vereinsheim' }}
+                {{ story?.content.title || 'Spielstätte und Vereinsheim' }}
             </h1>
         </div>
 
@@ -36,7 +36,7 @@ try {
 
                 <h2
                     class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
-                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsstätte & Vereinsheim</span>
+                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Spielstätte & Vereinsheim</span>
                 </h2>
 
                 <p

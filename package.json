@@ -16,6 +16,8 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
     "@mdi/font": "^7.4.47",
     "@storyblok/vue": "^10.1.4",
     "mdi-icons": "^1.0.1",

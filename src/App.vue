@@ -5,6 +5,7 @@ import basLogo from '@/assets/BASlogo.png'
 import instagramLogo from '@/assets/InstagramLogo.png'
 import facebookLogo from '@/assets/FacebookLogo.png'
 import { useStoryblokApi } from '@storyblok/vue'
+import { getUrl, type StoryblokLink } from '@/utils/methods.ts'
 
 import { computed, onMounted, ref } from 'vue'
 
@@ -37,12 +38,6 @@ interface HeadersBlok {
   subLinks?: { title: string; link: StoryblokLink }[]
 }
 
-interface StoryblokLink {
-  linktype: string
-  cached_url?: string
-  url?: string
-}
-
 const storyblokApi = useStoryblokApi()
 
 const body = ref<any[]>([])
@@ -58,16 +53,6 @@ onMounted(async () => {
     console.error('Error fetching Storyblok content:', error)
   }
 })
-
-const getUrl = (link: StoryblokLink | undefined): string => {
-  if (!link) return '#'
-
-  if (link.linktype === 'story' && link.cached_url) {
-    return link.cached_url.startsWith('/') ? link.cached_url : '/' + link.cached_url
-  }
-
-  return link.url || '#'
-}
 
 const navItems = computed(() =>
   body.value.filter((blok: any): blok is HeadersBlok => blok.component === 'Headers'),
@@ -108,10 +93,10 @@ const navItems = computed(() =>
               </div>
             </div>
 
-            <button
+            <router-link :to="{ name: 'kontakt' }"
               class="ml-2 bg-[#032650] text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-900 transition-colors shadow-sm">
               Kontakt
-            </button>
+            </router-link>
           </div>
         </nav>
 
@@ -163,9 +148,10 @@ const navItems = computed(() =>
               </div>
             </div>
 
-            <button class="mt-6 bg-[#032650] text-white px-8 py-3 rounded-full text-lg font-bold">
+            <router-link :to="{ name: 'kontakt' }" @click="closeMenu"
+              class="mt-6 bg-[#032650] text-white px-8 py-3 rounded-full text-lg font-bold text-center">
               Kontakt
-            </button>
+            </router-link>
           </div>
         </div>
       </transition>
@@ -173,7 +159,7 @@ const navItems = computed(() =>
 
     <main class="flex-grow flex flex-col">
       <Suspense>
-        <router-view :key="route.fullPath" />
+        <router-view :key="route.path" />
       </Suspense>
     </main>
 
@@ -194,6 +180,16 @@ const navItems = computed(() =>
         <img :src="instagramLogo" class="w-13 h-13 object-contain" alt="Instagram" />
       </a>
     </footer>
+
+    <div class="bg-[#021b3d] flex justify-center items-center gap-4 py-2 px-6">
+      <router-link to="/impressum" class="text-blue-200 text-xs font-medium hover:text-white transition-colors">
+        Impressum
+      </router-link>
+      <span class="text-blue-200/40 text-xs">|</span>
+      <router-link to="/datenschutz" class="text-blue-200 text-xs font-medium hover:text-white transition-colors">
+        Datenschutz
+      </router-link>
+    </div>
   </div>
 </template>
 

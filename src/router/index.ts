@@ -64,8 +64,21 @@ const router = createRouter({
       name: 'sponsoren',
       component: () => import('@/views/Sponsoren.vue')
     },
-
- 
+        {
+      path:'/verein/kontakt',
+      name: 'kontakt',
+      component: () => import('@/views/Kontakt.vue')
+    },
+        {
+      path:'/impressum',
+      name: 'impressum',
+      component: () => import('@/views/Impressum.vue')
+    },
+        {
+      path:'/datenschutz',
+      name: 'datenschutz',
+      component: () => import('@/views/Datenschutz.vue')
+    },
 
   ],
 })

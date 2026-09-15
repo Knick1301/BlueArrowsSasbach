@@ -25,7 +25,7 @@ const aktuelleTermine = computed(() => {
             </h1>
         </div>
 
-        <div class="max-w-[1400px] mx-auto mt-10 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+        <div class="max-w-[1400px] w-[95%] mx-auto mt-10 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
 
             <div class="w-full lg:hidden">
                 <img v-if="story?.content.bild?.filename" :src="story.content.bild.filename" alt="Blueburgerista Burger"

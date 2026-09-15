@@ -91,8 +91,7 @@ const loadLess = () => {
     </div>
 
     <div v-if="latestNews"
-      class="w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg">
-
+      class="w-[95%] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg">
       <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
         <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
           class="w-full h-full object-cover" />
@@ -125,7 +124,7 @@ const loadLess = () => {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[80%] max-w-[1300px] mx-auto mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[95%] md:w-[80%] max-w-[1300px] mx-auto mb-10">
       <div v-for="newsItem in displayedOlderNews" :key="newsItem._uid"
         class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 

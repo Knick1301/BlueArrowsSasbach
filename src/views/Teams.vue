@@ -10,7 +10,12 @@ const route = useRoute()
 
 const teamSlug = computed(() => route.params.teamName as string)
 
-const story = await useStoryblok(`teams/${teamSlug.value}`, { version: 'draft' })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+try {
+  story = await useStoryblok(`teams/${teamSlug.value}`, { version: 'draft' })
+} catch (e) {
+  console.error(`Storyblok-Story "teams/${teamSlug.value}" konnte nicht geladen werden.`, e)
+}
 
 interface TrainerBlok {
   _uid: string
@@ -35,7 +40,7 @@ interface PlayerBlok {
 }
 
 const staff = computed(() => {
-  const staffData = story.value?.content?.staff
+  const staffData = story?.value?.content?.staff
   if (Array.isArray(staffData)) {
     return staffData.filter((blok: any): blok is TrainerBlok => blok.component === 'staff')
   }
@@ -43,7 +48,7 @@ const staff = computed(() => {
 })
 
 const allPlayers = computed(() => {
-  const playersData = story.value?.content?.players
+  const playersData = story?.value?.content?.players
   if (Array.isArray(playersData)) {
     return playersData.filter((blok: any): blok is PlayerBlok => blok.component === 'player')
   }
@@ -51,7 +56,7 @@ const allPlayers = computed(() => {
 })
 
 const allTeamGames = computed(() => {
-  const gamesData = story.value?.content?.games
+  const gamesData = story?.value?.content?.games
   if (Array.isArray(gamesData)) {
     return gamesData.filter((blok: any) => blok.component === 'games')
   }
@@ -59,7 +64,7 @@ const allTeamGames = computed(() => {
 })
 
 const allTeamTable = computed(() => {
-  const tableData = story.value?.content?.table
+  const tableData = story?.value?.content?.table
   if (Array.isArray(tableData)) {
     return tableData.filter((blok: any) => blok.component === 'table')
   }
@@ -84,12 +89,12 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
       </h5>
     </div>
 
-    <div v-if="story.content.heroImage?.filename" class="block xl:hidden mx-auto px-4 mt-6">
+    <div v-if="story.content.heroImage?.filename" class="block xl:hidden mx-auto px-4 mt-6 w-[95%]">
       <img :src="story.content.heroImage.filename" alt="Teamfoto kompakt"
         class="w-full h-auto rounded-xl shadow-sm border border-gray-200" />
     </div>
 
-    <div class="mx-auto px-4 mt-8 flex flex-col xl:grid xl:grid-cols-5 gap-8 relative">
+    <div class="mx-auto px-4 w-[95%] mt-8 flex flex-col xl:grid xl:grid-cols-5 gap-8 relative">
       <div class="order-4 xl:order-1 xl:col-span-3">
         <h2 class="text-3xl font-bold text-[#032650] border-b-3 border-blue-200 pb-2 mb-6">
           Kader
@@ -174,5 +179,18 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
         <Table :teams="allTeamTable" />
       </div>
     </div>
+  </div>
+
+  <div v-else class="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20">
+    <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
+      Team nicht gefunden
+    </h1>
+    <p class="text-gray-600 mb-6 max-w-md">
+      Dieses Team existiert nicht oder wurde entfernt.
+    </p>
+    <router-link to="/"
+      class="inline-block bg-[#032650] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition-colors text-sm">
+      Zur Startseite
+    </router-link>
   </div>
 </template>
