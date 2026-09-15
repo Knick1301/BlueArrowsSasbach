@@ -118,6 +118,9 @@ const mapsUrl = computed(
                                 Maps
                             </span>
                         </div>
+                        <p class="mt-1.5 text-[11px] text-gray-400 text-center">
+                            Datenquelle: LGL, www.lgl-bw.de
+                        </p>
                     </a>
                 </div>
 

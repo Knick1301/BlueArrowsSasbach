@@ -21,7 +21,19 @@ try {
 
         <div class="max-w-4xl w-[95%] mx-auto mt-15 px-4">
 
-            <div class="w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
+            <div class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
+                <div
+                    class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
+                </div>
+                <div
+                    class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none">
+                </div>
+                <div
+                    class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none">
+                </div>
+                <div
+                    class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
+                </div>
 
                 <div v-if="story?.content.content" class="prose prose-lg max-w-none text-gray-800"
                     v-html="renderRichText(story.content.content)">

@@ -204,7 +204,7 @@ const filteredGames = computed(() => {
 </script>
 
 <template v-if="story && story.content">
-  <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[43vh] m-0 p-0">
+  <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[40vh] m-0 p-0">
     <h1 v-if="teaser"
       class="text-white text-[5vmin] font-extrabold leading-loose ml-[10vmin] drop-shadow-[2px_2px_8px_rgba(255,255,255,0.2)]"
       v-editable="teaser">
@@ -261,8 +261,7 @@ const filteredGames = computed(() => {
               500: { slidesPerView: 2 },
               900: { slidesPerView: 2 },
               1550: { slidesPerView: 2, autoHeight: false },
-            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }"
-              class="w-full h-auto min-[1550px]:h-full">
+            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-auto min-[1550px]:h-full">
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
