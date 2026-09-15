@@ -240,7 +240,7 @@ const filteredGames = computed(() => {
       </div>
 
       <div
-        class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-1 xl:order-2">
+        class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col h-full order-1 xl:order-2">
         <h2
           class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>

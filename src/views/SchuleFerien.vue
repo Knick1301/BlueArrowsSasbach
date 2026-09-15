@@ -100,7 +100,7 @@ const aktuelleTermine = computed(() => {
                             Schläger verbessern möchten – bei unserem Ferienprogramm steht der Spaß im Vordergrund!
                         </p>
                         <div
-                            class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-medium text-base mt-auto">
+                            class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl  text-[#032650] font-medium text-base mt-auto">
                             <span class="font-bold block mb-1">Aktuelle Termine:</span>
 
                             <span v-if="aktuelleTermine.length > 0">
@@ -140,7 +140,7 @@ const aktuelleTermine = computed(() => {
                 <div class="mt-auto">
                     <div class="flex items-center justify-center gap-10">
                         <img src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-                            class="w-25 h-35 rounded-full border-2 border-[#032650] shadow-sm object-cover object-top" />
+                            class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
                         <div class="flex flex-col">
                             <span class="text-[#032650] font-bold">Daniel Bühler</span>
                             <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>

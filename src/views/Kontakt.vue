@@ -155,7 +155,7 @@ const mapsUrl = computed(
                         <div v-for="person in vorstand" :key="person._uid"
                             class="flex flex-col items-center justify-start gap-3 bg-gray-50 border border-gray-200 rounded-xl p-6">
                             <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
-                                class="w-25 h-35 rounded-full object-cover border-2 border-[#032650] shadow-sm" />
+                                class="w-28 aspect-[3/4] object-cover rounded-lg border-2 border-[#032650] shadow-sm" />
                             <div class="w-full flex flex-col items-center justify-center">
                                 <p class="text-base font-black text-[#032650] uppercase tracking-wide text-center">
                                     {{ person.name }}
@@ -190,7 +190,7 @@ const mapsUrl = computed(
                         <div v-for="person in weitereAnsprechpartner" :key="person._uid"
                             class="flex flex-col items-center justify-start gap-3 bg-gray-50 border border-gray-200 rounded-xl p-6">
                             <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
-                                class="w-25 h-35 rounded-full object-cover border-2 border-[#032650] shadow-sm" />
+                                class="w-28 aspect-[3/4] object-cover rounded-lg border-2 border-[#032650] shadow-sm" />
                             <div class="w-full flex flex-col items-center justify-center">
                                 <p class="text-base font-black text-[#032650] uppercase tracking-wide text-center">
                                     {{ person.name }}

@@ -118,7 +118,7 @@ const trainingsByTeam = computed(() => {
 </script>
 <template>
   <div class="mb-15">
-    <div class="w-full py-13 bg-[#032650] text-center px-4 mb-15">
+    <div class="w-full py-13 bg-[#032650] text-center px-4">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story?.content.title || 'Trainingszeiten' }}
       </h1>

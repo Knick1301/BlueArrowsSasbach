@@ -68,7 +68,7 @@ const aktuelleTermine = computed(() => {
                     bringen den Geschmack direkt zu euch!
                 </p>
 
-                <h3 class="text-gray-500 text-sm font-black uppercase tracking-widest mb-2">
+                <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-2">
                     Nächste Einsatztermine
                 </h3>
                 <div class="mb-6">
@@ -95,7 +95,7 @@ const aktuelleTermine = computed(() => {
                 </div>
 
                 <div class="mt-auto">
-                    <h3 class="text-gray-500 text-sm font-black uppercase tracking-widest mb-2">
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-2">
                         Kontakt
                     </h3>
                     <p class="text-gray-600 font-medium mb-5">
@@ -104,7 +104,7 @@ const aktuelleTermine = computed(() => {
 
                     <div class="flex items-center gap-4 mb-5">
                         <img src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-                            class="w-25 h-35 rounded-full border-2 border-[#032650] shadow-sm object-cover object-top" />
+                            class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
                         <div class="flex flex-col">
                             <span class="text-[#032650] font-bold">Daniel Bühler</span>
                             <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>

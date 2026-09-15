@@ -226,7 +226,7 @@ const trainingsByTeam = computed(() => {
 
           <div class="flex items-center gap-4 mb-5">
             <img src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-              class="w-25 h-35 rounded-full border-2 border-[#032650] shadow-sm object-cover object-top" />
+              class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
             <div class="flex flex-col">
               <span class="text-[#032650] font-bold">Daniel Bühler</span>
               <span class="text-gray-500 text-md font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
