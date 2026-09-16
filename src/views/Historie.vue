@@ -7,9 +7,14 @@ interface MeilensteinBlok {
     _uid: string
     component: string
     jahr: string
-    titel: string
+    title: string
     beschreibung?: string
-    bild?: { filename: string }
+    image?: { filename: string }
+    typ?: string
+}
+
+function istErfolg(eintrag: MeilensteinBlok): boolean {
+    return eintrag.typ?.toLowerCase() === 'erfolg'
 }
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
@@ -34,7 +39,7 @@ const meilensteine = computed(() => {
             </h1>
         </div>
 
-        <div class="max-w-4xl w-[95%] mx-auto mt-15 px-4">
+        <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
 
             <div
                 class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
@@ -62,26 +67,52 @@ const meilensteine = computed(() => {
                     der Blue Arrows Sasbach im Überblick.` }}
                 </p>
 
-                <div v-if="meilensteine.length" class="relative pl-8">
-                    <div class="absolute left-[9px] top-2 bottom-2 w-0.5 bg-gray-200"></div>
+                <div v-if="meilensteine.length" class="relative">
+                    <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-2 bottom-2 w-0.5 bg-gray-200">
+                    </div>
 
-                    <div v-for="eintrag in meilensteine" :key="eintrag._uid"
-                        class="relative pb-10 last:pb-0">
-                        <div
-                            class="absolute -left-8 top-1 w-[19px] h-[19px] rounded-full bg-[#032650] border-4 border-white shadow-sm">
+                    <div class="space-y-10">
+                        <div v-for="eintrag in meilensteine" :key="eintrag._uid"
+                            class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-x-6 items-start">
+
+                            <div v-if="!istErfolg(eintrag)" class="text-left md:text-right">
+                                <span class="block text-sm font-black uppercase tracking-widest text-[#032650] mb-1">
+                                    {{ eintrag.jahr }}
+                                </span>
+                                <h3 class="font-bold text-lg text-gray-900 mb-1">
+                                    {{ eintrag.title }}
+                                </h3>
+                                <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
+                                    {{ eintrag.beschreibung }}
+                                </p>
+                                <img v-if="eintrag.image?.filename" :src="eintrag.image.filename"
+                                    :alt="eintrag.title"
+                                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm md:ml-auto" />
+                            </div>
+                            <div v-else></div>
+
+                            <div class="relative z-10 flex justify-center py-1">
+                                <div class="w-[19px] h-[19px] rounded-full border-4 border-white shadow-sm"
+                                    :class="istErfolg(eintrag) ? 'bg-[#B8860B]' : 'bg-[#032650]'">
+                                </div>
+                            </div>
+
+                            <div v-if="istErfolg(eintrag)" class="text-left">
+                                <span class="block text-sm font-black uppercase tracking-widest text-[#B8860B] mb-1">
+                                    {{ eintrag.jahr }}
+                                </span>
+                                <h3 class="font-bold text-lg text-[#B8860B] mb-1">
+                                    {{ eintrag.title }}
+                                </h3>
+                                <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
+                                    {{ eintrag.beschreibung }}
+                                </p>
+                                <img v-if="eintrag.image?.filename" :src="eintrag.image.filename"
+                                    :alt="eintrag.title"
+                                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm" />
+                            </div>
+                            <div v-else></div>
                         </div>
-
-                        <span class="block text-sm font-black uppercase tracking-widest text-[#032650] mb-1">
-                            {{ eintrag.jahr }}
-                        </span>
-                        <h3 class="font-bold text-gray-900 text-lg mb-1">
-                            {{ eintrag.titel }}
-                        </h3>
-                        <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
-                            {{ eintrag.beschreibung }}
-                        </p>
-                        <img v-if="eintrag.bild?.filename" :src="eintrag.bild.filename" :alt="eintrag.titel"
-                            class="mt-3 w-full max-w-xs rounded-lg border border-gray-200 shadow-sm" />
                     </div>
                 </div>
 
