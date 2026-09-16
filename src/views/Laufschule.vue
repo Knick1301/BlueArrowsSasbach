@@ -121,7 +121,7 @@ const trainingsByTeam = computed(() => {
     </div>
 
     <div
-      class="max-w-[1400px] w-[95%] mx-auto mt-10 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
+      class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
       <div
         class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
         <div
@@ -236,7 +236,7 @@ const trainingsByTeam = computed(() => {
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
               target="_blank"
-              class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-800 transition-colors text-sm">
+              class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-900 transition-colors text-sm">
               Zur Warteliste
             </a>
             <a href="https://www.bluearrows.de/fileadmin/user_upload/downloads/Anmeldung-Inline-Skating-Laufschule.pdf"

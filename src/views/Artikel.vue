@@ -56,7 +56,8 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
             {{ formatDate(story.content.date) }}
           </p>
 
-          <div class="prose prose-lg md:prose-xl max-w-none text-gray-800"
+          <div
+            class="prose prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-lg md:prose-xl max-w-none text-gray-800 prose-h4:mt-8 prose-h4:mb-2 prose-h5:mt-8 prose-h5:mb-2 prose-h6:mt-8 prose-h6:mb-2 prose-h4:text-[#032650] prose-h5:text-[#032650] prose-h6:text-[#032650] prose-h4:font-black prose-h5:font-black prose-h6:font-black"
             v-html="renderRichText(story.content.content)">
           </div>
         </div>

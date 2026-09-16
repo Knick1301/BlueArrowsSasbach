@@ -21,7 +21,8 @@ try {
 
         <div class="max-w-4xl w-[95%] mx-auto mt-15 px-4">
 
-            <div class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
+            <div
+                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
                 <div
                     class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
                 </div>
@@ -35,7 +36,8 @@ try {
                     class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
                 </div>
 
-                <div v-if="story?.content.content" class="prose prose-lg max-w-none text-gray-800"
+                <div v-if="story?.content.content"
+                    class="prose prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-lg max-w-none text-gray-800 prose-h5:mt-10 prose-h5:mb-3 prose-h5:text-[#032650] prose-h5:font-black prose-h5:uppercase prose-h5:tracking-widest [&_h5_strong]:text-[#032650] [&_h5_strong]:font-black"
                     v-html="renderRichText(story.content.content)">
                 </div>
 

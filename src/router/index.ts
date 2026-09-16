@@ -79,6 +79,11 @@ const router = createRouter({
       name: 'datenschutz',
       component: () => import('@/views/Datenschutz.vue')
     },
+        {
+      path:'/historie/geschichte',
+      name: 'historie',
+      component: () => import('@/views/Historie.vue')
+    },
 
   ],
 })

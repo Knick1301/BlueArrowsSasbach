@@ -146,7 +146,7 @@ const aktuelleTermine = computed(() => {
                             <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
 
                             <a href="mailto:info@bluearrows.de"
-                                class="text-center bg-[#032650] text-white px-4 py-2 rounded mt-3 font-bold hover:bg-blue-800 transition-colors text-sm">
+                                class="text-center bg-[#032650] text-white px-4 py-2 rounded mt-3 font-bold hover:bg-blue-900 transition-colors text-sm">
                                 Kontakt
                             </a>
                         </div>
