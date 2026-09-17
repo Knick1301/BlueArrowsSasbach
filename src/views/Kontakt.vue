@@ -75,11 +75,6 @@ const mapsUrl = computed(
                     class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
                 </div>
 
-                <h2
-                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
-                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Kontakt</span>
-                </h2>
-
                 <p
                     class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Du hast eine Frage, möchtest mit dem Verein in Kontakt treten oder
@@ -87,7 +82,12 @@ const mapsUrl = computed(
                     Blue Arrows Sasbach.` }}
                 </p>
 
-                <div class="border-t-2 border-gray-200 pt-8">
+                <h2
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Kontakt</span>
+                </h2>
+
+                <div class="pt-2">
                     <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
                         Anschrift
                     </h3>
@@ -147,9 +147,10 @@ const mapsUrl = computed(
                 </div>
 
                 <div id="vorstand" class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8 scroll-mt-28">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-                        Vorstand
-                    </h3>
+                    <h2
+                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vorstand</span>
+                    </h2>
 
                     <div v-if="vorstand.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div v-for="person in vorstand" :key="person._uid"
