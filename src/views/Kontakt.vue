@@ -63,6 +63,11 @@ const mapsUrl = computed(
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-5">
 
             <DecoratedCard content-class="p-6 px-4 md:p-10 md:px-6">
+                <h2
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
+                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">So erreichst du uns</span>
+                </h2>
+
                 <p
                     class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Du hast eine Frage, möchtest mit dem Verein in Kontakt treten oder
@@ -108,10 +113,9 @@ const mapsUrl = computed(
                 </div>
 
                 <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
-                    <h2
-                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
-                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">E-Mail &amp; Telefon</span>
-                    </h2>
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
+                        E-Mail &amp; Telefon
+                    </h3>
 
                     <div class="bg-[#004a87] text-white rounded-xl p-6 md:p-8 text-center">
                         <p class="mb-6 font-medium leading-relaxed max-w-xl mx-auto">
@@ -147,10 +151,9 @@ const mapsUrl = computed(
                 </div>
 
                 <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
-                    <h2
-                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
-                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">Weitere Ansprechpartner</span>
-                    </h2>
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
+                        Weitere Ansprechpartner
+                    </h3>
 
                     <div v-if="weitereAnsprechpartner.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <PersonCard v-for="person in weitereAnsprechpartner" :key="person._uid" :person="person" />

@@ -55,6 +55,11 @@ const sponsoren = computed(() => (story?.value?.content.sponsoren as SponsorBlok
                     class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
                 </div>
 
+                <h2
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
+                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Unsere Sponsoren</span>
+                </h2>
+
                 <p
                     class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Ohne die Unterstützung unserer Sponsoren wäre der Spielbetrieb der Blue
@@ -80,7 +85,7 @@ const sponsoren = computed(() => (story?.value?.content.sponsoren as SponsorBlok
                                 </p>
                             </div>
                             <span v-if="sponsor.role"
-                                class="block w-full text-xs font-bold text-gray-500 uppercase tracking-wider text-center break-words">
+                                class="block w-full text-sm font-bold text-gray-500 uppercase tracking-wider text-center break-words">
                                 {{ sponsor.role }}
                             </span>
                         </a>
@@ -105,12 +110,12 @@ const sponsoren = computed(() => (story?.value?.content.sponsoren as SponsorBlok
                             <img v-if="sponsor.logo?.filename" :src="sponsor.logo.filename" :alt="sponsor.name"
                                 class="w-full h-20 object-contain" />
                             <div class="w-full flex flex-col items-center justify-center min-h-[2rem]">
-                                <p class="text-xs font-bold text-[#032650] text-center break-words line-clamp-2">
+                                <p class="text-sm font-bold text-[#032650] text-center break-words line-clamp-2 ">
                                     {{ sponsor.name }}
                                 </p>
                             </div>
                             <span v-if="sponsor.role"
-                                class="block w-full text-[10px] font-bold text-gray-500 uppercase tracking-wider text-center break-words">
+                                class="block w-full text-xs font-bold text-gray-500 uppercase text-center break-words tracking-wider">
                                 {{ sponsor.role }}
                             </span>
                         </a>

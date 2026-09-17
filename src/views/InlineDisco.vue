@@ -50,6 +50,11 @@ const aktuelleTermine = computed(() => {
                     class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
                 </div>
 
+                <h2
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase text-center tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 mx-auto w-fit">
+                    Disco auf Rollen
+                </h2>
+
                 <p
                     class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     Wir verwandeln unsere Hockeyarena in eine rollende Tanzfläche – mit Musik, Licht und

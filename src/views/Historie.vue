@@ -13,6 +13,7 @@ interface MeilensteinBlok {
     beschreibung?: string
     image?: { filename: string }
     typ?: string
+    meister?: boolean
 }
 
 function istErfolg(eintrag: MeilensteinBlok): boolean {
@@ -32,7 +33,7 @@ const meilensteine = computed(() => {
 })
 
 const meisterschaften = computed(() =>
-    meilensteine.value.filter((eintrag) => istErfolg(eintrag) && eintrag.title.toLowerCase().includes('meister')),
+    meilensteine.value.filter((eintrag) => istErfolg(eintrag) && eintrag.meister),
 )
 </script>
 
@@ -48,6 +49,11 @@ const meisterschaften = computed(() =>
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
 
             <DecoratedCard>
+                <h2
+                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
+                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsgeschichte</span>
+                </h2>
+
                 <p
                     class="mb-8 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Von der Gründung bis heute – die wichtigsten Meilensteine und Erfolge
@@ -65,7 +71,7 @@ const meisterschaften = computed(() =>
                         style="clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);">
                         <div class="h-full bg-white p-[2px]"
                             style="clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);">
-                            <div class="relative h-full overflow-hidden bg-[#032650] text-white text-center pt-5 pb-25 px-2 flex flex-col items-center justify-center"
+                            <div class="relative h-full overflow-hidden bg-[#032650] text-white text-center pt-5 pb-30 px-2 flex flex-col items-center justify-center"
                                 style="clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);">
                                 <img :src="basLogo" alt=""
                                     class="absolute inset-2 mt-17 m-auto w-25 h-25 object-contain opacity-85 pointer-events-none" />
