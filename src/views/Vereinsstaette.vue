@@ -34,10 +34,9 @@ try {
                     class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
                 </div>
 
-                <h2
-                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center">
-                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Spielstätte & Vereinsheim</span>
-                </h2>
+                <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5 text-center">
+                    Anschrift
+                </h3>
 
                 <p
                     class="block mb-6 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center w-fit mx-auto">
@@ -68,9 +67,10 @@ try {
                 </a>
 
                 <div class="border-t-2 border-gray-200 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-                        Spielstätte
-                    </h3>
+                    <h2
+                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">Spielstätte</span>
+                    </h2>
 
                     <div class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
                         <div v-if="story?.content.images?.length"
@@ -120,9 +120,10 @@ try {
                 </div>
 
                 <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-                        Vereinsheim
-                    </h3>
+                    <h2
+                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsheim</span>
+                    </h2>
 
                     <div class="rounded-xl overflow-hidden flex flex-col md:flex-row shadow-sm border border-gray-200">
                         <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">

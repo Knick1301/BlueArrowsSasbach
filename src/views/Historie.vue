@@ -3,6 +3,7 @@ import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 import basLogo from '@/assets/BASlogo.png'
+import DecoratedCard from '@/components/DecoratedCard.vue'
 
 interface MeilensteinBlok {
     _uid: string
@@ -46,21 +47,7 @@ const meisterschaften = computed(() =>
 
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
 
-            <div
-                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
-                <div
-                    class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
-                </div>
-
+            <DecoratedCard>
                 <p
                     class="mb-8 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Von der Gründung bis heute – die wichtigsten Meilensteine und Erfolge
@@ -81,7 +68,7 @@ const meisterschaften = computed(() =>
                             <div class="relative h-full overflow-hidden bg-[#032650] text-white text-center pt-5 pb-25 px-2 flex flex-col items-center justify-center"
                                 style="clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);">
                                 <img :src="basLogo" alt=""
-                                    class="absolute inset-2 mt-17 m-auto w-25 h-25 object-contain opacity-60 pointer-events-none" />
+                                    class="absolute inset-2 mt-17 m-auto w-25 h-25 object-contain opacity-85 pointer-events-none" />
                                 <span class="relative block text-xs font-bold uppercase tracking-wide text-yellow-100">
                                     {{ erfolg.jahr }}
                                 </span>
@@ -180,7 +167,7 @@ const meisterschaften = computed(() =>
                     class="bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 font-bold text-lg text-center px-4 py-12">
                     Hier entsteht der Zeitstrahl der Vereinsgeschichte
                 </div>
-            </div>
+            </DecoratedCard>
         </div>
     </div>
 </template>

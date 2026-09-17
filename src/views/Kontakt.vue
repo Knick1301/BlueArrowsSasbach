@@ -3,6 +3,8 @@ import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, nextTick, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import DecoratedCard from '@/components/DecoratedCard.vue'
+import PersonCard from '@/components/PersonCard.vue'
 
 interface KontaktpersonBlok {
     _uid: string
@@ -60,21 +62,7 @@ const mapsUrl = computed(
 
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-5">
 
-            <div
-                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 md:px-6 text-gray-800">
-                <div
-                    class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none">
-                </div>
-                <div
-                    class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
-                </div>
-
+            <DecoratedCard content-class="p-6 px-4 md:p-10 md:px-6">
                 <p
                     class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
                     {{ story?.content.intro || `Du hast eine Frage, möchtest mit dem Verein in Kontakt treten oder
@@ -82,13 +70,8 @@ const mapsUrl = computed(
                     Blue Arrows Sasbach.` }}
                 </p>
 
-                <h2
-                    class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
-                    <span class="inline-block border-b-[3px] border-[#032650] pb-1">Kontakt</span>
-                </h2>
-
                 <div class="pt-2">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
+                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5 text-center">
                         Anschrift
                     </h3>
 
@@ -125,9 +108,10 @@ const mapsUrl = computed(
                 </div>
 
                 <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-                        E-Mail &amp; Telefon
-                    </h3>
+                    <h2
+                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">E-Mail &amp; Telefon</span>
+                    </h2>
 
                     <div class="bg-[#004a87] text-white rounded-xl p-6 md:p-8 text-center">
                         <p class="mb-6 font-medium leading-relaxed max-w-xl mx-auto">
@@ -153,50 +137,7 @@ const mapsUrl = computed(
                     </h2>
 
                     <div v-if="vorstand.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div v-for="person in vorstand" :key="person._uid"
-                            class="flex flex-row items-stretch min-h-32 sm:min-h-52 bg-gray-50 border border-gray-200 rounded-xl overflow-hidden hover:-translate-y-1 hover:shadow-md transition-all">
-                            <div class="relative w-24 h-auto sm:w-32 lg:w-40 shrink-0 bg-gray-200">
-                                <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
-                                    class="absolute inset-0 w-full h-full object-cover" />
-                                <div v-else class="absolute inset-0 flex items-center justify-center text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-10 h-10 sm:w-14 sm:h-14">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div
-                                class="flex flex-col justify-center min-w-0 flex-1 px-4 py-3 sm:px-5 sm:py-4 gap-1 sm:gap-1.5">
-                                <p class="text-base font-black text-[#032650] uppercase tracking-wide">
-                                    {{ person.name }}
-                                </p>
-                                <span v-if="person.role"
-                                    class="inline-block bg-blue-50 text-[#032650] text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full w-fit">
-                                    {{ person.role }}
-                                </span>
-                                <div class="flex flex-col gap-1 mt-1 min-w-0">
-                                    <a v-if="person.email" :href="`mailto:${person.email}`"
-                                        class="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="2" stroke="currentColor" class="w-4 h-4 shrink-0">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                        </svg>
-                                        E-Mail schreiben
-                                    </a>
-                                    <a v-if="person.phone" :href="`tel:${person.phone}`"
-                                        class="flex items-center gap-1.5 text-sm text-gray-500 font-medium hover:text-[#032650] transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="2" stroke="currentColor" class="w-4 h-4 shrink-0">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106a1.125 1.125 0 0 0-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                                        </svg>
-                                        <span>{{ person.phone }}</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <PersonCard v-for="person in vorstand" :key="person._uid" :person="person" />
                     </div>
 
                     <div v-else
@@ -206,55 +147,13 @@ const mapsUrl = computed(
                 </div>
 
                 <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
-                    <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-                        Weitere Ansprechpartner
-                    </h3>
+                    <h2
+                        class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
+                        <span class="inline-block border-b-[3px] border-[#032650] pb-1">Weitere Ansprechpartner</span>
+                    </h2>
 
                     <div v-if="weitereAnsprechpartner.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div v-for="person in weitereAnsprechpartner" :key="person._uid"
-                            class="flex flex-row items-stretch min-h-32 sm:min-h-52 bg-gray-50 border border-gray-200 rounded-xl overflow-hidden hover:-translate-y-1 hover:shadow-md transition-all">
-                            <div class="relative w-24 h-auto sm:w-32 lg:w-40 shrink-0 bg-gray-200">
-                                <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
-                                    class="absolute inset-0 w-full h-full object-cover" />
-                                <div v-else class="absolute inset-0 flex items-center justify-center text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-10 h-10 sm:w-14 sm:h-14">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div
-                                class="flex flex-col justify-center min-w-0 flex-1 px-4 py-3 sm:px-5 sm:py-4 gap-1 sm:gap-1.5">
-                                <p class="text-base font-black text-[#032650] uppercase tracking-wide">
-                                    {{ person.name }}
-                                </p>
-                                <span v-if="person.role"
-                                    class="inline-block bg-blue-50 text-[#032650] text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full w-fit">
-                                    {{ person.role }}
-                                </span>
-                                <div class="flex flex-col gap-1 mt-1 min-w-0">
-                                    <a v-if="person.email" :href="`mailto:${person.email}`"
-                                        class="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="2" stroke="currentColor" class="w-4 h-4 shrink-0">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                        </svg>
-                                        E-Mail schreiben
-                                    </a>
-                                    <a v-if="person.phone" :href="`tel:${person.phone}`"
-                                        class="flex items-center gap-1.5 text-sm text-gray-500 font-medium hover:text-[#032650] transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="2" stroke="currentColor" class="w-4 h-4 shrink-0">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106a1.125 1.125 0 0 0-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                                        </svg>
-                                        <span>{{ person.phone }}</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <PersonCard v-for="person in weitereAnsprechpartner" :key="person._uid" :person="person" />
                     </div>
 
                     <div v-else
@@ -262,7 +161,7 @@ const mapsUrl = computed(
                         Hier kommen weitere Ansprechpartner hin
                     </div>
                 </div>
-            </div>
+            </DecoratedCard>
         </div>
     </div>
 </template>

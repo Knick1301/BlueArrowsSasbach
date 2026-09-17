@@ -2,6 +2,7 @@
 import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { formatDate } from '@/utils/methods.ts'
 import { useRoute } from 'vue-router'
+import DecoratedCard from '@/components/DecoratedCard.vue'
 
 const route = useRoute()
 const slug = route.params.slug
@@ -19,7 +20,7 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
       </router-link>
 
       <h1 class="text-2xl font-black text-white uppercase tracking-wider truncate px-20 md:px-28">
-        <span class="md:hidden">Artikel</span>
+        <span class="md:hidden">News</span>
         <span class="hidden md:inline">{{ story.content.title }}</span>
       </h1>
 
@@ -30,10 +31,10 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
     </div>
 
     <div class="w-[95%] max-w-4xl mx-auto mt-10">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+      <DecoratedCard content-class="flex flex-col">
 
         <img v-if="story.content.image?.filename" :src="story.content.image.filename" alt="Artikel Bild"
-          class="w-full aspect-[600/348] h-auto object-cover shrink-0" />
+          class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
 
         <div class="md:hidden px-6 pt-5 pb-5 border-b border-gray-200">
           <div class="flex items-center justify-between mb-3">
@@ -62,7 +63,7 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
           </div>
         </div>
 
-      </div>
+      </DecoratedCard>
     </div>
   </div>
 
