@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
-    story = await useStoryblok(`verein/mitgliedschaft`, { version: 'draft' })
+    story = await useStoryblok(`verein/mitgliedschaft`, { version: STORYBLOK_VERSION })
 } catch (e) {
     console.error('Storyblok-Story "verein/mitgliedschaft" konnte nicht geladen werden.', e)
 }

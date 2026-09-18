@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         heading: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        jersey: ['Anton', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

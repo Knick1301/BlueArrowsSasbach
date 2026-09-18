@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 
-const story = await useStoryblok(`skating/schuleferien`, { version: 'draft' })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+try {
+    story = await useStoryblok(`skating/schuleferien`, { version: STORYBLOK_VERSION })
+} catch (e) {
+    console.error('Storyblok-Story "skating/schuleferien" konnte nicht geladen werden.', e)
+}
 
 const aktuelleTermine = computed(() => {
-    if (!story.value?.content?.dates) return []
+    if (!story?.value?.content?.dates) return []
     const jetzt = new Date().getTime()
 
     return [...story.value.content.dates]

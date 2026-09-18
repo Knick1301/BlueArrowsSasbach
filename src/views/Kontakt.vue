@@ -124,7 +124,7 @@ const mapsUrl = computed(
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
                             <a :href="`mailto:${email}`"
                                 class="inline-block bg-white text-[#032650] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors text-sm">
-                                {{ email }}
+                                E-Mail schreiben
                             </a>
                             <a v-if="phone" :href="`tel:${phone}`"
                                 class="inline-block bg-white text-[#032650] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors text-sm">

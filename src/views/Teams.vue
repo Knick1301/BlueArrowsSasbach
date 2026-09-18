@@ -106,30 +106,30 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 
         <div v-else class="space-y-8">
           <div v-if="goalies.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
               Torhüter
             </h3>
-            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               <PlayerCard v-for="player in goalies" :key="player._uid" :name="player.name" :position="player.position"
                 :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
           </div>
 
           <div v-if="defenders.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
               Verteidigung
             </h3>
-            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               <PlayerCard v-for="player in defenders" :key="player._uid" :name="player.name" :position="player.position"
                 :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
           </div>
 
           <div v-if="forwards.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-2 inline-block pb-1 mb-4">
+            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
               Sturm
             </h3>
-            <div class="grid grid-cols-3 xl:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               <PlayerCard v-for="player in forwards" :key="player._uid" :name="player.name" :position="player.position"
                 :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
             </div>
@@ -163,7 +163,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 </div>
                 <a :href="`mailto:${member.email}`"
                   class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors">
-                  {{ member.email }}
+                  E-Mail schreiben
                 </a>
               </div>
             </div>

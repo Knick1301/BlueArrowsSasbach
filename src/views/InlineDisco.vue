@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 
-const story = await useStoryblok(`events/inlinedisco`, { version: 'draft' })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+try {
+    story = await useStoryblok(`events/inlinedisco`, { version: STORYBLOK_VERSION })
+} catch (e) {
+    console.error('Storyblok-Story "events/inlinedisco" konnte nicht geladen werden.', e)
+}
 
 const aktuelleTermine = computed(() => {
-    if (!story.value?.content?.dates) return []
+    if (!story?.value?.content?.dates) return []
     const jetzt = new Date().getTime()
 
     return [...story.value.content.dates]
@@ -27,12 +33,20 @@ const aktuelleTermine = computed(() => {
 
             <div class="w-full lg:hidden">
                 <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
-                    class="w-full h-[340px] sm:h-[420px] object-cover  rounded-xl shadow-md border-2 border-gray-200" />
+                    class="w-full h-[340px] sm:h-[420px] object-cover rounded-xl shadow-md border-2 border-gray-200" />
+                <div v-else
+                    class="w-full h-[340px] sm:h-[420px] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
+                    Hier kommt ein Bild hin
+                </div>
             </div>
 
             <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
                 <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
                     class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200" />
+                <div v-else
+                    class="w-full h-[400px] lg:h-[600px] bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
+                    Hier kommt ein Bild hin
+                </div>
             </div>
 
             <div

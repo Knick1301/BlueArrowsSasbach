@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, type CSSProperties } from 'vue'
 
 interface TrainingsBlok {
@@ -11,10 +12,15 @@ interface TrainingsBlok {
   day: string
 }
 
-const story = await useStoryblok(`skating/laufschule`, { version: 'draft' })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+try {
+  story = await useStoryblok(`skating/laufschule`, { version: STORYBLOK_VERSION })
+} catch (e) {
+  console.error('Storyblok-Story "skating/laufschule" konnte nicht geladen werden.', e)
+}
 
 const trainings = computed(() => {
-  const trainingsData = story.value?.content?.trainings
+  const trainingsData = story?.value?.content?.trainings
   if (Array.isArray(trainingsData)) {
     return trainingsData.filter(
       (blok: any): blok is TrainingsBlok => blok.component === 'laufschulTraining',

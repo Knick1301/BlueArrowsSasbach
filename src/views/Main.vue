@@ -85,19 +85,29 @@ const teamOrder = ['Herren', 'Junioren', 'Jugend', 'Schüler', 'Bambini']
 
 const storyblokApi = useStoryblokApi()
 
-const story = await useStoryblok('home', { version: STORYBLOK_VERSION })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+let newsData: { stories: unknown[] } | null = null
+let allStoriesData: { stories: unknown[] } | null = null
 
-const { data: newsData } = await storyblokApi.get('cdn/stories', {
-  version: STORYBLOK_VERSION,
-  starts_with: 'aktuelles/news/',
-  is_startpage: false,
-  sort_by: 'content.date:desc',
-})
+try {
+  story = await useStoryblok('home', { version: STORYBLOK_VERSION })
 
-const { data: allStoriesData } = await storyblokApi.get('cdn/stories', {
-  version: STORYBLOK_VERSION,
-  per_page: 100,
-})
+  const newsResponse = await storyblokApi.get('cdn/stories', {
+    version: STORYBLOK_VERSION,
+    starts_with: 'aktuelles/news/',
+    is_startpage: false,
+    sort_by: 'content.date:desc',
+  })
+  newsData = newsResponse.data
+
+  const allStoriesResponse = await storyblokApi.get('cdn/stories', {
+    version: STORYBLOK_VERSION,
+    per_page: 100,
+  })
+  allStoriesData = allStoriesResponse.data
+} catch (e) {
+  console.error('Storyblok-Story "home" konnte nicht geladen werden.', e)
+}
 
 const GAME_COMPONENTS = new Set(['Games', 'NextGame', 'games', 'game'])
 
@@ -178,14 +188,14 @@ const newsCards = computed(() => {
 })
 
 const teaser = computed(() =>
-  (story.value?.content.body as StoryblokBlok[] | undefined)?.find(
+  (story?.value?.content.body as StoryblokBlok[] | undefined)?.find(
     (blok): blok is StoryblokBlok & TeaserBlok => blok.component === 'teaser',
   ),
 )
 
 const teamCards = computed(
   () =>
-    (story.value?.content.body as StoryblokBlok[] | undefined)?.filter(
+    (story?.value?.content.body as StoryblokBlok[] | undefined)?.filter(
       (blok): blok is StoryblokBlok & CardBlok => blok.component === 'TeamCard',
     ) || [],
 )
@@ -203,7 +213,8 @@ const filteredGames = computed(() => {
 })
 </script>
 
-<template v-if="story && story.content">
+<template>
+  <template v-if="story && story.content">
   <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[40vh] m-0 p-0">
     <h1 v-if="teaser"
       class="text-white text-[5vmin] font-extrabold leading-loose ml-[10vmin] drop-shadow-[2px_2px_8px_rgba(255,255,255,0.2)]"
@@ -358,6 +369,16 @@ const filteredGames = computed(() => {
         </div>
       </div>
     </div>
+  </div>
+  </template>
+
+  <div v-else class="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20">
+    <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
+      Startseite konnte nicht geladen werden
+    </h1>
+    <p class="text-gray-600 mb-6 max-w-md">
+      Bitte lade die Seite in ein paar Momenten erneut.
+    </p>
   </div>
 </template>
 

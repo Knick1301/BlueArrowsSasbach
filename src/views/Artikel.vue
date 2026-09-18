@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 import { formatDate } from '@/utils/methods.ts'
 import { useRoute } from 'vue-router'
 import DecoratedCard from '@/components/DecoratedCard.vue'
@@ -7,7 +8,12 @@ import DecoratedCard from '@/components/DecoratedCard.vue'
 const route = useRoute()
 const slug = route.params.slug
 
-const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
+let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
+try {
+  story = await useStoryblok(`aktuelles/news/${slug}`, { version: STORYBLOK_VERSION })
+} catch (e) {
+  console.error(`Storyblok-Story "aktuelles/news/${slug}" konnte nicht geladen werden.`, e)
+}
 </script>
 
 <template>
@@ -67,7 +73,16 @@ const story = await useStoryblok(`aktuelles/news/${slug}`, { version: 'draft' })
     </div>
   </div>
 
-  <div v-else class="text-center py-20 text-xl font-bold text-[#032650]">
-    Artikel wird geladen...
+  <div v-else class="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20">
+    <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
+      Artikel nicht gefunden
+    </h1>
+    <p class="text-gray-600 mb-6 max-w-md">
+      Dieser Artikel existiert nicht oder wurde entfernt.
+    </p>
+    <router-link to="/aktuelles/news"
+      class="inline-block bg-[#032650] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition-colors text-sm">
+      Zu den News
+    </router-link>
   </div>
 </template>

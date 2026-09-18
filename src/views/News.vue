@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblokApi } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { formatDate } from '@/utils/methods.ts'
 
 const storyblokApi = useStoryblokApi()
 
-const { data } = await storyblokApi.get('cdn/stories', {
-  version: 'draft',
-  starts_with: 'aktuelles/news/',
-  is_startpage: false,
-  sort_by: 'content.date:desc',
-})
+let data: { stories: any[] } = { stories: [] }
+try {
+  const response = await storyblokApi.get('cdn/stories', {
+    version: STORYBLOK_VERSION,
+    starts_with: 'aktuelles/news/',
+    is_startpage: false,
+    sort_by: 'content.date:desc',
+  })
+  data = response.data
+} catch (e) {
+  console.error('Storyblok-Stories "aktuelles/news" konnten nicht geladen werden.', e)
+}
 
 const visibleLimit = ref(4)
 

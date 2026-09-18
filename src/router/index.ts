@@ -84,6 +84,11 @@ const router = createRouter({
       name: 'historie',
       component: () => import('@/views/Historie.vue')
     },
+        {
+      path:'/historie/hall-of-fame',
+      name: 'hallOfFame',
+      component: () => import('@/views/HallOfFame.vue')
+    },
 
   ],
 })
