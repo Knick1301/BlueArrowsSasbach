@@ -58,7 +58,7 @@ interface Story {
   full_slug: string
   content: {
     title?: string
-    image?: { filename: string }
+    image?: { filename: string }[]
     body?: StoryblokBlok[]
     [key: string]: unknown
   }
@@ -179,7 +179,7 @@ const newsCards = computed(() => {
   return stories.map((newsItem) => ({
     _uid: newsItem.uuid,
     title: newsItem.content.title ?? '',
-    image: newsItem.content.image,
+    image: newsItem.content.image?.[0],
     link: {
       linktype: 'story',
       cached_url: newsItem.full_slug,

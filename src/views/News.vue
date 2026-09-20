@@ -54,7 +54,7 @@ const news = computed(() => {
     slug: story.slug,
     title: story.content.title,
     date: story.content.date,
-    image: story.content.image,
+    image: story.content.image?.[0],
     content: story.content.content,
     score: story.content.score,
   }))
@@ -97,8 +97,8 @@ const loadLess = () => {
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">Aktuelle News</h1>
     </div>
 
-    <div v-if="latestNews"
-      class="w-[95%] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-shadow hover:shadow-lg">
+    <router-link v-if="latestNews" :to="`/aktuelles/news/${latestNews.slug}`"
+      class="group w-[95%] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
       <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
         <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
           class="w-full h-full object-cover" />
@@ -124,16 +124,17 @@ const loadLess = () => {
         <div class="text-gray-200 text-md mb-7 line-clamp-5 flex-grow break-words"
           v-html="renderRichText(latestNews.content)"></div>
 
-        <router-link :to="`/aktuelles/news/${latestNews.slug}`"
-          class="bg-white text-[#032650] px-8 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors mt-auto w-full text-center block text-md shrink-0">
-          Ganzen Artikel lesen
-        </router-link>
+        <span class="inline-flex items-center gap-1.5 text-white font-bold text-md mt-auto shrink-0">
+          Weiterlesen
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">&rarr;</span>
+        </span>
       </div>
-    </div>
+    </router-link>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[95%] md:w-[80%] max-w-[1300px] mx-auto mb-10">
-      <div v-for="newsItem in displayedOlderNews" :key="newsItem._uid"
-        class="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
+      <router-link v-for="newsItem in displayedOlderNews" :key="newsItem._uid"
+        :to="`/aktuelles/news/${newsItem.slug}`"
+        class="group bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
         <div class="w-full aspect-[600/348] shrink-0 min-h-0">
           <img v-if="newsItem.image?.filename" :src="newsItem.image.filename" alt="News Image"
@@ -160,12 +161,12 @@ const loadLess = () => {
           <div class="text-gray-700 text-md mb-4 line-clamp-2 font-medium flex-grow break-words"
             v-html="renderRichText(newsItem.content)"></div>
 
-          <router-link :to="`/aktuelles/news/${newsItem.slug}`"
-            class="bg-blue-100 text-[#032650] border border-gray-200 px-4 py-2 rounded-lg font-bold hover:bg-[#032650] hover:text-white transition-colors mt-auto w-full text-center block text-sm">
-            Artikel lesen
-          </router-link>
+          <span class="inline-flex items-center gap-1.5 text-[#032650] font-bold text-sm mt-auto">
+            Weiterlesen
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">&rarr;</span>
+          </span>
         </div>
-      </div>
+      </router-link>
     </div>
 
     <div v-if="hasMoreNews" class="text-center">

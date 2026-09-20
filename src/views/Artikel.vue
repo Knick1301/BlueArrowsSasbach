@@ -3,7 +3,16 @@ import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { formatDate } from '@/utils/methods.ts'
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
+
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
+const modules = [Navigation, Pagination]
 
 const route = useRoute()
 const slug = route.params.slug
@@ -14,6 +23,10 @@ try {
 } catch (e) {
   console.error(`Storyblok-Story "aktuelles/news/${slug}" konnte nicht geladen werden.`, e)
 }
+
+const images = computed(
+  () => (story?.value?.content.image as { filename: string }[] | undefined) ?? [],
+)
 </script>
 
 <template>
@@ -39,7 +52,14 @@ try {
     <div class="w-[95%] max-w-4xl mx-auto mt-10">
       <DecoratedCard content-class="flex flex-col">
 
-        <img v-if="story.content.image?.filename" :src="story.content.image.filename" alt="Artikel Bild"
+        <div v-if="images.length > 1" class="relative w-full aspect-[600/348] shrink-0 rounded-t-xl overflow-hidden">
+          <Swiper :modules="modules" :navigation="true" :pagination="{ clickable: true }" class="w-full h-full">
+            <SwiperSlide v-for="(bild, index) in images" :key="index">
+              <img :src="bild.filename" :alt="`Artikel Bild ${index + 1}`" class="w-full h-full object-cover" />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+        <img v-else-if="images[0]?.filename" :src="images[0].filename" alt="Artikel Bild"
           class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
 
         <div class="md:hidden px-6 pt-5 pb-5 border-b border-gray-200">
@@ -57,14 +77,14 @@ try {
           </h2>
         </div>
 
-        <div class="px-6 pb-6 pt-4 md:p-10 lg:p-12">
+        <div class="min-w-0 px-6 pb-6 pt-4 md:p-10 lg:p-12">
           <p
             class="hidden md:inline-block text-gray-500 font-bold uppercase tracking-wider text-sm mb-8 text-center border-b border-gray-200 pb-4 w-full">
             {{ formatDate(story.content.date) }}
           </p>
 
           <div
-            class="prose prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-lg md:prose-xl max-w-none text-gray-800 prose-h4:mt-8 prose-h4:mb-2 prose-h5:mt-8 prose-h5:mb-2 prose-h6:mt-8 prose-h6:mb-2 prose-h4:text-[#032650] prose-h5:text-[#032650] prose-h6:text-[#032650] prose-h4:font-black prose-h5:font-black prose-h6:font-black"
+            class="prose prose-a:text-blue-600 prose-a:underline hover:prose-a:text-blue-800 prose-lg md:prose-xl max-w-none break-words text-gray-800 prose-h4:mt-8 prose-h4:mb-2 prose-h5:mt-8 prose-h5:mb-2 prose-h6:mt-8 prose-h6:mb-2 prose-h4:text-[#032650] prose-h5:text-[#032650] prose-h6:text-[#032650] prose-h4:font-black prose-h5:font-black prose-h6:font-black"
             v-html="renderRichText(story.content.content)">
           </div>
         </div>
@@ -86,3 +106,22 @@ try {
     </router-link>
   </div>
 </template>
+
+<style scoped>
+:deep(.swiper-button-next),
+:deep(.swiper-button-prev) {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  transform: scale(0.6);
+}
+
+:deep(.swiper-pagination-bullet) {
+  background: #ffffff;
+  opacity: 0.6;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  opacity: 1;
+  background: #ffffff;
+}
+</style>
