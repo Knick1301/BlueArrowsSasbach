@@ -75,7 +75,7 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
             </SwiperSlide>
           </Swiper>
           <span
-            class="absolute top-3 right-3 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white tabular-nums backdrop-blur-sm">
+            class="absolute top-4 right-4 z-10 rounded-full bg-black/60 px-4 py-1.5 text-sm font-bold text-white tabular-nums backdrop-blur-sm">
             {{ currentSlide + 1 }}/{{ images.length }}
           </span>
           </div>
