@@ -2,6 +2,7 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
+import { resizeImage } from '@/utils/methods.ts'
 
 interface hallOfFamerBlock {
     _uid: string
@@ -75,7 +76,7 @@ const personen = computed(
                         <div
                             class="bg-[#032650] rounded-xl overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-md transition-all">
                             <div class="relative w-full aspect-[7/8]">
-                                <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
+                                <img loading="lazy" decoding="async" v-if="person.image?.filename" :src="resizeImage(person.image.filename, 500)" :alt="person.name"
                                     class="absolute inset-0 w-full h-full object-cover object-center" />
                                 <div v-else class="absolute inset-0 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

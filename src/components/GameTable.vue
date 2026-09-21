@@ -139,7 +139,7 @@ const buttonText = computed(() => {
             <td class="px-4 py-3.5">
               <div class="flex justify-center">
                 <div class="flex items-center gap-6">
-                  <img v-if="game.homeLogo?.filename" :src="game.homeLogo.filename" :alt="game.hometeam"
+                  <img loading="lazy" decoding="async" v-if="game.homeLogo?.filename" :src="game.homeLogo.filename" :alt="game.hometeam"
                     class="w-10 h-10 object-contain rounded-full flex-shrink-0" />
                   <div v-else class="w-10 h-10 rounded-full flex-shrink-0"></div>
 
@@ -154,7 +154,7 @@ const buttonText = computed(() => {
                     </span>
                   </div>
 
-                  <img v-if="game.awayLogo?.filename" :src="game.awayLogo.filename" :alt="game.awayteam"
+                  <img loading="lazy" decoding="async" v-if="game.awayLogo?.filename" :src="game.awayLogo.filename" :alt="game.awayteam"
                     class="w-10 h-10 object-contain rounded-full flex-shrink-0" />
                   <div v-else class="w-10 h-10 rounded-full flex-shrink-0"></div>
                 </div>

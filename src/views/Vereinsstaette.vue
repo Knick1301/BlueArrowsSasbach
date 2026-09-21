@@ -89,7 +89,7 @@ try {
 
                             <div v-if="story.content.images.length > 1" class="grid grid-cols-2 gap-2">
                                 <figure v-for="(bild, index) in story.content.images.slice(1)" :key="index">
-                                    <img v-if="bild.image?.filename" :src="bild.image.filename"
+                                    <img loading="lazy" decoding="async" v-if="bild.image?.filename" :src="bild.image.filename"
                                         :alt="bild.title || 'Spielstätte'"
                                         class="w-full aspect-[600/348] object-cover rounded-lg" />
                                     <figcaption v-if="bild.title"

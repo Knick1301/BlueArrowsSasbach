@@ -23,7 +23,7 @@ const trainings = computed(() => {
   const trainingsData = story?.value?.content?.trainings
   if (Array.isArray(trainingsData)) {
     return trainingsData.filter(
-      (blok: any): blok is TrainingsBlok => blok.component === 'laufschulTraining',
+      (blok: { component: string }): blok is TrainingsBlok => blok.component === 'laufschulTraining',
     )
   }
   return []
@@ -35,7 +35,7 @@ const Days = {
 }
 
 const getGermanDayName = (dayKey: string): string => {
-  const found = Object.entries(Days).find(([_, englishValue]) => englishValue === dayKey)
+  const found = Object.entries(Days).find(([, englishValue]) => englishValue === dayKey)
   return found ? found[0] : dayKey
 }
 
@@ -114,7 +114,7 @@ const trainingsByTeam = computed(() => {
     }
   })
 
-  return Object.entries(grouped).filter(([_, list]) => list.length > 0)
+  return Object.entries(grouped).filter(([, list]) => list.length > 0)
 })
 </script>
 
@@ -231,7 +231,7 @@ const trainingsByTeam = computed(() => {
           </p>
 
           <div class="flex items-center gap-4 mb-5">
-            <img src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
+            <img loading="lazy" decoding="async" src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
               class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
             <div class="flex flex-col">
               <span class="text-[#032650] font-bold">Daniel Bühler</span>

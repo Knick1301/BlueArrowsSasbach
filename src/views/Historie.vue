@@ -111,7 +111,7 @@ const meisterschaften = computed(() =>
                                 <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
                                     {{ eintrag.beschreibung }}
                                 </p>
-                                <img v-if="eintrag.image?.filename" :src="eintrag.image.filename" :alt="eintrag.title"
+                                <img loading="lazy" decoding="async" v-if="eintrag.image?.filename" :src="eintrag.image.filename" :alt="eintrag.title"
                                     class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm" />
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const meisterschaften = computed(() =>
                                     <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
                                         {{ eintrag.beschreibung }}
                                     </p>
-                                    <img v-if="eintrag.image?.filename" :src="eintrag.image.filename"
+                                    <img loading="lazy" decoding="async" v-if="eintrag.image?.filename" :src="eintrag.image.filename"
                                         :alt="eintrag.title"
                                         class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm ml-auto" />
                                 </div>
@@ -159,7 +159,7 @@ const meisterschaften = computed(() =>
                                     <p v-if="eintrag.beschreibung" class="text-gray-700 leading-relaxed">
                                         {{ eintrag.beschreibung }}
                                     </p>
-                                    <img v-if="eintrag.image?.filename" :src="eintrag.image.filename"
+                                    <img loading="lazy" decoding="async" v-if="eintrag.image?.filename" :src="eintrag.image.filename"
                                         :alt="eintrag.title"
                                         class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm" />
                                 </div>

@@ -42,7 +42,7 @@ interface PlayerBlok {
 const staff = computed(() => {
   const staffData = story?.value?.content?.staff
   if (Array.isArray(staffData)) {
-    return staffData.filter((blok: any): blok is TrainerBlok => blok.component === 'staff')
+    return staffData.filter((blok: { component: string }): blok is TrainerBlok => blok.component === 'staff')
   }
   return []
 })
@@ -50,7 +50,7 @@ const staff = computed(() => {
 const allPlayers = computed(() => {
   const playersData = story?.value?.content?.players
   if (Array.isArray(playersData)) {
-    return playersData.filter((blok: any): blok is PlayerBlok => blok.component === 'player')
+    return playersData.filter((blok: { component: string }): blok is PlayerBlok => blok.component === 'player')
   }
   return []
 })
@@ -58,7 +58,7 @@ const allPlayers = computed(() => {
 const allTeamGames = computed(() => {
   const gamesData = story?.value?.content?.games
   if (Array.isArray(gamesData)) {
-    return gamesData.filter((blok: any) => blok.component === 'games')
+    return gamesData.filter((blok: { component: string }) => blok.component === 'games')
   }
   return []
 })
@@ -66,7 +66,7 @@ const allTeamGames = computed(() => {
 const allTeamTable = computed(() => {
   const tableData = story?.value?.content?.table
   if (Array.isArray(tableData)) {
-    return tableData.filter((blok: any) => blok.component === 'table')
+    return tableData.filter((blok: { component: string }) => blok.component === 'table')
   }
   return []
 })
@@ -152,7 +152,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
               <div v-for="member in staff" :key="member._uid"
                 class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-100 last:border-0 last:pb-0">
                 <div class="flex items-center gap-3">
-                  <img v-if="member.bild?.filename" :src="member.bild.filename"
+                  <img loading="lazy" decoding="async" v-if="member.bild?.filename" :src="member.bild.filename"
                     class="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" alt="Profilbild" />
                   <div class="flex flex-col">
                     <span class="font-bold text-[#032650]">{{ member.name }}</span>

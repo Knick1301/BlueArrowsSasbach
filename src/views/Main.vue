@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { getUrl, type StoryblokLink } from '@/utils/methods.ts'
+import { getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 
@@ -239,7 +239,7 @@ const filteredGames = computed(() => {
           class="grid grid-cols-2 gap-3 min-[1550px]:auto-rows-fr min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))]">
           <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
             class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
-            <img :src="team.image?.filename"
+            <img loading="lazy" decoding="async" :src="resizeImage(team.image?.filename, 400)"
               class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
               alt="Team Image" />
             <div
@@ -276,7 +276,7 @@ const filteredGames = computed(() => {
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
-                  <img :src="news.image?.filename"
+                  <img loading="lazy" decoding="async" :src="resizeImage(news.image?.filename, 600)"
                     class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
                   <div
                     class=" text-sm md:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">

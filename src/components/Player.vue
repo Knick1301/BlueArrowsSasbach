@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { resizeImage } from '@/utils/methods.ts'
 
 const props = defineProps<{
   name: string
   position: string
   nummer: number | string
   bild?: string
-  blok: any
+  blok: object
 }>()
 
 const nameParts = computed(() => {
@@ -19,7 +20,7 @@ const nameParts = computed(() => {
 
 <template>
   <div v-editable="blok" class="@container relative rounded-xl overflow-hidden bg-[#032650] shadow-sm aspect-[3/4]">
-    <img v-if="bild" :src="bild" alt="Spielerbild" class="absolute inset-0 w-full h-full object-cover object-top" />
+    <img v-if="bild" loading="lazy" decoding="async" :src="resizeImage(bild, 600)" alt="Spielerbild" class="absolute inset-0 w-full h-full object-cover object-top" />
 
     <div v-else class="absolute inset-0 flex items-center justify-center">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

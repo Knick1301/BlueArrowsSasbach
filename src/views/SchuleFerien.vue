@@ -15,8 +15,8 @@ const aktuelleTermine = computed(() => {
     const jetzt = new Date().getTime()
 
     return [...story.value.content.dates]
-        .filter((termin: any) => new Date(termin.ferienDatumEnde).getTime() >= jetzt)
-        .sort((a: any, b: any) => new Date(a.ferienDatumStart).getTime() - new Date(b.ferienDatumStart).getTime())
+        .filter((termin: { ferienDatumEnde: string }) => new Date(termin.ferienDatumEnde).getTime() >= jetzt)
+        .sort((a: { ferienDatumStart: string }, b: { ferienDatumStart: string }) => new Date(a.ferienDatumStart).getTime() - new Date(b.ferienDatumStart).getTime())
 })
 </script>
 
@@ -145,7 +145,7 @@ const aktuelleTermine = computed(() => {
 
                 <div class="mt-auto">
                     <div class="flex items-center justify-center gap-10">
-                        <img src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
+                        <img loading="lazy" decoding="async" src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
                             class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
                         <div class="flex flex-col">
                             <span class="text-[#032650] font-bold">Daniel Bühler</span>

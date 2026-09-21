@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import MainView from '@/views/Main.vue'
 
 
 const router = createRouter({
@@ -8,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: MainView,
+      component: () => import('@/views/Main.vue'),
     },
     {path: '/aktuelles/news/:slug',
       name: 'artikel',
@@ -90,7 +89,13 @@ const router = createRouter({
       component: () => import('@/views/HallOfFame.vue')
     },
 
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('@/views/NotFound.vue'),
+    },
   ],
+  scrollBehavior: () => ({ top: 0 }),
 })
 
 export default router

@@ -1,12 +1,24 @@
 <script setup lang="ts">
-import { renderRichText, useStoryblokApi } from '@storyblok/vue'
+import { renderRichText, useStoryblokApi, type StoryblokRichTextNode } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { formatDate } from '@/utils/methods.ts'
+import { formatDate, resizeImage } from '@/utils/methods.ts'
 
 const storyblokApi = useStoryblokApi()
 
-let data: { stories: any[] } = { stories: [] }
+interface NewsStory {
+  uuid: string
+  slug: string
+  content: {
+    title: string
+    date: string
+    image?: { filename: string }[]
+    content: StoryblokRichTextNode
+    score?: string
+  }
+}
+
+let data: { stories: NewsStory[] } = { stories: [] }
 try {
   const response = await storyblokApi.get('cdn/stories', {
     version: STORYBLOK_VERSION,
@@ -49,7 +61,7 @@ onBeforeUnmount(() => {
 })
 
 const news = computed(() => {
-  return data.stories.map((story: any) => ({
+  return data.stories.map((story) => ({
     _uid: story.uuid,
     slug: story.slug,
     title: story.content.title,
@@ -100,7 +112,7 @@ const loadLess = () => {
     <router-link v-if="latestNews" :to="`/aktuelles/news/${latestNews.slug}`"
       class="group w-[95%] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
       <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
-        <img v-if="latestNews.image?.filename" :src="latestNews.image.filename" alt="News Image"
+        <img v-if="latestNews.image?.filename" :src="resizeImage(latestNews.image.filename, 900)" fetchpriority="high" alt="News Image"
           class="w-full h-full object-cover" />
         <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
       </div>
@@ -137,7 +149,7 @@ const loadLess = () => {
         class="group bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
         <div class="w-full aspect-[600/348] shrink-0 min-h-0">
-          <img v-if="newsItem.image?.filename" :src="newsItem.image.filename" alt="News Image"
+          <img loading="lazy" decoding="async" v-if="newsItem.image?.filename" :src="resizeImage(newsItem.image.filename, 600)" alt="News Image"
             class="w-full h-full object-cover" />
           <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
         </div>

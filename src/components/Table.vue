@@ -63,7 +63,7 @@ const sortedTable = computed(() => {
             <td class="px-4 py-4">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 flex items-center justify-center shrink-0">
-                  <img v-if="row.logo?.filename" :src="row.logo.filename" class="max-w-full max-h-full object-contain"
+                  <img loading="lazy" decoding="async" v-if="row.logo?.filename" :src="row.logo.filename" class="max-w-full max-h-full object-contain"
                     alt="Logo" />
                   <div v-else class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
                     <i class="fa-solid fa-shield text-[10px] text-gray-300"></i>

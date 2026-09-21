@@ -22,7 +22,7 @@ try {
 const trainings = computed(() => {
   const trainingsData = story?.value?.content?.trainings
   if (Array.isArray(trainingsData)) {
-    return trainingsData.filter((blok: any): blok is TrainingsBlok => blok.component === 'training')
+    return trainingsData.filter((blok: { component: string }): blok is TrainingsBlok => blok.component === 'training')
   }
   return []
 })
@@ -38,7 +38,7 @@ const allDays = {
 }
 
 const getGermanDayName = (dayKey: string): string => {
-  const found = Object.entries(allDays).find(([_, englishValue]) => englishValue === dayKey)
+  const found = Object.entries(allDays).find(([, englishValue]) => englishValue === dayKey)
   return found ? found[0] : dayKey
 }
 const trainingsPerDay = (dayName: string) => {
@@ -120,7 +120,7 @@ const trainingsByTeam = computed(() => {
     }
   })
 
-  return Object.entries(grouped).filter(([_, list]) => list.length > 0)
+  return Object.entries(grouped).filter(([, list]) => list.length > 0)
 })
 </script>
 <template>

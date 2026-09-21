@@ -17,7 +17,7 @@ defineProps<{
     <div
         class="flex flex-row items-stretch min-h-32 sm:min-h-52 bg-gray-50 border border-gray-200 rounded-xl overflow-hidden hover:-translate-y-1 hover:shadow-md transition-all">
         <div class="relative w-24 h-auto sm:w-32 lg:w-40 shrink-0 bg-gray-200">
-            <img v-if="person.image?.filename" :src="person.image.filename" :alt="person.name"
+            <img v-if="person.image?.filename" loading="lazy" decoding="async" :src="person.image.filename" :alt="person.name"
                 class="absolute inset-0 w-full h-full object-cover" />
             <div v-else class="absolute inset-0 flex items-center justify-center text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

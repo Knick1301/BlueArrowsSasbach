@@ -15,8 +15,8 @@ const aktuelleTermine = computed(() => {
     const jetzt = new Date().getTime()
 
     return [...story.value.content.dates]
-        .filter((termin: any) => new Date(termin.datum).getTime() >= jetzt)
-        .sort((a: any, b: any) => new Date(a.datum).getTime() - new Date(b.datum).getTime())
+        .filter((termin: { datum: string }) => new Date(termin.datum).getTime() >= jetzt)
+        .sort((a: { datum: string }, b: { datum: string }) => new Date(a.datum).getTime() - new Date(b.datum).getTime())
 })
 </script>
 

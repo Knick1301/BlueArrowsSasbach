@@ -76,7 +76,7 @@ const sponsoren = computed(() => (story?.value?.content.sponsoren as SponsorBlok
                             :target="sponsorHref(sponsor) ? '_blank' : undefined"
                             :rel="sponsorHref(sponsor) ? 'noopener noreferrer' : undefined"
                             class="flex flex-col items-center justify-start gap-3 bg-gray-50 border border-gray-200 rounded-xl p-6 hover:-translate-y-1 hover:shadow-md transition-all active:scale-95">
-                            <img v-if="sponsor.logo?.filename" :src="sponsor.logo.filename" :alt="sponsor.name"
+                            <img loading="lazy" decoding="async" v-if="sponsor.logo?.filename" :src="sponsor.logo.filename" :alt="sponsor.name"
                                 class="w-full h-32 object-contain" />
                             <div class="w-full flex flex-col items-center justify-center min-h-[2.5rem]">
                                 <p
@@ -107,7 +107,7 @@ const sponsoren = computed(() => (story?.value?.content.sponsoren as SponsorBlok
                             :target="sponsorHref(sponsor) ? '_blank' : undefined"
                             :rel="sponsorHref(sponsor) ? 'noopener noreferrer' : undefined"
                             class="flex flex-col items-center justify-start gap-2 bg-gray-50 border border-gray-200 rounded-xl p-3 hover:-translate-y-1 hover:shadow-md transition-all active:scale-95">
-                            <img v-if="sponsor.logo?.filename" :src="sponsor.logo.filename" :alt="sponsor.name"
+                            <img loading="lazy" decoding="async" v-if="sponsor.logo?.filename" :src="sponsor.logo.filename" :alt="sponsor.name"
                                 class="w-full h-20 object-contain" />
                             <div class="w-full flex flex-col items-center justify-center min-h-[2rem]">
                                 <p class="text-sm font-bold text-[#032650] text-center break-words line-clamp-2 ">

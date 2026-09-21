@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { formatDate } from '@/utils/methods.ts'
+import { formatDate, resizeImage } from '@/utils/methods.ts'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
@@ -55,11 +55,13 @@ const images = computed(
         <div v-if="images.length > 1" class="relative w-full aspect-[600/348] shrink-0 rounded-t-xl overflow-hidden">
           <Swiper :modules="modules" :navigation="true" :pagination="{ clickable: true }" class="w-full h-full">
             <SwiperSlide v-for="(bild, index) in images" :key="index">
-              <img :src="bild.filename" :alt="`Artikel Bild ${index + 1}`" class="w-full h-full object-cover" />
+              <img :src="resizeImage(bild.filename, 1200)" :alt="`Artikel Bild ${index + 1}`"
+                :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'auto'" decoding="async"
+                class="w-full h-full object-cover" />
             </SwiperSlide>
           </Swiper>
         </div>
-        <img v-else-if="images[0]?.filename" :src="images[0].filename" alt="Artikel Bild"
+        <img v-else-if="images[0]?.filename" :src="resizeImage(images[0].filename, 1200)" alt="Artikel Bild" fetchpriority="high"
           class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
 
         <div class="md:hidden px-6 pt-5 pb-5 border-b border-gray-200">
