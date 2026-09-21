@@ -24,10 +24,7 @@ export const formatDate = (dateString: string): string => {
   })
 }
 
-/**
- * Liefert ein verkleinertes WebP über den Storyblok Image Service.
- * Andere URLs (lokale Assets, externe Bilder) bleiben unverändert.
- */
+
 export const resizeImage = (url: string | undefined, width: number): string => {
   if (!url || !url.includes('a.storyblok.com') || url.endsWith('.svg')) return url ?? ''
   return `${url}/m/${width}x0/filters:format(webp)`

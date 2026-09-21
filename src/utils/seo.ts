@@ -18,7 +18,7 @@ const setMeta = (attr: 'name' | 'property', key: string, content: string) => {
   el.setAttribute('content', content)
 }
 
-/** Setzt Titel, Beschreibung und Open-Graph-Tags der aktuellen Seite. */
+
 export const setPageMeta = ({ title, description, image }: PageMeta = {}) => {
   const fullTitle = title ? `${title} – ${SITE_NAME}` : SITE_NAME
   const desc = description || DEFAULT_DESCRIPTION
