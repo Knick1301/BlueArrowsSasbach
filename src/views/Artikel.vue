@@ -9,12 +9,11 @@ import DecoratedCard from '@/components/DecoratedCard.vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import type { Swiper as SwiperType } from 'swiper'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 
-const modules = [Navigation, Pagination]
+const modules = [Navigation]
 
 const route = useRoute()
 const slug = route.params.slug
@@ -32,7 +31,9 @@ const images = computed(
 
 // Bilder werden erst geladen, wenn ihr Slide der aktuelle oder der nächste ist.
 const reachedSlide = ref(0)
+const currentSlide = ref(0)
 const onSlideChange = (swiper: SwiperType) => {
+  currentSlide.value = swiper.activeIndex
   reachedSlide.value = Math.max(reachedSlide.value, swiper.activeIndex)
 }
 
@@ -63,7 +64,7 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
       <DecoratedCard content-class="flex flex-col">
 
         <div v-if="images.length > 1" class="relative w-full aspect-[600/348] shrink-0 rounded-t-xl overflow-hidden">
-          <Swiper :modules="modules" :navigation="true" :pagination="{ clickable: true }" class="w-full h-full"
+          <Swiper :modules="modules" :navigation="true" class="w-full h-full"
             @slide-change="onSlideChange">
             <SwiperSlide v-for="(bild, index) in images" :key="index" class="bg-gray-100">
               <img v-if="index <= reachedSlide + 1" :src="resizeImage(bild.filename, 1200)"
@@ -71,6 +72,10 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
                 class="w-full h-full object-cover" />
             </SwiperSlide>
           </Swiper>
+          <span
+            class="absolute top-3 right-3 z-10 rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white tabular-nums backdrop-blur-sm">
+            {{ currentSlide + 1 }}/{{ images.length }}
+          </span>
         </div>
         <img v-else-if="images[0]?.filename" :src="resizeImage(images[0].filename, 1200)" alt="Artikel Bild" fetchpriority="high"
           class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
@@ -123,18 +128,17 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
 <style scoped>
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
+  width: 36px;
+  height: 36px;
+  margin-top: -18px;
+  border-radius: 9999px;
   color: #ffffff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  transform: scale(0.6);
+  background: rgba(0, 0, 0, 0.55);
 }
 
-:deep(.swiper-pagination-bullet) {
-  background: #ffffff;
-  opacity: 0.6;
-}
-
-:deep(.swiper-pagination-bullet-active) {
-  opacity: 1;
-  background: #ffffff;
+:deep(.swiper-button-next::after),
+:deep(.swiper-button-prev::after) {
+  font-size: 15px;
+  font-weight: 900;
 }
 </style>
