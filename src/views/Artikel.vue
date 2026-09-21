@@ -132,18 +132,17 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
 <style scoped>
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  width: 36px;
-  height: 36px;
-  margin-top: -18px;
-  border-radius: 9999px;
   color: #ffffff;
-  background: rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  transform: scale(0.6);
 }
 
-:deep(.swiper-button-next::after),
-:deep(.swiper-button-prev::after) {
-  font-size: 15px;
-  font-weight: 900;
+/* Auf dem Handy wird gewischt, die Pfeile würden nur Bildinhalt verdecken */
+@media (max-width: 767px) {
+  :deep(.swiper-button-next),
+  :deep(.swiper-button-prev) {
+    display: none;
+  }
 }
 
 .artikel-pagination {
