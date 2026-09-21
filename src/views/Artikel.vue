@@ -2,6 +2,7 @@
 import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { formatDate, resizeImage } from '@/utils/methods.ts'
+import { setPageMeta } from '@/utils/seo'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
@@ -27,6 +28,8 @@ try {
 const images = computed(
   () => (story?.value?.content.image as { filename: string }[] | undefined) ?? [],
 )
+
+setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.value[0]?.filename, 1200) })
 </script>
 
 <template>

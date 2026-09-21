@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { useStoryblok } from '@storyblok/vue'
+import { STORYBLOK_VERSION } from '@/storyblok'
+import { setPageMeta } from '@/utils/seo'
 import { computed } from 'vue'
 import PlayerCard from '@/components/Player.vue'
 import GameTable from '@/components/GameTable.vue'
@@ -12,10 +14,12 @@ const teamSlug = computed(() => route.params.teamName as string)
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
-  story = await useStoryblok(`teams/${teamSlug.value}`, { version: 'draft' })
+  story = await useStoryblok(`teams/${teamSlug.value}`, { version: STORYBLOK_VERSION })
 } catch (e) {
   console.error(`Storyblok-Story "teams/${teamSlug.value}" konnte nicht geladen werden.`, e)
 }
+
+setPageMeta({ title: story?.value?.content.title ?? 'Team' })
 
 interface TrainerBlok {
   _uid: string

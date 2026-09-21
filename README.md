@@ -1,54 +1,48 @@
-# BAS Website
+# Blue Arrows Sasbach – Website
 
-This template should help get you started developing with Vue 3 in Vite.
+Vereinswebsite (Vue 3, Vite, Tailwind, Vue Router). Inhalte kommen aus [Storyblok](https://www.storyblok.com/).
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Einrichtung
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+cp .env.example .env.local   # danach VITE_STORYBLOK_TOKEN eintragen
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+`VITE_STORYBLOK_TOKEN`:
 
-```sh
-npm run build
-```
+- **Entwicklung** (`.env.local`): Preview-Token. Der Dev-Server lädt Entwürfe und läuft über https, weil der Storyblok Visual Editor das braucht.
+- **Produktion** (Umgebungsvariable beim Hosting, vor `npm run build` gesetzt): Public-Token. Der Build lädt nur veröffentlichte Inhalte.
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Fehlt der Token, bricht die App beim Start mit einer Fehlermeldung ab.
 
-```sh
-npm run test:unit
-```
+## Befehle
 
-### Lint with [ESLint](https://eslint.org/)
+| Befehl              | Zweck                                       |
+| ------------------- | ------------------------------------------- |
+| `npm run dev`       | Dev-Server                                  |
+| `npm run build`     | Type-Check und Produktions-Build nach `dist/` |
+| `npm run preview`   | Build lokal ansehen                         |
+| `npm run test:unit` | Unit-Tests (Vitest)                         |
+| `npm run lint`      | oxlint und ESLint                           |
+| `npm run format`    | Prettier                                    |
 
-```sh
-npm run lint
-```
+## Deployment
+
+Die Seite ist eine SPA mit History-Routing. Der Hoster muss unbekannte Pfade auf `index.html` umleiten (SPA-Fallback / Rewrite), sonst liefern direkte Aufrufe wie `/verein/kontakt` einen 404.
+
+## Struktur
+
+- `src/views/` – eine Seite pro Route (`src/router/index.ts`)
+- `src/components/` – wiederverwendbare Bausteine (Spielerkarten, Tabellen, …)
+- `src/utils/methods.ts` – Link-, Datums- und Bild-Helfer
+- `src/utils/seo.ts` – Seitentitel und Meta-Tags; statische Routen setzen `meta.title` im Router, dynamische Seiten (Artikel, Teams) rufen `setPageMeta` selbst auf
+
+## Chat-Assistent
+
+Das Skript in `index.html` lädt den Chat-Assistenten von einem externen Vercel-Deployment. Er ist in der Datenschutzerklärung beschrieben; bei Änderungen dort mitpflegen.
+
+## Bekannte Einschränkung
+
+Titel und Open-Graph-Tags werden per JavaScript gesetzt. Suchmaschinen wie Google werten das aus, die Link-Vorschau von Facebook/WhatsApp meist nicht und zeigt daher die Standardwerte aus `index.html`. Für seitenspezifische Vorschauen wäre Prerendering nötig.
