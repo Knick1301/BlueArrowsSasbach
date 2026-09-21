@@ -30,28 +30,27 @@ const nameParts = computed(() => {
     </div>
 
     <span
-      class="absolute top-3 left-3 @[175px]:top-4 @[175px]:left-4 text-white font-jersey font-black leading-none text-5xl @[175px]:text-6xl tracking-wide"
-      style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+      class="absolute top-[6cqw] left-[6cqw] text-white font-jersey font-black leading-none text-[length:28cqw] tracking-wide"
+      style="text-shadow: 0 1cqw 5cqw rgba(0,0,0,0.5);">
       {{ nummer }}
     </span>
 
 
-    <div
-      class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 px-2.5 @[175px]:px-4 pt-4 @[130px]:pt-5 @[160px]:pt-6 @[200px]:pt-7 @[240px]:pt-8 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
+    <div class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-[0.5cqw] px-[7cqw] pt-[8cqw] pb-[6cqw]">
       <div
         class="absolute inset-0 rounded-b-xl bg-gradient-to-t from-[#032650] via-[#032650]/60 to-transparent pointer-events-none">
       </div>
 
-      <div class="absolute inset-0 rounded-b-xl backdrop-blur-[3px] pointer-events-none"
-        style="mask-image: linear-gradient(to top, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);">
+      <div class="absolute inset-0 rounded-b-xl pointer-events-none"
+        style="backdrop-filter: blur(1.5cqw); -webkit-backdrop-filter: blur(1.5cqw); mask-image: linear-gradient(to top, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);">
       </div>
 
-      <p class="relative text-white font-black uppercase tracking-wide leading-tight text-xs @[130px]:text-sm @[160px]:text-base @[200px]:text-xl @[240px]:text-2xl w-full min-w-0 break-words"
-        style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
+      <p class="relative text-white font-black uppercase tracking-wide leading-tight text-[length:10cqw] w-full min-w-0 break-words"
+        style="text-shadow: 0 0.5cqw 4cqw rgba(0,0,0,0.85);">
         {{ nameParts.nachname }}
       </p>
-      <p class="relative text-white font-semibold leading-tight text-xs @[160px]:text-sm @[200px]:text-base @[240px]:text-lg w-full min-w-0 break-words"
-        style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
+      <p class="relative text-white font-semibold leading-tight text-[length:7.5cqw] w-full min-w-0 break-words"
+        style="text-shadow: 0 0.5cqw 4cqw rgba(0,0,0,0.85);">
         {{ nameParts.vorname }}
       </p>
     </div>
