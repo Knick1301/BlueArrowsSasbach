@@ -35,22 +35,22 @@ const nameParts = computed(() => {
       {{ nummer }}
     </span>
 
+    <!-- Wrapper wächst mit dem Text, Verlauf und Blur füllen ihn immer komplett aus -->
     <div
-      class="absolute inset-x-0 bottom-0 min-h-[68px] @[175px]:min-h-[120px] rounded-b-xl bg-gradient-to-t from-[#032650] via-[#032650]/45 to-transparent pointer-events-none">
-    </div>
+      class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 px-2.5 @[175px]:px-4 pt-8 @[130px]:pt-10 @[160px]:pt-12 @[200px]:pt-14 @[240px]:pt-16 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
+      <div
+        class="absolute inset-0 rounded-b-xl bg-gradient-to-t from-[#032650] via-[#032650]/60 to-transparent pointer-events-none">
+      </div>
 
-    <div
-      class="absolute inset-x-0 bottom-0 h-[46px] @[130px]:h-[56px] @[160px]:h-[66px] @[200px]:h-[80px] @[240px]:h-[96px] rounded-b-xl backdrop-blur-[1px] pointer-events-none"
-      style="mask-image: linear-gradient(to top, black 55%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 55%, transparent 100%);">
-    </div>
+      <div class="absolute inset-0 rounded-b-xl backdrop-blur-[3px] pointer-events-none"
+        style="mask-image: linear-gradient(to top, black 40%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 40%, transparent 100%);">
+      </div>
 
-    <div
-      class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 min-h-[68px] @[175px]:min-h-[120px] px-2.5 @[175px]:px-4 pt-1.5 @[130px]:pt-2 @[160px]:pt-2.5 @[200px]:pt-3 @[240px]:pt-4 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
-      <p class="text-white font-black uppercase tracking-wide leading-tight text-xs @[130px]:text-sm @[160px]:text-base @[200px]:text-xl @[240px]:text-2xl w-full min-w-0 break-words"
+      <p class="relative text-white font-black uppercase tracking-wide leading-tight text-xs @[130px]:text-sm @[160px]:text-base @[200px]:text-xl @[240px]:text-2xl w-full min-w-0 break-words"
         style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
         {{ nameParts.nachname }}
       </p>
-      <p class="text-white font-semibold leading-tight text-[10px] @[130px]:text-xs @[160px]:text-sm @[200px]:text-base @[240px]:text-lg w-full min-w-0 break-words"
+      <p class="relative text-white font-semibold leading-tight text-[11px] @[130px]:text-xs @[160px]:text-sm @[200px]:text-base @[240px]:text-lg w-full min-w-0 break-words"
         style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
         {{ nameParts.vorname }}
       </p>
