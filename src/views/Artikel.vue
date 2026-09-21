@@ -4,10 +4,11 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { formatDate, resizeImage } from '@/utils/methods.ts'
 import { setPageMeta } from '@/utils/seo'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import type { Swiper as SwiperType } from 'swiper'
 import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -28,6 +29,12 @@ try {
 const images = computed(
   () => (story?.value?.content.image as { filename: string }[] | undefined) ?? [],
 )
+
+// Bilder werden erst geladen, wenn ihr Slide der aktuelle oder der nächste ist.
+const reachedSlide = ref(0)
+const onSlideChange = (swiper: SwiperType) => {
+  reachedSlide.value = Math.max(reachedSlide.value, swiper.activeIndex)
+}
 
 setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.value[0]?.filename, 1200) })
 </script>
@@ -56,10 +63,11 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
       <DecoratedCard content-class="flex flex-col">
 
         <div v-if="images.length > 1" class="relative w-full aspect-[600/348] shrink-0 rounded-t-xl overflow-hidden">
-          <Swiper :modules="modules" :navigation="true" :pagination="{ clickable: true }" class="w-full h-full">
-            <SwiperSlide v-for="(bild, index) in images" :key="index">
-              <img :src="resizeImage(bild.filename, 1200)" :alt="`Artikel Bild ${index + 1}`"
-                :loading="index === 0 ? 'eager' : 'lazy'" :fetchpriority="index === 0 ? 'high' : 'auto'" decoding="async"
+          <Swiper :modules="modules" :navigation="true" :pagination="{ clickable: true }" class="w-full h-full"
+            @slide-change="onSlideChange">
+            <SwiperSlide v-for="(bild, index) in images" :key="index" class="bg-gray-100">
+              <img v-if="index <= reachedSlide + 1" :src="resizeImage(bild.filename, 1200)"
+                :alt="`Artikel Bild ${index + 1}`" :fetchpriority="index === 0 ? 'high' : 'auto'" decoding="async"
                 class="w-full h-full object-cover" />
             </SwiperSlide>
           </Swiper>
