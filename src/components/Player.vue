@@ -37,7 +37,7 @@ const nameParts = computed(() => {
 
 
     <div
-      class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 px-2.5 @[175px]:px-4 pt-8 @[130px]:pt-10 @[160px]:pt-12 @[200px]:pt-14 @[240px]:pt-16 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
+      class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 px-2.5 @[175px]:px-4 pt-4 @[130px]:pt-5 @[160px]:pt-6 @[200px]:pt-7 @[240px]:pt-8 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
       <div
         class="absolute inset-0 rounded-b-xl bg-gradient-to-t from-[#032650] via-[#032650]/60 to-transparent pointer-events-none">
       </div>
