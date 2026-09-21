@@ -137,8 +137,8 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
   transform: scale(0.6);
 }
 
-/* Auf dem Handy wird gewischt, die Pfeile würden nur Bildinhalt verdecken */
-@media (max-width: 767px) {
+/* Auf Touch-Geräten (Handy, Tablet) wird gewischt, die Pfeile würden nur Bildinhalt verdecken */
+@media (pointer: coarse) {
   :deep(.swiper-button-next),
   :deep(.swiper-button-prev) {
     display: none;
