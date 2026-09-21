@@ -40,7 +40,7 @@ interface HeadersBlok {
 
 const storyblokApi = useStoryblokApi()
 
-const body = ref<any[]>([])
+const body = ref<{ component: string }[]>([])
 
 onMounted(async () => {
   try {
@@ -55,7 +55,7 @@ onMounted(async () => {
 })
 
 const navItems = computed(() =>
-  body.value.filter((blok: any): blok is HeadersBlok => blok.component === 'Headers'),
+  body.value.filter((blok: { component: string }): blok is HeadersBlok => blok.component === 'Headers'),
 )
 </script>
 

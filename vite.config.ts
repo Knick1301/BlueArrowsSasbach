@@ -6,17 +6,16 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     vue(),
-    vueDevTools(),
     tailwindcss(),
-    basicSsl(),
+    // Nur für den Dev-Server (Storyblok Visual Editor braucht https), nicht im Produktions-Build
+    ...(command === 'serve' ? [vueDevTools(), basicSsl()] : []),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-})
+}))

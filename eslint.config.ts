@@ -16,7 +16,7 @@ export default defineConfigWithVueTs(
     files: ['**/*.{vue,ts,mts,tsx}'],
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', 'public/**']),
 
   ...pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
@@ -24,6 +24,11 @@ export default defineConfigWithVueTs(
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
+  },
+
+  {
+    name: 'app/single-word-components',
+    rules: { 'vue/multi-word-component-names': 'off' },
   },
 
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
