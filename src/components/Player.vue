@@ -30,12 +30,12 @@ const nameParts = computed(() => {
     </div>
 
     <span
-      class="absolute top-3 left-3 @[175px]:top-4 @[175px]:left-4 text-white font-jersey font-black leading-none text-4xl @[175px]:text-5xl tracking-wide"
+      class="absolute top-3 left-3 @[175px]:top-4 @[175px]:left-4 text-white font-jersey font-black leading-none text-5xl @[175px]:text-6xl tracking-wide"
       style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
       {{ nummer }}
     </span>
 
-    <!-- Wrapper wächst mit dem Text, Verlauf und Blur füllen ihn immer komplett aus -->
+
     <div
       class="absolute inset-x-0 bottom-0 flex flex-col justify-end gap-0.5 px-2.5 @[175px]:px-4 pt-8 @[130px]:pt-10 @[160px]:pt-12 @[200px]:pt-14 @[240px]:pt-16 pb-2 @[130px]:pb-2.5 @[160px]:pb-3.5 @[200px]:pb-4.5 @[240px]:pb-5.5">
       <div
@@ -50,7 +50,7 @@ const nameParts = computed(() => {
         style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
         {{ nameParts.nachname }}
       </p>
-      <p class="relative text-white font-semibold leading-tight text-[11px] @[130px]:text-xs @[160px]:text-sm @[200px]:text-base @[240px]:text-lg w-full min-w-0 break-words"
+      <p class="relative text-white font-semibold leading-tight text-xs @[160px]:text-sm @[200px]:text-base @[240px]:text-lg w-full min-w-0 break-words"
         style="text-shadow: 0 1px 8px rgba(0,0,0,0.85);">
         {{ nameParts.vorname }}
       </p>
