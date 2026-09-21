@@ -10,13 +10,19 @@ try {
     console.error('Storyblok-Story "events/inlinedisco" konnte nicht geladen werden.', e)
 }
 
+interface DiscoTermin {
+    date: string
+    title: string
+    time?: string
+}
+
 const aktuelleTermine = computed(() => {
     if (!story?.value?.content?.dates) return []
     const jetzt = new Date().getTime()
 
-    return [...story.value.content.dates]
-        .filter((termin: { datum: string }) => new Date(termin.datum).getTime() >= jetzt)
-        .sort((a: { datum: string }, b: { datum: string }) => new Date(a.datum).getTime() - new Date(b.datum).getTime())
+    return [...(story.value.content.dates as DiscoTermin[])]
+        .filter((termin) => new Date(termin.date).getTime() >= jetzt)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 })
 </script>
 
@@ -117,13 +123,13 @@ const aktuelleTermine = computed(() => {
                                 <span v-for="(termin, index) in aktuelleTermine" :key="index"
                                     class="block mb-2 border-b border-gray-200 pb-2 last:border-b-0">
                                     <span class="font-bold text-[#032650] block">
-                                        {{ termin.titel }}
+                                        {{ termin.title }}
                                     </span>
                                     <span class="text-gray-600 block text-sm mt-1">
-                                        {{ new Date(termin.datum).toLocaleDateString('de-DE', {
+                                        {{ new Date(termin.date).toLocaleDateString('de-DE', {
                                             weekday: 'long', day: '2-digit', month: 'long', year: 'numeric'
                                         }) }}
-                                        <span v-if="termin.uhrzeit"> · {{ termin.uhrzeit }} Uhr</span>
+                                        <span v-if="termin.time"> · {{ termin.time }} Uhr</span>
                                     </span>
                                 </span>
                             </span>

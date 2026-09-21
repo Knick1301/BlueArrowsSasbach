@@ -2,6 +2,8 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, type CSSProperties } from 'vue'
+import KontaktBlock from '@/components/KontaktBlock.vue'
+import { useDaniel } from '@/utils/kontakt'
 
 interface TrainingsBlok {
   _uid: string
@@ -18,6 +20,8 @@ try {
 } catch (e) {
   console.error('Storyblok-Story "skating/laufschule" konnte nicht geladen werden.', e)
 }
+
+const daniel = await useDaniel()
 
 const trainings = computed(() => {
   const trainingsData = story?.value?.content?.trainings
@@ -129,7 +133,7 @@ const trainingsByTeam = computed(() => {
     <div
       class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
       <div
-        class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-8 rounded-xl border border-gray-200 shadow-sm">
+        class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-5 sm:p-8 rounded-xl border border-gray-200 shadow-sm">
         <div
           class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
         </div>
@@ -196,11 +200,11 @@ const trainingsByTeam = computed(() => {
               </h4>
               <div class="space-y-2">
                 <div v-for="training in teamTrainings" :key="training._uid"
-                  class="flex justify-between items-center bg-[#f0f7fd] p-2.5 rounded-md">
+                  class="flex flex-wrap justify-between items-center gap-x-3 gap-y-0.5 bg-[#f0f7fd] p-2.5 rounded-md">
                   <span class="font-bold text-gray-700 text-base">
                     {{ getGermanDayName(training.day) }}
                   </span>
-                  <span class="font-black text-[#032650] text-base">
+                  <span class="font-black text-[#032650] text-base whitespace-nowrap">
                     {{ training.from }} - {{ training.to }} Uhr
                   </span>
                 </div>
@@ -223,21 +227,14 @@ const trainingsByTeam = computed(() => {
         </div>
 
         <div class="mt-auto">
-          <h3 class="text-gray-500 text-sm font-black uppercase tracking-widest mb-2">
+          <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-2">
             Anmeldung & Kontakt
           </h3>
           <p class="text-gray-600 font-medium mb-5">
             Neue Skater/innen sind jederzeit willkommen. Bitte nehmt vorab Kontakt auf:
           </p>
 
-          <div class="flex items-center gap-4 mb-5">
-            <img loading="lazy" decoding="async" src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-              class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
-            <div class="flex flex-col">
-              <span class="text-[#032650] font-bold">Daniel Bühler</span>
-              <span class="text-gray-500 text-md font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
-            </div>
-          </div>
+          <KontaktBlock :person="daniel" class="mb-5" />
 
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
@@ -257,7 +254,7 @@ const trainingsByTeam = computed(() => {
       </div>
 
       <div class="w-full xl:w-1/2">
-        <div class="hidden xl:grid grid-cols-[50px_1fr] gap-4 xl:sticky xl:top-32">
+        <div class="hidden xl:grid grid-cols-[56px_1fr] gap-4 xl:sticky xl:top-32">
           <div></div>
           <div class="grid grid-cols-2 gap-6">
             <div v-for="day in weekDays" :key="day" class="text-[#032650] text-xl font-bold mb-2 text-center">
@@ -266,7 +263,7 @@ const trainingsByTeam = computed(() => {
           </div>
 
           <div class="flex flex-col text-sm font-bold text-gray-400 text-right pr-4">
-            <div v-for="hour in calendarHours" :key="hour" class="h-[105px]">{{ hour }}:00</div>
+            <div v-for="hour in calendarHours" :key="hour" class="h-[105px] whitespace-nowrap">{{ hour }}:00</div>
           </div>
 
           <div class="grid grid-cols-2 gap-6">

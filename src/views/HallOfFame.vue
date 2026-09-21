@@ -39,7 +39,7 @@ const personen = computed(
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
 
             <div
-                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:p-10 text-gray-800">
+                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 px-4 md:px-6 md:p-10 text-gray-800">
                 <div
                     class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
                 </div>
@@ -64,7 +64,7 @@ const personen = computed(
                     verdient gemacht haben – auf dem Feld, an der Bande und im Verein.` }}
                 </p>
 
-                <div v-if="personen.length" class="flex flex-wrap justify-center gap-6">
+                <div v-if="personen.length" class="flex flex-wrap justify-center gap-10">
                     <div v-for="person in personen" :key="person._uid" class="relative w-full max-w-70 sm:w-50">
                         <div
                             class="absolute -top-2 -left-2 w-5 h-5 border-t-[3px] border-l-[3px] border-[#B8860B] rounded-tl-md pointer-events-none z-10">
@@ -76,7 +76,8 @@ const personen = computed(
                         <div
                             class="bg-[#032650] rounded-xl overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-md transition-all">
                             <div class="relative w-full aspect-[7/8]">
-                                <img loading="lazy" decoding="async" v-if="person.image?.filename" :src="resizeImage(person.image.filename, 500)" :alt="person.name"
+                                <img loading="lazy" decoding="async" v-if="person.image?.filename"
+                                    :src="resizeImage(person.image.filename, 500)" :alt="person.name"
                                     class="absolute inset-0 w-full h-full object-cover object-center" />
                                 <div v-else class="absolute inset-0 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

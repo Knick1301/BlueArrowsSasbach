@@ -4,6 +4,7 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
+import { collectGames, sortTeams, type StoryblokBlok } from '@/utils/games'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
@@ -31,26 +32,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   chipsResizeObserver?.disconnect()
 })
-
-interface GamesBlok {
-  _uid: string
-  component: string
-  date: string
-  hometeam?: string
-  homeTeam?: string
-  awayteam?: string
-  awayTeam?: string
-  homeLogo?: { filename: string }
-  awayLogo?: { filename: string }
-  venue?: string
-  team: string
-}
-
-interface StoryblokBlok {
-  _uid: string
-  component: string
-  [key: string]: unknown
-}
 
 interface Story {
   uuid: string
@@ -81,8 +62,6 @@ interface CardBlok {
   link?: StoryblokLink
 }
 
-const teamOrder = ['Herren', 'Junioren', 'Jugend', 'Schüler', 'Bambini']
-
 const storyblokApi = useStoryblokApi()
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
@@ -109,68 +88,14 @@ try {
   console.error('Storyblok-Story "home" konnte nicht geladen werden.', e)
 }
 
-const GAME_COMPONENTS = new Set(['Games', 'NextGame', 'games', 'game'])
-
-const isBlokArray = (value: unknown): value is StoryblokBlok[] =>
-  Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null && 'component' in value[0]
-
-const extractGames = (bloks: StoryblokBlok[] | undefined, teamName: string): GamesBlok[] => {
-  const games: GamesBlok[] = []
-  if (!bloks) return games
-
-  for (const blok of bloks) {
-    if (GAME_COMPONENTS.has(blok.component)) {
-      games.push({ ...blok, team: (blok.team as string) || teamName } as GamesBlok)
-    }
-    for (const key in blok) {
-      if (isBlokArray(blok[key])) {
-        games.push(...extractGames(blok[key] as StoryblokBlok[], teamName))
-      }
-    }
-  }
-  return games
-}
-
-const nextGames = computed(() => {
-  const games: GamesBlok[] = []
-  const stories = (allStoriesData?.stories ?? []) as Story[]
-
-  for (const storyItem of stories) {
-    const currentTeamName = storyItem.name
-    if (!storyItem.content) continue
-
-    if (storyItem.content.body) {
-      games.push(...extractGames(storyItem.content.body, currentTeamName))
-    }
-    for (const key in storyItem.content) {
-      if (key === 'body') continue
-      const field = storyItem.content[key]
-      if (isBlokArray(field)) {
-        games.push(...extractGames(field, currentTeamName))
-      }
-    }
-  }
-  return games
-})
+const nextGames = computed(() => collectGames((allStoriesData?.stories ?? []) as Story[]))
 
 const teamOptions = computed(() => {
   const now = new Date()
 
   const upcomingGames = nextGames.value.filter((g) => new Date(g.date) >= now)
 
-  const teams = [...new Set(upcomingGames.map((g) => g.team))]
-
-  const sortedTeams = teams.sort((a, b) => {
-    let indexA = teamOrder.indexOf(a)
-    let indexB = teamOrder.indexOf(b)
-
-    if (indexA === -1) indexA = 99
-    if (indexB === -1) indexB = 99
-
-    return indexA - indexB
-  })
-
-  return ['Alle', ...sortedTeams]
+  return ['Alle', ...sortTeams([...new Set(upcomingGames.map((g) => g.team))])]
 })
 
 const newsCards = computed(() => {
@@ -211,6 +136,34 @@ const filteredGames = computed(() => {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4)
 })
+
+// Auf Touch-Geräten unter 1280px (einspaltiges Layout) gibt es keine Pfeile: die nächste Karte schaut ein Stück herein, sobald mehr Karten da sind als sichtbar.
+// Ab 1280px (zweispaltig) sind die Pfeile wieder da, dort bleiben es ganze Karten.
+const istTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+const anschnitt = (sichtbar: number, anzahl: number) =>
+  istTouch && anzahl > sichtbar ? sichtbar + (sichtbar === 1 ? 0.12 : 0.2) : sichtbar
+
+const newsBreakpoints = computed(() => {
+  const anzahl = newsCards.value.length
+  return {
+    0: { slidesPerView: anschnitt(1, anzahl) },
+    500: { slidesPerView: anschnitt(2, anzahl) },
+    900: { slidesPerView: anschnitt(2, anzahl) },
+    1280: { slidesPerView: 2 },
+    1550: { slidesPerView: 2, autoHeight: false },
+  }
+})
+
+const spieleBreakpoints = computed(() => {
+  const anzahl = filteredGames.value.length
+  return {
+    0: { slidesPerView: anschnitt(1, anzahl) },
+    640: { slidesPerView: anschnitt(2, anzahl) },
+    1280: { slidesPerView: 2, autoHeight: false },
+    1550: { slidesPerView: 1, autoHeight: false },
+    1800: { slidesPerView: 2, autoHeight: false },
+  }
+})
 </script>
 
 <template>
@@ -230,7 +183,7 @@ const filteredGames = computed(() => {
       :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }">
 
       <div
-        class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 px-8 2xl:px-0 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
+        class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 px-8 [@media(pointer:coarse)]:max-xl:px-0 2xl:px-0 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
         <h2 class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start">
           Unsere Teams
         </h2>
@@ -253,31 +206,28 @@ const filteredGames = computed(() => {
       <div
         class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col h-full order-1 xl:order-2">
         <h2
-          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 mt-4 text-2xl self-start">
+          class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 [@media(pointer:coarse)]:max-xl:mx-0 mt-4 text-2xl self-start">
           <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
         </h2>
 
-        <div class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8">
+        <div class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8 [@media(pointer:coarse)]:max-xl:px-0">
           <template v-if="newsCards.length > 0">
             <button
-              class="news-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+              class="news-prev [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
             </button>
 
-            <Swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="{
-              0: { slidesPerView: 1 },
-              500: { slidesPerView: 2 },
-              900: { slidesPerView: 2 },
-              1550: { slidesPerView: 2, autoHeight: false },
-            }" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-auto min-[1550px]:h-full">
+            <Swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="newsBreakpoints" :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-auto min-[1550px]:h-full">
               <swiper-slide v-for="news in newsCards" :key="news._uid">
                 <router-link :to="getUrl(news.link)" v-editable="news"
                   class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
-                  <img loading="lazy" decoding="async" :src="resizeImage(news.image?.filename, 600)"
+                  <img v-if="news.image?.filename" loading="lazy" decoding="async"
+                    :src="resizeImage(news.image.filename, 600)"
                     class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
+                  <div v-else class="aspect-[600/348] w-full bg-gray-200 border-b border-gray-100"></div>
                   <div
                     class=" text-sm md:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow">
                     <span class="line-clamp-2">{{ news.title }}</span>
@@ -287,7 +237,7 @@ const filteredGames = computed(() => {
             </Swiper>
 
             <button
-              class="news-next absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+              class="news-next [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -303,7 +253,7 @@ const filteredGames = computed(() => {
       </div>
 
       <div class="xl:col-span-6 min-[1550px]:col-span-3! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-3">
-        <div class="px-8">
+        <div class="px-8 [@media(pointer:coarse)]:max-xl:px-0">
           <h2
             class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start xl:ml-1">
             Nächste Spiele
@@ -326,35 +276,29 @@ const filteredGames = computed(() => {
         </div>
 
         <div
-          class="relative w-full px-8 h-auto min-[1550px]:max-[1799px]:min-h-[clamp(150px,19vh,300px)] min-[1550px]:max-[1799px]:max-h-[calc(clamp(150px,19vh,300px)+18px)] min-[1800px]:h-[clamp(150px,19vh,300px)]!">
+          class="relative w-full px-8 [@media(pointer:coarse)]:max-xl:px-0 h-auto min-[1550px]:max-[1799px]:min-h-[clamp(150px,19vh,300px)] min-[1550px]:max-[1799px]:max-h-[calc(clamp(150px,19vh,300px)+18px)] min-[1800px]:h-[clamp(150px,19vh,300px)]!">
           <template v-if="filteredGames.length > 0">
             <button
-              class="swiper-prev-custom absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+              class="swiper-prev-custom [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
             </button>
 
-            <swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="{
-              0: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              1280: { slidesPerView: 2, autoHeight: false },
-              1550: { slidesPerView: 1, autoHeight: false },
-              1800: { slidesPerView: 2, autoHeight: false }
-            }" :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
+            <swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="spieleBreakpoints" :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
               :key="filteredGames.length"
               class="w-full h-auto min-[1550px]:max-[1799px]:min-h-full min-[1800px]:h-full! overflow-hidden">
               <swiper-slide v-for="game in filteredGames" :key="game._uid">
                 <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam || ''"
                   :away-team="game.awayteam || game.awayTeam || ''" :homeLogo="game.homeLogo?.filename"
-                  :awayLogo="game.awayLogo?.filename" :venue="game.venue" :team="game.team" v-editable="game"
+                  :awayLogo="game.awayLogo?.filename" :venue="game.venue" :home="game.home" :team="game.team" v-editable="game"
                   class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all" />
               </swiper-slide>
             </swiper>
 
             <button
-              class="swiper-next-custom absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+              class="swiper-next-custom [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

@@ -6,6 +6,7 @@ defineProps<{
   homeLogo?: string
   awayLogo?: string
   venue?: string
+  home?: boolean
   team: string
 }>()
 
@@ -36,7 +37,7 @@ const formatTime = (dateStr: string) => {
       </span>
 
       <span
-        v-if="homeTeam.toLowerCase().includes('sasbach') || homeTeam.toLowerCase().includes('blue arrows') || homeTeam.toLowerCase().includes('bas')"
+        v-if="home"
         class="absolute top-0 right-0 inline-block bg-[#032650] text-white text-[0.8rem] xl:text-[0.7rem] font-bold px-2 py-0.5 rounded-full border border-emerald-600/25">
         Heim
       </span>

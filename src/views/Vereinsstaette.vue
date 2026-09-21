@@ -21,7 +21,8 @@ try {
 
         <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
 
-            <div class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800">
+            <div
+                class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm px-4 md:px-6 p-6 md:p-10 text-gray-800">
                 <div
                     class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
                 </div>
@@ -45,7 +46,7 @@ try {
                 </p>
 
                 <a href="https://www.google.com/maps/search/?api=1&query=Sasbachrieder+Str.+93,+77880+Sasbach"
-                    target="_blank" class="block w-150 max-w-full mx-auto mb-10 lg:mb-15 group">
+                    target="_blank" class="block w-full md:w-150 max-w-full mx-auto mb-10 lg:mb-15 group">
                     <div class="relative">
                         <img v-if="story?.content.mapsImage?.filename" :src="story.content.mapsImage.filename"
                             alt="Luftbild Vereinsstätte Blue Arrows Sasbach"
@@ -89,8 +90,8 @@ try {
 
                             <div v-if="story.content.images.length > 1" class="grid grid-cols-2 gap-2">
                                 <figure v-for="(bild, index) in story.content.images.slice(1)" :key="index">
-                                    <img loading="lazy" decoding="async" v-if="bild.image?.filename" :src="bild.image.filename"
-                                        :alt="bild.title || 'Spielstätte'"
+                                    <img loading="lazy" decoding="async" v-if="bild.image?.filename"
+                                        :src="bild.image.filename" :alt="bild.title || 'Spielstätte'"
                                         class="w-full aspect-[600/348] object-cover rounded-lg" />
                                     <figcaption v-if="bild.title"
                                         class="mt-1 text-xs text-gray-500 font-semibold text-center">

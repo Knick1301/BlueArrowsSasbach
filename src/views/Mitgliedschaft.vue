@@ -97,7 +97,7 @@ const downloads = [
                 </div>
 
                 <h3
-                    class="text-gray-500 text-sm font-black uppercase tracking-widest mb-2 border-t-2 border-gray-200 pt-8">
+                    class="text-[#032650] text-sm font-black uppercase tracking-widest mb-2 border-t-2 border-gray-200 pt-8">
                     Formulare & Downloads
                 </h3>
                 <p class="text-gray-600 font-medium mb-4">
@@ -106,7 +106,7 @@ const downloads = [
                 <div>
                     <div v-for="download in downloads" :key="download.url"
                         class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-3 border-b-2 border-gray-200 last:border-b-0">
-                        <span class="text-[#032650] font-bold">{{ download.titel }}</span>
+                        <span class="text-[#032650] font-bold hyphens-auto">{{ download.titel }}</span>
                         <a :href="download.url" target="_blank"
                             class="text-center border-2 border-[#032650] text-[#032650] px-4 py-1.5 rounded font-bold hover:bg-[#032650] hover:text-white transition-colors text-sm shrink-0">
                             PDF öffnen

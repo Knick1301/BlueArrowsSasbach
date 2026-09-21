@@ -2,6 +2,8 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
+import KontaktBlock from '@/components/KontaktBlock.vue'
+import { useDaniel } from '@/utils/kontakt'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -9,6 +11,8 @@ try {
 } catch (e) {
     console.error('Storyblok-Story "skating/schuleferien" konnte nicht geladen werden.', e)
 }
+
+const daniel = await useDaniel()
 
 const aktuelleTermine = computed(() => {
     if (!story?.value?.content?.dates) return []
@@ -144,19 +148,7 @@ const aktuelleTermine = computed(() => {
                 </p>
 
                 <div class="mt-auto">
-                    <div class="flex items-center justify-center gap-10">
-                        <img loading="lazy" decoding="async" src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-                            class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
-                        <div class="flex flex-col">
-                            <span class="text-[#032650] font-bold">Daniel Bühler</span>
-                            <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
-
-                            <a href="mailto:info@bluearrows.de"
-                                class="text-center bg-[#032650] text-white px-4 py-2 rounded mt-3 font-bold hover:bg-blue-900 transition-colors text-sm">
-                                Kontakt
-                            </a>
-                        </div>
-                    </div>
+                    <KontaktBlock :person="daniel" class="justify-center" />
                 </div>
             </div>
         </div>

@@ -2,6 +2,8 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
+import KontaktBlock from '@/components/KontaktBlock.vue'
+import { useDaniel } from '@/utils/kontakt'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -9,6 +11,8 @@ try {
 } catch (e) {
     console.error('Storyblok-Story "events/burgerista" konnte nicht geladen werden.', e)
 }
+
+const daniel = await useDaniel()
 
 const aktuelleTermine = computed(() => {
     if (!story?.value?.content?.dates) return []
@@ -107,19 +111,7 @@ const aktuelleTermine = computed(() => {
                         Interesse an einem Catering für dein Event? Einfach unverbindlich anfragen:
                     </p>
 
-                    <div class="flex items-center gap-4 mb-5">
-                        <img loading="lazy" decoding="async" src="../assets/DanielBuehler.jpg" alt="Daniel Bühler"
-                            class="w-24 aspect-[3/4] object-cover object-top rounded-lg border-2 border-[#032650] shadow-sm shrink-0" />
-                        <div class="flex flex-col">
-                            <span class="text-[#032650] font-bold">Daniel Bühler</span>
-                            <span class="text-gray-500 text-sm font-medium whitespace-nowrap">0178 / 47 44 1 44</span>
-                        </div>
-                    </div>
-
-                    <a href="mailto:info@bluearrows.de"
-                        class="block text-center bg-[#032650] text-white py-2 px-4 rounded font-bold hover:bg-blue-900 transition-colors text-sm">
-                        Kontakt aufnehmen
-                    </a>
+                    <KontaktBlock :person="daniel" />
                 </div>
             </div>
 

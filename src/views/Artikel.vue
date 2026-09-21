@@ -61,28 +61,28 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
       </span>
     </div>
 
-    <div class="w-[95%] max-w-4xl mx-auto mt-10">
+    <div class="w-[95%] max-w-4xl mx-auto mt-10 px-4">
       <DecoratedCard content-class="flex flex-col">
 
         <div v-if="images.length > 1" class="w-full shrink-0">
           <div class="relative w-full aspect-[600/348] rounded-t-xl overflow-hidden">
-          <Swiper :modules="modules" :navigation="true" :pagination="{ el: '.artikel-pagination', clickable: true }"
-            class="w-full h-full" @slide-change="onSlideChange">
-            <SwiperSlide v-for="(bild, index) in images" :key="index" class="bg-gray-100">
-              <img v-if="index <= reachedSlide + 1" :src="resizeImage(bild.filename, 1200)"
-                :alt="`Artikel Bild ${index + 1}`" :fetchpriority="index === 0 ? 'high' : 'auto'" decoding="async"
-                class="w-full h-full object-cover" />
-            </SwiperSlide>
-          </Swiper>
-          <span
-            class="absolute top-4 right-4 z-10 rounded-full bg-black/60 px-4 py-1.5 text-sm font-bold text-white tabular-nums backdrop-blur-sm">
-            {{ currentSlide + 1 }}/{{ images.length }}
-          </span>
+            <Swiper :modules="modules" :navigation="true" :pagination="{ el: '.artikel-pagination', clickable: true }"
+              class="w-full h-full" @slide-change="onSlideChange">
+              <SwiperSlide v-for="(bild, index) in images" :key="index" class="bg-gray-500">
+                <img v-if="index <= reachedSlide + 1" :src="resizeImage(bild.filename, 1200)"
+                  :alt="`Artikel Bild ${index + 1}`" :fetchpriority="index === 0 ? 'high' : 'auto'" decoding="async"
+                  class="w-full h-full object-cover" />
+              </SwiperSlide>
+            </Swiper>
+            <span
+              class="absolute top-4 right-4 z-10 rounded-full bg-black/60 px-4 py-1.5 text-sm font-bold text-white tabular-nums backdrop-blur-sm">
+              {{ currentSlide + 1 }}/{{ images.length }}
+            </span>
           </div>
           <div class="artikel-pagination flex justify-center items-center py-3"></div>
         </div>
-        <img v-else-if="images[0]?.filename" :src="resizeImage(images[0].filename, 1200)" alt="Artikel Bild" fetchpriority="high"
-          class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
+        <img v-else-if="images[0]?.filename" :src="resizeImage(images[0].filename, 1200)" alt="Artikel Bild"
+          fetchpriority="high" class="w-full aspect-[600/348] h-auto object-cover shrink-0 rounded-t-xl" />
 
         <div class="md:hidden px-6 pt-5 pb-5 border-b border-gray-200">
           <div class="flex items-center justify-between mb-3">
@@ -139,6 +139,7 @@ setPageMeta({ title: story?.value?.content.title, image: resizeImage(images.valu
 
 /* Auf Touch-Geräten (Handy, Tablet) wird gewischt, die Pfeile würden nur Bildinhalt verdecken */
 @media (pointer: coarse) {
+
   :deep(.swiper-button-next),
   :deep(.swiper-button-prev) {
     display: none;

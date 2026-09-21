@@ -21,7 +21,7 @@ const router = createRouter({
       component: () => import('@/views/News.vue')
     },
     {
-      path:'/termine',
+      path:'/aktuelles/termine',
       name: 'termine',
       meta: { title: 'Termine' },
       component: () => import('@/views/Termin.vue')
@@ -120,7 +120,7 @@ const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 })
 
-// Seiten ohne meta.title (Startseite, Artikel, Teams) setzen ihre Meta-Daten selbst.
+
 router.afterEach((to) => {
   if (to.name === 'home') setPageMeta()
   else if (typeof to.meta.title === 'string') setPageMeta({ title: to.meta.title })

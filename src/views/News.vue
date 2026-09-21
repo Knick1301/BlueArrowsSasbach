@@ -110,10 +110,10 @@ const loadLess = () => {
     </div>
 
     <router-link v-if="latestNews" :to="`/aktuelles/news/${latestNews.slug}`"
-      class="group w-[95%] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
+      class="group w-[calc(95%-2rem)] md:w-[80%] max-w-[1300px] mx-auto rounded-xl overflow-hidden mb-12 flex flex-col md:flex-row shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
       <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
-        <img v-if="latestNews.image?.filename" :src="resizeImage(latestNews.image.filename, 900)" fetchpriority="high" alt="News Image"
-          class="w-full h-full object-cover" />
+        <img v-if="latestNews.image?.filename" :src="resizeImage(latestNews.image.filename, 900)" fetchpriority="high"
+          alt="News Image" class="w-full h-full object-cover" />
         <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
       </div>
 
@@ -143,14 +143,13 @@ const loadLess = () => {
       </div>
     </router-link>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[95%] md:w-[80%] max-w-[1300px] mx-auto mb-10">
-      <router-link v-for="newsItem in displayedOlderNews" :key="newsItem._uid"
-        :to="`/aktuelles/news/${newsItem.slug}`"
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[calc(95%-2rem)] md:w-[80%] max-w-[1300px] mx-auto mb-10">
+      <router-link v-for="newsItem in displayedOlderNews" :key="newsItem._uid" :to="`/aktuelles/news/${newsItem.slug}`"
         class="group bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
 
         <div class="w-full aspect-[600/348] shrink-0 min-h-0">
-          <img loading="lazy" decoding="async" v-if="newsItem.image?.filename" :src="resizeImage(newsItem.image.filename, 600)" alt="News Image"
-            class="w-full h-full object-cover" />
+          <img loading="lazy" decoding="async" v-if="newsItem.image?.filename"
+            :src="resizeImage(newsItem.image.filename, 600)" alt="News Image" class="w-full h-full object-cover" />
           <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
         </div>
 

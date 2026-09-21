@@ -25,7 +25,7 @@ const sortedTable = computed(() => {
 </script>
 
 <template>
-  <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-auto flex flex-col">
+  <div class="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200 h-auto flex flex-col">
     <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
       <div class="flex items-center gap-3">
         <div class="w-2 h-6 bg-[#032650] rounded-full"></div>
@@ -38,15 +38,15 @@ const sortedTable = computed(() => {
       <table class="w-full text-sm text-left border-collapse">
         <thead class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100">
           <tr>
-            <th class="px-3 py-3 font-bold text-center w-12">Pos.</th>
-            <th class="px-4 py-3 font-bold">Mannschaft</th>
+            <th class="px-2 sm:px-3 py-3 font-bold text-center w-10 sm:w-12">Pos.</th>
+            <th class="px-2 sm:px-4 py-3 font-bold">Mannschaft</th>
             <th class="px-2 py-3 font-bold text-center">Sp</th>
-            <th class="px-2 py-3 font-bold text-center">G</th>
-            <th class="px-2 py-3 font-bold text-center">U</th>
-            <th class="px-2 py-3 font-bold text-center">V</th>
-            <th class="px-3 py-3 font-bold text-center">Tore</th>
-            <th class="px-3 py-3 font-bold text-center">Diff.</th>
-            <th class="px-4 py-3 font-bold text-center">Pkt</th>
+            <th class="hidden sm:table-cell px-2 py-3 font-bold text-center">G</th>
+            <th class="hidden sm:table-cell px-2 py-3 font-bold text-center">U</th>
+            <th class="hidden sm:table-cell px-2 py-3 font-bold text-center">V</th>
+            <th class="hidden sm:table-cell px-3 py-3 font-bold text-center">Tore</th>
+            <th class="hidden min-[370px]:table-cell px-2 sm:px-3 py-3 font-bold text-center">Diff.</th>
+            <th class="px-2 sm:px-4 py-3 font-bold text-center">Pkt</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
@@ -56,20 +56,20 @@ const sortedTable = computed(() => {
                 ? 'bg-blue-50/50 hover:bg-blue-50'
                 : 'hover:bg-gray-50',
             ]">
-            <td class="px-3 py-4 text-center font-bold text-gray-400 group-hover:text-[#032650]">
+            <td class="px-2 sm:px-3 py-4 text-center font-bold text-gray-400 group-hover:text-[#032650]">
               {{ index + 1 }}.
             </td>
 
-            <td class="px-4 py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 flex items-center justify-center shrink-0">
+            <td class="w-full max-w-0 sm:w-auto sm:max-w-none px-2 sm:px-4 py-4">
+              <div class="flex items-center gap-2 sm:gap-3">
+                <div class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
                   <img loading="lazy" decoding="async" v-if="row.logo?.filename" :src="row.logo.filename" class="max-w-full max-h-full object-contain"
                     alt="Logo" />
                   <div v-else class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
                     <i class="fa-solid fa-shield text-[10px] text-gray-300"></i>
                   </div>
                 </div>
-                <span class="text-[#032650] whitespace-nowrap truncate max-w-[120px] lg:max-w-full"
+                <span class="text-[#032650] min-w-0 text-xs sm:text-sm leading-tight break-words hyphens-auto sm:whitespace-nowrap sm:truncate sm:max-w-[120px] lg:max-w-full"
                   :class="{ 'font-black': row.team.toLowerCase().includes('blue arrows') }">
                   {{ row.team }}
                 </span>
@@ -77,12 +77,12 @@ const sortedTable = computed(() => {
             </td>
 
             <td class="px-2 py-4 text-center text-gray-500 font-medium">{{ row.gamesPlayed }}</td>
-            <td class="px-2 py-4 text-center text-gray-400">{{ row.wins }}</td>
-            <td class="px-2 py-4 text-center text-gray-400">{{ row.draws }}</td>
-            <td class="px-2 py-4 text-center text-gray-400">{{ row.losses }}</td>
-            <td class="px-3 py-4 text-center text-gray-500 font-mono text-xs">{{ row.goals }}</td>
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">{{ row.wins }}</td>
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">{{ row.draws }}</td>
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">{{ row.losses }}</td>
+            <td class="hidden sm:table-cell px-3 py-4 text-center text-gray-500 font-mono text-xs">{{ row.goals }}</td>
 
-            <td class="px-3 py-4 text-center font-bold" :class="[
+            <td class="hidden min-[370px]:table-cell px-2 sm:px-3 py-4 text-center font-bold" :class="[
               row.goalDifference > 0
                 ? 'text-emerald-500'
                 : row.goalDifference < 0
@@ -92,9 +92,9 @@ const sortedTable = computed(() => {
               {{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
             </td>
 
-            <td class="px-4 py-4 text-center">
+            <td class="px-2 sm:px-4 py-4 text-center">
               <div
-                class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-[#032650] group-hover:text-white transition-colors font-black text-[#032650]">
+                class="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gray-100 group-hover:bg-[#032650] group-hover:text-white transition-colors font-black text-[#032650]">
                 {{ row.points }}
               </div>
             </td>
