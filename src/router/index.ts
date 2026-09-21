@@ -21,6 +21,12 @@ const router = createRouter({
       component: () => import('@/views/News.vue')
     },
     {
+      path:'/termine',
+      name: 'termine',
+      meta: { title: 'Termine' },
+      component: () => import('@/views/Termin.vue')
+    },
+    {
       path:'/skating/laufschule',
       name: 'laufschule',
       meta: { title: 'Laufschule' },
