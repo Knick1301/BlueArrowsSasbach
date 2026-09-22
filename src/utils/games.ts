@@ -31,9 +31,17 @@ export const TEAM_ORDER = ['Herren', 'Junioren', 'Jugend', 'Schüler', 'Bambini'
 const GAME_COMPONENTS = new Set(['Games', 'NextGame', 'games', 'game'])
 
 const isBlokArray = (value: unknown): value is StoryblokBlok[] =>
-  Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null && 'component' in value[0]
+  Array.isArray(value) &&
+  value.length > 0 &&
+  typeof value[0] === 'object' &&
+  value[0] !== null &&
+  'component' in value[0]
 
-const extractGames = (bloks: StoryblokBlok[] | undefined, teamName: string, teamPath: string): GamesBlok[] => {
+const extractGames = (
+  bloks: StoryblokBlok[] | undefined,
+  teamName: string,
+  teamPath: string,
+): GamesBlok[] => {
   const games: GamesBlok[] = []
   if (!bloks) return games
 

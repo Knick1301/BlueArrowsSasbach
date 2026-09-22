@@ -18,7 +18,6 @@ const setMeta = (attr: 'name' | 'property', key: string, content: string) => {
   el.setAttribute('content', content)
 }
 
-
 export const setPageMeta = ({ title, description, image }: PageMeta = {}) => {
   const fullTitle = title ? `${title} – ${SITE_NAME}` : SITE_NAME
   const desc = description || DEFAULT_DESCRIPTION

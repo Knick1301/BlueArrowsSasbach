@@ -20,10 +20,9 @@ export const formatDate = (dateString: string): string => {
   return date.toLocaleDateString('de-DE', {
     day: 'numeric',
     month: 'long',
-    year: 'numeric'
+    year: 'numeric',
   })
 }
-
 
 export const resizeImage = (url: string | undefined, width: number): string => {
   if (!url || !url.includes('a.storyblok.com') || url.endsWith('.svg')) return url ?? ''

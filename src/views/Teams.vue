@@ -46,7 +46,9 @@ interface PlayerBlok {
 const staff = computed(() => {
   const staffData = story?.value?.content?.staff
   if (Array.isArray(staffData)) {
-    return staffData.filter((blok: { component: string }): blok is TrainerBlok => blok.component === 'staff')
+    return staffData.filter(
+      (blok: { component: string }): blok is TrainerBlok => blok.component === 'staff',
+    )
   }
   return []
 })
@@ -54,7 +56,9 @@ const staff = computed(() => {
 const allPlayers = computed(() => {
   const playersData = story?.value?.content?.players
   if (Array.isArray(playersData)) {
-    return playersData.filter((blok: { component: string }): blok is PlayerBlok => blok.component === 'player')
+    return playersData.filter(
+      (blok: { component: string }): blok is PlayerBlok => blok.component === 'player',
+    )
   }
   return []
 })
@@ -94,8 +98,11 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
     </div>
 
     <div v-if="story.content.heroImage?.filename" class="block xl:hidden mx-auto px-4 mt-6 w-[95%]">
-      <img :src="story.content.heroImage.filename" alt="Teamfoto kompakt"
-        class="w-full h-auto rounded-xl shadow-sm border border-gray-200" />
+      <img
+        :src="story.content.heroImage.filename"
+        alt="Teamfoto kompakt"
+        class="w-full h-auto rounded-xl shadow-sm border border-gray-200"
+      />
     </div>
 
     <div class="mx-auto px-4 w-[95%] mt-8 flex flex-col xl:grid xl:grid-cols-5 gap-8 relative">
@@ -110,32 +117,59 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 
         <div v-else class="space-y-8">
           <div v-if="goalies.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
+            <h3
+              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4"
+            >
               Torhüter
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              <PlayerCard v-for="player in goalies" :key="player._uid" :name="player.name" :position="player.position"
-                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
+              <PlayerCard
+                v-for="player in goalies"
+                :key="player._uid"
+                :name="player.name"
+                :position="player.position"
+                :nummer="player.nummer"
+                :bild="player.bild?.filename"
+                :blok="player"
+              />
             </div>
           </div>
 
           <div v-if="defenders.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
+            <h3
+              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4"
+            >
               Verteidigung
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              <PlayerCard v-for="player in defenders" :key="player._uid" :name="player.name" :position="player.position"
-                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
+              <PlayerCard
+                v-for="player in defenders"
+                :key="player._uid"
+                :name="player.name"
+                :position="player.position"
+                :nummer="player.nummer"
+                :bild="player.bild?.filename"
+                :blok="player"
+              />
             </div>
           </div>
 
           <div v-if="forwards.length">
-            <h3 class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4">
+            <h3
+              class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4"
+            >
               Sturm
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              <PlayerCard v-for="player in forwards" :key="player._uid" :name="player.name" :position="player.position"
-                :nummer="player.nummer" :bild="player.bild?.filename" :blok="player" />
+              <PlayerCard
+                v-for="player in forwards"
+                :key="player._uid"
+                :name="player.name"
+                :position="player.position"
+                :nummer="player.nummer"
+                :bild="player.bild?.filename"
+                :blok="player"
+              />
             </div>
           </div>
         </div>
@@ -143,21 +177,38 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 
       <div class="order-1 xl:order-2 xl:col-span-2">
         <div class="sticky top-32 flex flex-col gap-5">
-          <div v-if="story.content.heroImage?.filename"
-            class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 hidden xl:block">
-            <img :src="story.content.heroImage.filename" alt="Teamfoto kompakt" class="w-full h-auto rounded-lg" />
+          <div
+            v-if="story.content.heroImage?.filename"
+            class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 hidden xl:block"
+          >
+            <img
+              :src="story.content.heroImage.filename"
+              alt="Teamfoto kompakt"
+              class="w-full h-auto rounded-lg"
+            />
           </div>
 
           <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
-            <h3 class="font-bold text-[#032650] mb-4 uppercase tracking-wider text-sm border-b-2 pb-2">
+            <h3
+              class="font-bold text-[#032650] mb-4 uppercase tracking-wider text-sm border-b-2 pb-2"
+            >
               Ansprechpartner
             </h3>
             <div class="flex flex-col mt-4">
-              <div v-for="member in staff" :key="member._uid"
-                class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-100 last:border-0 last:pb-0">
+              <div
+                v-for="member in staff"
+                :key="member._uid"
+                class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-100 last:border-0 last:pb-0"
+              >
                 <div class="flex items-center gap-3">
-                  <img loading="lazy" decoding="async" v-if="member.bild?.filename" :src="member.bild.filename"
-                    class="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200" alt="Profilbild" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    v-if="member.bild?.filename"
+                    :src="member.bild.filename"
+                    class="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200"
+                    alt="Profilbild"
+                  />
                   <div class="flex flex-col">
                     <span class="font-bold text-[#032650]">{{ member.name }}</span>
                     <span v-if="member.role?.length" class="text-xs uppercase tracking-wide mt-0.5">
@@ -165,8 +216,10 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                     </span>
                   </div>
                 </div>
-                <a :href="`mailto:${member.email}`"
-                  class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors">
+                <a
+                  :href="`mailto:${member.email}`"
+                  class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                >
                   E-Mail schreiben
                 </a>
               </div>
@@ -189,11 +242,11 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
     <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
       Team nicht gefunden
     </h1>
-    <p class="text-gray-600 mb-6 max-w-md">
-      Dieses Team existiert nicht oder wurde entfernt.
-    </p>
-    <router-link to="/"
-      class="inline-block bg-[#032650] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition-colors text-sm">
+    <p class="text-gray-600 mb-6 max-w-md">Dieses Team existiert nicht oder wurde entfernt.</p>
+    <router-link
+      to="/"
+      class="inline-block bg-[#032650] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-900 transition-colors text-sm"
+    >
       Zur Startseite
     </router-link>
   </div>

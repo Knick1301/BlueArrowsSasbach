@@ -27,7 +27,8 @@ const trainings = computed(() => {
   const trainingsData = story?.value?.content?.trainings
   if (Array.isArray(trainingsData)) {
     return trainingsData.filter(
-      (blok: { component: string }): blok is TrainingsBlok => blok.component === 'laufschulTraining',
+      (blok: { component: string }): blok is TrainingsBlok =>
+        blok.component === 'laufschulTraining',
     )
   }
   return []
@@ -131,29 +132,34 @@ const trainingsByTeam = computed(() => {
     </div>
 
     <div
-      class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch">
+      class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col xl:flex-row gap-10 xl:gap-20 items-start xl:items-stretch"
+    >
       <div
-        class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-5 sm:p-8 rounded-xl border border-gray-200 shadow-sm">
+        class="relative w-full xl:w-1/2 text-gray-800 flex flex-col h-full bg-white p-5 sm:p-8 rounded-xl border border-gray-200 shadow-sm"
+      >
         <div
-          class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
-        </div>
+          class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none"
+        ></div>
         <div
-          class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none">
-        </div>
+          class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none"
+        ></div>
         <div
-          class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none">
-        </div>
+          class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none"
+        ></div>
         <div
-          class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
-        </div>
+          class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none"
+        ></div>
 
         <h2
-          class="text-[#032650] text-3xl font-black mt-0 uppercase tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 w-fit">
+          class="text-[#032650] text-3xl font-black mt-0 uppercase tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 w-fit"
+        >
           Laufschule 2026
         </h2>
 
-        <div v-if="story?.content?.fullyBooked"
-          class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-3 mb-6 font-bold text-base rounded-r-md">
+        <div
+          v-if="story?.content?.fullyBooked"
+          class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-3 mb-6 font-bold text-base rounded-r-md"
+        >
           Aktuell sind alle Kurse voll belegt! Voranmeldungen für die Warteliste sind möglich.
         </div>
 
@@ -167,16 +173,20 @@ const trainingsByTeam = computed(() => {
         </h3>
         <div class="mb-8">
           <div
-            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200">
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200"
+          >
             <span class="text-[#032650] font-bold shrink-0 text-lg">Anfänger</span>
-            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">Kinder bis 8 Jahre & Anfänger
-              unabhängig des Alters.</span>
+            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1"
+              >Kinder bis 8 Jahre & Anfänger unabhängig des Alters.</span
+            >
           </div>
           <div
-            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200">
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200"
+          >
             <span class="text-[#032650] font-bold shrink-0 text-lg">Fortgeschrittene</span>
-            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">Für alle Skater mit ersten
-              Erfahrungen.</span>
+            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1"
+              >Für alle Skater mit ersten Erfahrungen.</span
+            >
           </div>
         </div>
 
@@ -186,21 +196,30 @@ const trainingsByTeam = computed(() => {
         </h3>
         <div class="mb-6">
           <div
-            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200">
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200"
+          >
             <span class="text-[#032650] font-bold shrink-0 text-lg">Wo</span>
-            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">Blue Arrows Hockeyarena</span>
+            <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1"
+              >Blue Arrows Hockeyarena</span
+            >
           </div>
 
           <div class="xl:hidden py-3 border-b-2 border-gray-200">
             <span class="text-[#032650] font-bold shrink-0 text-lg block mb-3">Wann</span>
-            <div v-for="[teamKey, teamTrainings] in trainingsByTeam" :key="teamKey"
-              class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-3 last:mb-0 p-4 border-l-4 border-l-[#032650]">
+            <div
+              v-for="[teamKey, teamTrainings] in trainingsByTeam"
+              :key="teamKey"
+              class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-3 last:mb-0 p-4 border-l-4 border-l-[#032650]"
+            >
               <h4 class="font-black text-[#032650] text-xl mb-3 border-b pb-2 border-gray-100">
                 {{ teamMapping[teamKey] || teamKey }}
               </h4>
               <div class="space-y-2">
-                <div v-for="training in teamTrainings" :key="training._uid"
-                  class="flex flex-wrap justify-between items-center gap-x-3 gap-y-0.5 bg-[#f0f7fd] p-2.5 rounded-md">
+                <div
+                  v-for="training in teamTrainings"
+                  :key="training._uid"
+                  class="flex flex-wrap justify-between items-center gap-x-3 gap-y-0.5 bg-[#f0f7fd] p-2.5 rounded-md"
+                >
                   <span class="font-bold text-gray-700 text-base">
                     {{ getGermanDayName(training.day) }}
                   </span>
@@ -213,11 +232,14 @@ const trainingsByTeam = computed(() => {
           </div>
 
           <div
-            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200">
+            class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200"
+          >
             <span class="text-[#032650] font-bold shrink-0 text-lg">Kosten</span>
             <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">
               15 EUR für 3 Monate
-              <span class="block text-sm text-gray-500 font-bold mt-1">(+ 5 EUR einmalige Aufnahmegebühr)</span>
+              <span class="block text-sm text-gray-500 font-bold mt-1"
+                >(+ 5 EUR einmalige Aufnahmegebühr)</span
+              >
             </span>
           </div>
         </div>
@@ -237,19 +259,21 @@ const trainingsByTeam = computed(() => {
           <KontaktBlock :person="daniel" class="mb-5" />
 
           <div class="flex flex-col sm:flex-row gap-3">
-            <a href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
+            <a
+              href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
               target="_blank"
-              class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-900 transition-colors text-sm">
+              class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-900 transition-colors text-sm"
+            >
               Zur Warteliste
             </a>
-            <a href="https://www.bluearrows.de/fileadmin/user_upload/downloads/Anmeldung-Inline-Skating-Laufschule.pdf"
+            <a
+              href="https://www.bluearrows.de/fileadmin/user_upload/downloads/Anmeldung-Inline-Skating-Laufschule.pdf"
               target="_blank"
-              class="text-center border-1 border-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-100 transition-colors text-sm">
+              class="text-center border-1 border-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-100 transition-colors text-sm"
+            >
               Formular (PDF)
             </a>
           </div>
-
-
         </div>
       </div>
 
@@ -257,32 +281,45 @@ const trainingsByTeam = computed(() => {
         <div class="hidden xl:grid grid-cols-[56px_1fr] gap-4 xl:sticky xl:top-32">
           <div></div>
           <div class="grid grid-cols-2 gap-6">
-            <div v-for="day in weekDays" :key="day" class="text-[#032650] text-xl font-bold mb-2 text-center">
+            <div
+              v-for="day in weekDays"
+              :key="day"
+              class="text-[#032650] text-xl font-bold mb-2 text-center"
+            >
               {{ day }}
             </div>
           </div>
 
           <div class="flex flex-col text-sm font-bold text-gray-400 text-right pr-4">
-            <div v-for="hour in calendarHours" :key="hour" class="h-[105px] whitespace-nowrap">{{ hour }}:00</div>
+            <div v-for="hour in calendarHours" :key="hour" class="h-[105px] whitespace-nowrap">
+              {{ hour }}:00
+            </div>
           </div>
 
           <div class="grid grid-cols-2 gap-6">
-            <div v-for="day in weekDays" :key="day"
+            <div
+              v-for="day in weekDays"
+              :key="day"
               class="relative bg-white rounded-xl border border-gray-300 overflow-hidden shadow-[inset_0_8px_16px_rgba(0,0,0,0.12)]"
               :style="{
                 height: `${(END_HOUR - START_HOUR) * 105}px`,
                 backgroundImage:
                   'linear-gradient(to bottom, rgba(229, 231, 235, 0.5) 1px, transparent 2px)',
                 backgroundSize: '100% 105px',
-              }">
-              <div v-for="training in trainingsPerDay(day)" :key="training._uid"
+              }"
+            >
+              <div
+                v-for="training in trainingsPerDay(day)"
+                :key="training._uid"
                 class="bg-[#f0f7fd] hover:bg-[#e0effc] rounded-md shadow border border-gray-200 border-l-4 border-l-[#032650] p-2 hover:shadow-md transition-shadow z-10 overflow-hidden flex flex-col"
-                :style="getTrainingStyle(training.from, training.to)">
+                :style="getTrainingStyle(training.from, training.to)"
+              >
                 <div class="text-xs text-gray-600 font-bold leading-none mb-1">
                   {{ training.from }} - {{ training.to }}
                 </div>
                 <div
-                  class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-xl leading-tight">
+                  class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-xl leading-tight"
+                >
                   {{ teamMapping[training.group] || training.group }}
                 </div>
               </div>
@@ -295,7 +332,8 @@ const trainingsByTeam = computed(() => {
     <div class="max-w-[1400px] w-[95%] mx-auto xl:mt-20 mt-5 px-4">
       <div class="text-center mb-10">
         <h2
-          class="text-3xl font-black text-[#032650] uppercase tracking-wider mb-4 border-b-[3px] border-[#032650] inline-block pb-1">
+          class="text-3xl font-black text-[#032650] uppercase tracking-wider mb-4 border-b-[3px] border-[#032650] inline-block pb-1"
+        >
           Der Skatepass
         </h2>
         <p class="text-gray-700 text-xl font-medium leading-relaxed max-w-2xl mx-auto mt-4">
@@ -306,12 +344,11 @@ const trainingsByTeam = computed(() => {
 
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <div
-          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
+          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow"
+        >
           <div class="h-[10px] bg-gradient-to-r from-blue-300 to-blue-600"></div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-black text-xl text-[#032650] mb-4">
-              Starter-Rolle
-            </h3>
+            <h3 class="font-black text-xl text-[#032650] mb-4">Starter-Rolle</h3>
             <ul class="text-base font-medium text-gray-700 space-y-3 list-disc pl-4 flex-1">
               <li>20m Geradeauslauf (nicht bergab)</li>
               <li>Je 5m Rollerlauf rechts/links</li>
@@ -322,12 +359,11 @@ const trainingsByTeam = computed(() => {
         </div>
 
         <div
-          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
+          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow"
+        >
           <div class="h-[10px] bg-gradient-to-r from-[#e3a969] to-[#9c5a24]"></div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-black text-xl text-[#032650] mb-4">
-              Bronzene Rolle
-            </h3>
+            <h3 class="font-black text-xl text-[#032650] mb-4">Bronzene Rolle</h3>
             <ul class="text-base font-medium text-gray-700 space-y-3 list-disc pl-4 flex-1">
               <li>20m Powerskating</li>
               <li>20m Slalomparcour (ohne Hütchen umwerfen)</li>
@@ -338,12 +374,11 @@ const trainingsByTeam = computed(() => {
         </div>
 
         <div
-          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
+          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow"
+        >
           <div class="h-[10px] bg-gradient-to-r from-gray-300 to-gray-500"></div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-black text-xl text-[#032650] mb-4">
-              Silberne Rolle
-            </h3>
+            <h3 class="font-black text-xl text-[#032650] mb-4">Silberne Rolle</h3>
             <ul class="text-base font-medium text-gray-700 space-y-3 list-disc pl-4 flex-1">
               <li>Je 5m auf einem Bein, ohne abzusetzen</li>
               <li>20m sauberer Eierlauf</li>
@@ -354,12 +389,11 @@ const trainingsByTeam = computed(() => {
         </div>
 
         <div
-          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
+          class="bg-white rounded-b-xl overflow-hidden border border-gray-200 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow"
+        >
           <div class="h-[10px] bg-gradient-to-r from-[#ffe082] to-[#c9960c]"></div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-black text-xl text-[#032650] mb-4">
-              Goldene Rolle
-            </h3>
+            <h3 class="font-black text-xl text-[#032650] mb-4">Goldene Rolle</h3>
             <ul class="text-base font-medium text-gray-700 space-y-3 list-disc pl-4 flex-1">
               <li>20m Slalomparcour mit Übersetzen</li>
               <li>Bremsen aus schnellem Lauf innerhalb von 3m</li>
