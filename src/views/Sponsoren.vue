@@ -98,7 +98,7 @@ const sponsoren = computed(
               />
               <div class="w-full flex flex-col items-center justify-center min-h-[2.5rem]">
                 <p
-                  class="text-base font-black text-[#032650] uppercase tracking-wide text-center break-words line-clamp-2"
+                  class="text-base font-black text-[#032650] uppercase tracking-wide text-center break-words hyphens-auto"
                 >
                   {{ sponsor.name }}
                 </p>
@@ -143,7 +143,7 @@ const sponsoren = computed(
                 class="w-full h-20 object-contain"
               />
               <div class="w-full flex flex-col items-center justify-center min-h-[2rem]">
-                <p class="text-sm font-bold text-[#032650] text-center break-words line-clamp-2">
+                <p class="text-sm font-bold text-[#032650] text-center break-words hyphens-auto">
                   {{ sponsor.name }}
                 </p>
               </div>
