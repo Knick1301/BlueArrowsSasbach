@@ -150,7 +150,7 @@ const mapsUrl = computed(
                 :href="`mailto:${email}`"
                 class="inline-block bg-white text-[#032650] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors text-sm"
               >
-                E-Mail schreiben
+                {{ email }}
               </a>
               <a
                 v-if="phone"

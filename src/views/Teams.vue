@@ -223,9 +223,9 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 </div>
                 <a
                   :href="`mailto:${member.email}`"
-                  class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                  class="max-w-full break-all text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
                 >
-                  E-Mail schreiben
+                  {{ member.email }}
                 </a>
               </div>
             </div>

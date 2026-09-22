@@ -174,10 +174,10 @@ const sponsoren = computed(
               uns über jede Form der Unterstützung für unseren Spielbetrieb.
             </p>
             <a
-              href="mailto:info@bluearrows.de"
+              href="mailto:mail@bluearrows.de"
               class="inline-block bg-white text-[#032650] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors text-sm"
             >
-              Kontakt aufnehmen
+              mail@bluearrows.de
             </a>
           </div>
         </div>
