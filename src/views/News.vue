@@ -18,20 +18,34 @@ interface NewsStory {
   }
 }
 
-let data: { stories: NewsStory[] } = { stories: [] }
-try {
-  const response = await storyblokApi.get('cdn/stories', {
-    version: STORYBLOK_VERSION,
-    starts_with: 'aktuelles/news/',
-    is_startpage: false,
-    sort_by: 'content.date:desc',
-  })
-  data = response.data
-} catch (e) {
-  console.error('Storyblok-Stories "aktuelles/news" konnten nicht geladen werden.', e)
+const visibleLimit = ref(4)
+const fetchedOlderCount = ref(0)
+const totalCount = ref(0)
+const stories = ref<NewsStory[]>([])
+
+// Lädt genau so viele Stories nach, wie aktuell sichtbar sein sollen (Hero + Grid zusammen),
+// nicht alle auf einmal - "Weitere News laden" fragt gezielt mehr an statt nur mehr anzuzeigen.
+const ensureLoaded = async (totalNeeded: number) => {
+  if (totalNeeded <= fetchedOlderCount.value + 1 && stories.value.length > 0) return
+
+  try {
+    const response = await storyblokApi.get('cdn/stories', {
+      version: STORYBLOK_VERSION,
+      starts_with: 'aktuelles/news/',
+      is_startpage: false,
+      sort_by: 'content.date:desc',
+      per_page: totalNeeded,
+      page: 1,
+    })
+    stories.value = response.data.stories
+    totalCount.value = response.total
+    fetchedOlderCount.value = Math.max(0, stories.value.length - 1)
+  } catch (e) {
+    console.error('Storyblok-Stories "aktuelles/news" konnten nicht geladen werden.', e)
+  }
 }
 
-const visibleLimit = ref(4)
+await ensureLoaded(visibleLimit.value)
 
 const getColumns = () => {
   if (typeof window === 'undefined') return 3
@@ -61,7 +75,7 @@ onBeforeUnmount(() => {
 })
 
 const news = computed(() => {
-  return data.stories.map((story) => ({
+  return stories.value.map((story) => ({
     _uid: story.uuid,
     slug: story.slug,
     title: story.content.title,
@@ -81,20 +95,21 @@ const olderNews = computed(() => {
 })
 
 const hasMoreNews = computed(() => {
-  return news.value.length > visibleLimit.value
+  return totalCount.value > visibleLimit.value
 })
 
 const displayedOlderNews = computed(() => {
-  const total = olderNews.value.length
+  const count = olderNews.value.length
   const c = columns.value
-  if (c > 1 && total > c && total % c === 1 && hasMoreNews.value) {
-    return olderNews.value.slice(0, total - 1)
+  if (c > 1 && count > c && count % c === 1 && hasMoreNews.value) {
+    return olderNews.value.slice(0, count - 1)
   }
   return olderNews.value
 })
 
-const loadMore = () => {
+const loadMore = async () => {
   visibleLimit.value += columns.value
+  await ensureLoaded(visibleLimit.value)
 }
 
 const loadLess = () => {
@@ -179,16 +194,14 @@ const loadLess = () => {
       </router-link>
     </div>
 
-    <div v-if="hasMoreNews" class="text-center">
-      <button @click="loadMore"
-        class="bg-white border-2 border-[#032650] text-[#032650] px-8 py-3 rounded-full font-bold hover:bg-[#032650] hover:text-white transition-colors cursor-pointer shadow-sm">
-        Weitere News laden
-      </button>
-    </div>
-    <div v-else class="text-center text-gray-600 font-medium">
-      <button @click="loadLess"
+    <div v-if="hasMoreNews || visibleLimit > 4" class="flex flex-wrap justify-center gap-4">
+      <button v-if="visibleLimit > 4" @click="loadLess"
         class="bg-white border-2 border-[#032650] text-[#032650] px-8 py-3 rounded-full font-bold hover:bg-[#032650] hover:text-white transition-colors cursor-pointer shadow-sm">
         Weniger News anzeigen
+      </button>
+      <button v-if="hasMoreNews" @click="loadMore"
+        class="bg-white border-2 border-[#032650] text-[#032650] px-8 py-3 rounded-full font-bold hover:bg-[#032650] hover:text-white transition-colors cursor-pointer shadow-sm">
+        Weitere News laden
       </button>
     </div>
   </div>
