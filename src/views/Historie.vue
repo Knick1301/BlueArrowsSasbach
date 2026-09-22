@@ -4,6 +4,7 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 import basLogo from '@/assets/BASlogo.png'
 import DecoratedCard from '@/components/DecoratedCard.vue'
+import { useLightbox } from '@/composables/useLightbox'
 
 interface MeilensteinBlok {
   _uid: string
@@ -35,6 +36,8 @@ const meilensteine = computed(() => {
 const meisterschaften = computed(() =>
   meilensteine.value.filter((eintrag) => istErfolg(eintrag) && eintrag.meister),
 )
+
+const { open: openLightbox } = useLightbox()
 </script>
 
 <template>
@@ -139,7 +142,8 @@ const meisterschaften = computed(() =>
                   v-if="eintrag.image?.filename"
                   :src="eintrag.image.filename"
                   :alt="eintrag.title"
-                  class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm"
+                  class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
+                  @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"
                 />
               </div>
             </div>
@@ -173,7 +177,8 @@ const meisterschaften = computed(() =>
                     v-if="eintrag.image?.filename"
                     :src="eintrag.image.filename"
                     :alt="eintrag.title"
-                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm ml-auto"
+                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm ml-auto cursor-pointer hover:opacity-90 transition-opacity"
+                    @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"
                   />
                 </div>
                 <div v-else></div>
@@ -203,7 +208,8 @@ const meisterschaften = computed(() =>
                     v-if="eintrag.image?.filename"
                     :src="eintrag.image.filename"
                     :alt="eintrag.title"
-                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm"
+                    class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
+                    @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"
                   />
                 </div>
                 <div v-else></div>

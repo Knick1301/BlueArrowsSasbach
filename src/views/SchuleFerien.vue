@@ -4,6 +4,7 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 import KontaktBlock from '@/components/KontaktBlock.vue'
 import { useDaniel } from '@/utils/kontakt'
+import { useLightbox } from '@/composables/useLightbox'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -13,6 +14,8 @@ try {
 }
 
 const daniel = await useDaniel()
+
+const { open: openLightbox } = useLightbox()
 
 const aktuelleTermine = computed(() => {
   if (!story?.value?.content?.dates) return []
@@ -45,7 +48,8 @@ const aktuelleTermine = computed(() => {
           v-if="story?.content.bild?.filename"
           :src="story.content.bild.filename"
           alt="Schule & Ferien Bild"
-          class="w-full h-[340px] sm:h-[420px] object-cover object-top rounded-xl shadow-md border-2 border-gray-200"
+          class="w-full h-[340px] sm:h-[420px] object-cover object-top rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(story.content.bild.filename)"
         />
       </div>
 
@@ -54,7 +58,8 @@ const aktuelleTermine = computed(() => {
           v-if="story?.content.bild?.filename"
           :src="story.content.bild.filename"
           alt="Schule & Ferien Bild"
-          class="w-full h-[400px] lg:h-[600px] object-cover object-top rounded-xl shadow-lg border-2 border-gray-200"
+          class="w-full h-[400px] lg:h-[600px] object-cover object-top rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(story.content.bild.filename)"
         />
       </div>
 

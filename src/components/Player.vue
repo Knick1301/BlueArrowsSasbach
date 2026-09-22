@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { resizeImage } from '@/utils/methods.ts'
+import { useLightbox } from '@/composables/useLightbox'
 
 const props = defineProps<{
   name: string
@@ -16,6 +17,8 @@ const nameParts = computed(() => {
   const nachname = parts.slice(1).join(' ') || vorname
   return { vorname, nachname }
 })
+
+const { open: openLightbox } = useLightbox()
 </script>
 
 <template>
@@ -29,7 +32,8 @@ const nameParts = computed(() => {
       decoding="async"
       :src="resizeImage(bild, 600)"
       alt="Spielerbild"
-      class="absolute inset-0 w-full h-full object-cover object-top"
+      class="absolute inset-0 w-full h-full object-cover object-top cursor-pointer"
+      @click="openLightbox({ src: resizeImage(bild, 1200), alt: name })"
     />
 
     <div v-else class="absolute inset-0 flex items-center justify-center">

@@ -3,6 +3,7 @@ import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 import { resizeImage } from '@/utils/methods.ts'
+import { useLightbox } from '@/composables/useLightbox'
 
 interface hallOfFamerBlock {
   _uid: string
@@ -25,6 +26,8 @@ try {
 const personen = computed(
   () => (story?.value?.content.personen as hallOfFamerBlock[] | undefined) ?? [],
 )
+
+const { open: openLightbox } = useLightbox()
 </script>
 
 <template>
@@ -91,7 +94,13 @@ const personen = computed(
                   v-if="person.image?.filename"
                   :src="resizeImage(person.image.filename, 500)"
                   :alt="person.name"
-                  class="absolute inset-0 w-full h-full object-cover object-center"
+                  class="absolute inset-0 w-full h-full object-cover object-center cursor-pointer hover:opacity-90 transition-opacity"
+                  @click="
+                    openLightbox({
+                      src: resizeImage(person.image.filename, 1200),
+                      alt: person.name,
+                    })
+                  "
                 />
                 <div v-else class="absolute inset-0 flex items-center justify-center">
                   <svg

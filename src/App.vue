@@ -6,6 +6,7 @@ import instagramLogo from '@/assets/InstagramLogo.png'
 import facebookLogo from '@/assets/FacebookLogo.png'
 import { useStoryblokApi } from '@storyblok/vue'
 import { getUrl, type StoryblokLink } from '@/utils/methods.ts'
+import Lightbox from '@/components/Lightbox.vue'
 
 import { computed, onMounted, ref } from 'vue'
 
@@ -284,6 +285,8 @@ const navItems = computed(() =>
         Datenschutz
       </router-link>
     </div>
+
+    <Lightbox />
   </div>
 </template>
 

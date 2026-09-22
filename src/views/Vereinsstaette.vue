@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
+import { computed } from 'vue'
+import { useLightbox } from '@/composables/useLightbox'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -8,6 +10,20 @@ try {
 } catch (e) {
   console.error('Storyblok-Story "verein/vereinsstaette" konnte nicht geladen werden.', e)
 }
+
+const { open: openLightbox } = useLightbox()
+
+interface SpielstaetteBild {
+  image?: { filename: string }
+  title?: string
+}
+
+const spielstaetteImages = computed(() => {
+  const list = (story?.value?.content.images as SpielstaetteBild[] | undefined) ?? []
+  return list
+    .filter((bild) => bild.image?.filename)
+    .map((bild) => ({ src: bild.image!.filename, alt: bild.title || 'Spielstätte' }))
+})
 </script>
 
 <template>
@@ -106,7 +122,8 @@ try {
                   v-if="story.content.images[0].image?.filename"
                   :src="story.content.images[0].image.filename"
                   :alt="story.content.images[0].title || 'Spielstätte'"
-                  class="w-full aspect-[600/348] object-cover rounded-lg"
+                  class="w-full aspect-[600/348] object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                  @click="openLightbox(spielstaetteImages, 0)"
                 />
                 <figcaption
                   v-if="story.content.images[0].title"
@@ -124,7 +141,8 @@ try {
                     v-if="bild.image?.filename"
                     :src="bild.image.filename"
                     :alt="bild.title || 'Spielstätte'"
-                    class="w-full aspect-[600/348] object-cover rounded-lg"
+                    class="w-full aspect-[600/348] object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                    @click="openLightbox(spielstaetteImages, Number(index) + 1)"
                   />
                   <figcaption
                     v-if="bild.title"
@@ -174,7 +192,8 @@ try {
                 v-if="story?.content.bildVereinsheim?.filename"
                 :src="story.content.bildVereinsheim.filename"
                 alt="Vereinsheim"
-                class="w-full h-full object-cover"
+                class="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                @click="openLightbox(story.content.bildVereinsheim.filename)"
               />
               <div
                 v-else

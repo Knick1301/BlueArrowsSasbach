@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import PlayerCard from '@/components/Player.vue'
 import GameTable from '@/components/GameTable.vue'
 import Table from '@/components/Table.vue'
+import { useLightbox } from '@/composables/useLightbox'
 
 const route = useRoute()
 
@@ -79,6 +80,8 @@ const allTeamTable = computed(() => {
   return []
 })
 
+const { open: openLightbox } = useLightbox()
+
 const goalies = computed(() => allPlayers.value.filter((player) => player.position === 'goalie'))
 const defenders = computed(() =>
   allPlayers.value.filter((player) => player.position === 'defender'),
@@ -101,7 +104,8 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
       <img
         :src="story.content.heroImage.filename"
         alt="Teamfoto kompakt"
-        class="w-full h-auto rounded-xl shadow-sm border border-gray-200"
+        class="w-full h-auto rounded-xl shadow-sm border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+        @click="openLightbox(story.content.heroImage.filename)"
       />
     </div>
 
@@ -184,7 +188,8 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
             <img
               :src="story.content.heroImage.filename"
               alt="Teamfoto kompakt"
-              class="w-full h-auto rounded-lg"
+              class="w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+              @click="openLightbox(story.content.heroImage.filename)"
             />
           </div>
 
