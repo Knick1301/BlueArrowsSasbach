@@ -113,7 +113,8 @@ const loadMore = async () => {
 }
 
 const loadLess = () => {
-  visibleLimit.value = 4
+  visibleLimit.value -= columns.value
+  if (visibleLimit.value < 4) visibleLimit.value = 4
 }
 </script>
 
