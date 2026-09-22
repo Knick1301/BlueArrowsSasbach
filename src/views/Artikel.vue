@@ -158,9 +158,21 @@ setPageMeta({
 <style scoped>
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  color: #ffffff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  transform: scale(0.6);
+  width: 34px;
+  height: 34px;
+  margin-top: -17px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:deep(.swiper-button-next::after),
+:deep(.swiper-button-prev::after) {
+  font-size: 14px;
+  font-weight: 900;
 }
 
 /* Auf Touch-Geräten (Handy, Tablet) wird gewischt, die Pfeile würden nur Bildinhalt verdecken */
