@@ -180,7 +180,7 @@ const spieleBreakpoints = computed(() => {
       </h1>
     </div>
 
-    <div class="p-6 pt-0 flex-grow flex flex-col">
+    <div class="p-6 pt-0 flex-grow flex flex-col 3xl:justify-center">
       <div
         class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start"
         :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }"
