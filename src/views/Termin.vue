@@ -227,7 +227,6 @@ const gefiltert = computed(() =>
   ),
 )
 
-// Laufende mehrtägige Termine (z.B. Ferienprogramm) bleiben in der Liste, die Hero-Karte zeigt den nächsten kommenden.
 const hero = computed(
   () => gefiltert.value.find((termin) => termin.start >= heute) ?? gefiltert.value[0],
 )

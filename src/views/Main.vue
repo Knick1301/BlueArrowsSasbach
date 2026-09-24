@@ -98,10 +98,12 @@ const teamOptions = computed(() => {
   return ['Alle', ...sortTeams([...new Set(upcomingGames.map((g) => g.team))])]
 })
 
+const NEWS_TEASER_LIMIT = 6
+
 const newsCards = computed(() => {
   const stories = (newsData?.stories ?? []) as Story[]
 
-  return stories.map((newsItem) => ({
+  return stories.slice(0, NEWS_TEASER_LIMIT).map((newsItem) => ({
     _uid: newsItem.uuid,
     title: newsItem.content.title ?? '',
     image: newsItem.content.image?.[0],
@@ -137,8 +139,7 @@ const filteredGames = computed(() => {
     .slice(0, 4)
 })
 
-// Auf Touch-Geräten unter 1280px (einspaltiges Layout) gibt es keine Pfeile: die nächste Karte schaut ein Stück herein, sobald mehr Karten da sind als sichtbar.
-// Ab 1280px (zweispaltig) sind die Pfeile wieder da, dort bleiben es ganze Karten.
+
 const istTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
 const anschnitt = (sichtbar: number, anzahl: number) =>
   istTouch && anzahl > sichtbar ? sichtbar + (sichtbar === 1 ? 0.12 : 0.2) : sichtbar
@@ -168,12 +169,10 @@ const spieleBreakpoints = computed(() => {
 
 <template>
   <template v-if="story && story.content">
-    <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[40vh] m-0 p-0">
-      <h1
-        v-if="teaser"
+    <div class="mainPicture w-full flex items-center h-[25vh] xl:h-[40vh] 3xl:h-[43vh]! m-0 p-0">
+      <h1 v-if="teaser"
         class="text-white text-[5vmin] font-extrabold leading-loose ml-[10vmin] drop-shadow-[2px_2px_8px_rgba(255,255,255,0.2)]"
-        v-editable="teaser"
-      >
+        v-editable="teaser">
         {{ teaser.headline }}
         <br v-if="teaser.subline" />
         {{ teaser.subline }}
@@ -181,39 +180,24 @@ const spieleBreakpoints = computed(() => {
     </div>
 
     <div class="p-6 pt-0 flex-grow flex flex-col 3xl:justify-center">
-      <div
-        class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start"
-        :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }"
-      >
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start"
+        :style="{ '--chips-extra': spieleChipsExtraHeight + 'px' }">
         <div
-          class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 px-8 [@media(pointer:coarse)]:max-xl:px-0 2xl:px-0 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1"
-        >
+          class="xl:col-span-6 xl:sticky xl:top-32 xl:row-span-2 px-8 [@media(pointer:coarse)]:max-xl:px-0 2xl:px-0 xl:h-auto min-[1550px]:col-span-4! min-[1550px]:row-span-1! min-[1550px]:h-full! flex flex-col h-full order-2 xl:order-1">
           <h2
-            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start"
-          >
+            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl 3xl:text-3xl self-start">
             Unsere Teams
           </h2>
 
           <div
-            class="grid grid-cols-2 gap-3 min-[1550px]:auto-rows-fr min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))]"
-          >
-            <router-link
-              v-for="team in teamCards"
-              :key="team._uid"
-              :to="getUrl(team.link)"
-              v-editable="team"
-              class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95"
-            >
-              <img
-                loading="lazy"
-                decoding="async"
-                :src="resizeImage(team.image?.filename, 400)"
+            class="grid grid-cols-2 gap-3 min-[1550px]:auto-rows-fr min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))]">
+            <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
+              class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
+              <img loading="lazy" decoding="async" :src="resizeImage(team.image?.filename, 400)"
                 class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
-                alt="Team Image"
-              />
+                alt="Team Image" />
               <div
-                class="text-sm lg:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center min-h-[40px] flex-grow min-w-0"
-              >
+                class="text-sm lg:text-base 3xl:text-lg! font-bold text-[#032650] flex items-center justify-center p-2 text-center min-h-[40px] flex-grow min-w-0">
                 <span class="line-clamp-2">{{ team.title }}</span>
               </div>
             </router-link>
@@ -221,68 +205,34 @@ const spieleBreakpoints = computed(() => {
         </div>
 
         <div
-          class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col h-full order-1 xl:order-2"
-        >
+          class="xl:col-span-6 min-[1550px]:col-span-5! min-[1650px]:col-span-4! flex flex-col h-full order-1 xl:order-2">
           <h2
-            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 [@media(pointer:coarse)]:max-xl:mx-0 mt-4 text-2xl self-start"
-          >
-            <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors"
-              >Aktuelle News</router-link
-            >
+            class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mx-8 [@media(pointer:coarse)]:max-xl:mx-0 mt-4 text-2xl 3xl:text-3xl self-start">
+            <router-link to="/aktuelles/news" class="hover:text-blue-800 transition-colors">Aktuelle News</router-link>
           </h2>
 
           <div
-            class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8 [@media(pointer:coarse)]:max-xl:px-0"
-          >
+            class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8 [@media(pointer:coarse)]:max-xl:px-0">
             <template v-if="newsCards.length > 0">
               <button
-                class="news-prev [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                  />
+                class="news-prev [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
               </button>
 
-              <Swiper
-                :modules="modules"
-                :space-between="16"
-                :auto-height="true"
-                :breakpoints="newsBreakpoints"
-                :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }"
-                class="w-full h-auto min-[1550px]:h-full"
-              >
+              <Swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="newsBreakpoints"
+                :navigation="{ prevEl: '.news-prev', nextEl: '.news-next' }" class="w-full h-auto min-[1550px]:h-full">
                 <swiper-slide v-for="news in newsCards" :key="news._uid">
-                  <router-link
-                    :to="getUrl(news.link)"
-                    v-editable="news"
-                    class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95"
-                  >
-                    <img
-                      v-if="news.image?.filename"
-                      loading="lazy"
-                      decoding="async"
+                  <router-link :to="getUrl(news.link)" v-editable="news"
+                    class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
+                    <img v-if="news.image?.filename" loading="lazy" decoding="async"
                       :src="resizeImage(news.image.filename, 600)"
-                      class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100"
-                      alt="News Image"
-                    />
+                      class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
+                    <div v-else class="aspect-[600/348] w-full bg-gray-200 border-b border-gray-100"></div>
                     <div
-                      v-else
-                      class="aspect-[600/348] w-full bg-gray-200 border-b border-gray-100"
-                    ></div>
-                    <div
-                      class="text-sm md:text-base font-bold text-[#032650] flex items-center justify-center p-2 text-center flex-grow"
-                    >
+                      class="text-sm md:text-base 3xl:text-xl! font-bold text-[#032650] flex items-center justify-center p-2 3xl:py-4 text-center flex-grow">
                       <span class="line-clamp-2">{{ news.title }}</span>
                     </div>
                   </router-link>
@@ -290,142 +240,81 @@ const spieleBreakpoints = computed(() => {
               </Swiper>
 
               <button
-                class="news-next [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
+                class="news-next [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>
             </template>
 
-            <div
-              v-else
-              class="w-full h-full flex items-center justify-center text-[#032650] font-medium text-center px-4"
-            >
+            <div v-else
+              class="w-full h-full flex items-center justify-center text-[#032650] font-medium text-center px-4">
               Aktuell keine News verfügbar.
             </div>
           </div>
         </div>
 
         <div
-          class="xl:col-span-6 min-[1550px]:col-span-3! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-3"
-        >
+          class="xl:col-span-6 min-[1550px]:col-span-3! min-[1650px]:col-span-4! flex flex-col xl:pl-4 h-full order-3">
           <div class="px-8 [@media(pointer:coarse)]:max-xl:px-0">
             <h2
-              class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl self-start xl:ml-1"
-            >
+              class="font-bold text-[#032650] border-b-4 border-[#032650] inline-block mb-8 mt-4 text-2xl 3xl:text-3xl self-start xl:ml-1">
               Nächste Spiele
             </h2>
 
             <div ref="spieleChipsRow" class="flex flex-nowrap gap-2 mb-4 pl-1 overflow-x-auto">
               <template v-if="teamOptions.length > 1">
-                <button
-                  v-for="option in teamOptions"
-                  :key="option"
-                  @click="selectedTeam = option"
-                  :class="[
-                    'shrink-0 px-3 py-1 text-sm font-medium rounded-full transition-colors cursor-pointer',
-                    selectedTeam === option
-                      ? 'bg-[#032650] text-white shadow-sm'
-                      : 'border border-[#032650] text-[#032650] hover:bg-[#032650] hover:text-white',
-                  ]"
-                >
+                <button v-for="option in teamOptions" :key="option" @click="selectedTeam = option" :class="[
+                  'shrink-0 px-3 py-1 3xl:px-4 3xl:py-1.5 text-sm 3xl:text-base font-medium rounded-full transition-colors cursor-pointer',
+                  selectedTeam === option
+                    ? 'bg-[#032650] text-white shadow-sm'
+                    : 'border border-[#032650] text-[#032650] hover:bg-[#032650] hover:text-white',
+                ]">
                   {{ option }}
                 </button>
               </template>
-              <button
-                v-else
-                class="shrink-0 px-3 py-1 text-sm font-medium rounded-full invisible"
-                aria-hidden="true"
-              >
+              <button v-else class="shrink-0 px-3 py-1 text-sm font-medium rounded-full invisible" aria-hidden="true">
                 Alle
               </button>
             </div>
           </div>
 
           <div
-            class="relative w-full px-8 [@media(pointer:coarse)]:max-xl:px-0 h-auto min-[1550px]:max-[1799px]:min-h-[clamp(150px,19vh,300px)] min-[1550px]:max-[1799px]:max-h-[calc(clamp(150px,19vh,300px)+18px)] min-[1800px]:h-[clamp(150px,19vh,300px)]!"
-          >
+            class="relative w-full px-8 [@media(pointer:coarse)]:max-xl:px-0 h-auto min-[1550px]:max-[1799px]:min-h-[clamp(150px,19vh,300px)] min-[1550px]:max-[1799px]:max-h-[calc(clamp(150px,19vh,300px)+18px)] min-[1800px]:h-[clamp(150px,19vh,300px)]!">
             <template v-if="filteredGames.length > 0">
               <button
-                class="swiper-prev-custom [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                  />
+                class="swiper-prev-custom [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
               </button>
 
-              <swiper
-                :modules="modules"
-                :space-between="16"
-                :auto-height="true"
-                :breakpoints="spieleBreakpoints"
+              <swiper :modules="modules" :space-between="16" :auto-height="true" :breakpoints="spieleBreakpoints"
                 :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
                 :key="filteredGames.length"
-                class="w-full h-auto min-[1550px]:max-[1799px]:min-h-full min-[1800px]:h-full! overflow-hidden"
-              >
+                class="w-full h-auto min-[1550px]:max-[1799px]:min-h-full min-[1800px]:h-full! overflow-hidden">
                 <swiper-slide v-for="game in filteredGames" :key="game._uid">
-                  <GameCard
-                    :date="game.date"
-                    :home-team="game.hometeam || game.homeTeam || ''"
-                    :away-team="game.awayteam || game.awayTeam || ''"
-                    :homeLogo="game.homeLogo?.filename"
-                    :awayLogo="game.awayLogo?.filename"
-                    :venue="game.venue"
-                    :home="game.home"
-                    :team="game.team"
+                  <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam || ''"
+                    :away-team="game.awayteam || game.awayTeam || ''" :homeLogo="game.homeLogo?.filename"
+                    :awayLogo="game.awayLogo?.filename" :venue="game.venue" :home="game.home" :team="game.team"
                     v-editable="game"
-                    class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all"
-                  />
+                    class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all" />
                 </swiper-slide>
               </swiper>
 
               <button
-                class="swiper-next-custom [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
+                class="swiper-next-custom [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </button>
             </template>
 
-            <div
-              v-else
-              class="w-full h-full flex items-center justify-center text-[#032650] font-bold text-center px-4 text-lg"
-            >
+            <div v-else
+              class="w-full h-full flex items-center justify-center text-[#032650] font-bold text-center px-4 text-lg">
               Aktuell keine Spiele geplant.
             </div>
           </div>

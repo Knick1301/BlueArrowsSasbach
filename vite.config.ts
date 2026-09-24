@@ -10,7 +10,6 @@ export default defineConfig(({ command }) => ({
   plugins: [
     vue(),
     tailwindcss(),
-    // Nur für den Dev-Server (Storyblok Visual Editor braucht https), nicht im Produktions-Build
     ...(command === 'serve' ? [vueDevTools(), basicSsl()] : []),
   ],
   resolve: {

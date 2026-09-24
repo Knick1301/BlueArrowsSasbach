@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @config "/tailwind.config.ts";
 
+@custom-variant 3xl (@media (width >= 1921px) and (height >= 1200px));
+
 @font-face {
   font-family: 'Inter';
   src: url('./fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');

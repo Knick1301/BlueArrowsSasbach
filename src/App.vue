@@ -75,7 +75,7 @@ const navItems = computed(() =>
             class="relative w-24 3xl:w-40 h-full flex items-center justify-center mr-8 3xl:mr-14 overflow-visible group z-[1100]">
             <img :src="basLogo"
               class="absolute left-1/2 -translate-x-1/2 max-w-none transition-transform group-hover:scale-105"
-              :class="['-top-10 w-28', 'lg:-top-10 lg:w-45', '3xl:-top-24 3xl:w-80']" alt="BAS Logo" />
+              :class="['-top-10 w-28', 'lg:-top-10 lg:w-45', '3xl:-top-[54px]! 3xl:w-58!']" alt="BAS Logo" />
           </router-link>
 
           <div class="hidden lg:flex items-center gap-1">
@@ -132,7 +132,7 @@ const navItems = computed(() =>
               <button type="button" @click="item.subLinks?.length ? toggleSubMenu(item._uid) : null"
                 class="w-full flex justify-between items-center py-2 text-left"
                 :class="{ 'cursor-pointer': item.subLinks?.length }">
-                <span class="text-2xl font-bold text-[#032650]">
+                <span class="text-2xl font-bold text-[#032650] 3xl:text-3xl">
                   {{ item.title }}
                 </span>
 

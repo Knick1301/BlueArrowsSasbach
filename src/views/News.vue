@@ -22,8 +22,6 @@ interface NewsStory {
 const visibleLimit = ref(4)
 const stories = ref<NewsStory[]>([])
 
-// Lädt alle News auf einmal (in 100er-Seiten), damit sie nach Kalenderjahr gruppiert werden können.
-// Für einen Vereinsblog ist das unproblematisch, "Weitere News laden" schaltet nur clientseitig mehr frei.
 const fetchAllNews = async () => {
   const perPage = 100
   let page = 1
@@ -90,9 +88,6 @@ const news = computed(() => {
   }))
 })
 
-// Das Jahr der neuesten News bleibt offen wie bisher, alle älteren Jahre werden darunter
-// als einklappbare Gruppen angezeigt. Sobald ein neues Jahr die erste News bekommt, rutscht
-// das vorherige Jahr automatisch mit in die Archiv-Gruppen.
 const mainYear = computed(() => {
   const first = news.value[0]
   return first ? new Date(first.date).getFullYear() : new Date().getFullYear()
@@ -123,8 +118,6 @@ const toggleYear = (year: number) => {
   openYears.value = next
 }
 
-// Jedes Archiv-Jahr hat wie die Hauptliste eine eigene "Mehr/Weniger anzeigen"-Grenze,
-// damit eine volle Saison nicht komplett auf einmal aufgeklappt wird.
 const YEAR_INITIAL_LIMIT = 3
 const yearLimits = ref<Map<number, number>>(new Map())
 

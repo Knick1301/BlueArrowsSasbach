@@ -149,7 +149,6 @@ const { open: openLightbox } = useLightbox()
             </div>
           </div>
 
-          <!-- Desktop: Zickzack, Erfolg rechts / Meilenstein links -->
           <div class="hidden md:block relative">
             <div class="absolute left-1/2 -translate-x-1/2 top-2 bottom-2 w-0.5 bg-gray-200"></div>
 
