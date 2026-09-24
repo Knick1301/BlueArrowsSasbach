@@ -64,7 +64,7 @@ const mapsUrl = computed(
     <div class="max-w-6xl w-[95%] mx-auto mt-15 px-5">
       <DecoratedCard content-class="p-6 px-4 md:p-10 md:px-6">
         <h2
-          class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
+          class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
         >
           <span class="inline-block border-b-[3px] border-[#032650] pb-1">So erreichst du uns</span>
         </h2>
@@ -165,7 +165,7 @@ const mapsUrl = computed(
 
         <div id="vorstand" class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8 scroll-mt-28">
           <h2
-            class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center"
+            class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-6 text-center"
           >
             <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vorstand</span>
           </h2>

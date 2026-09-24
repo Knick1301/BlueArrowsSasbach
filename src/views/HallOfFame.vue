@@ -56,7 +56,7 @@ const { open: openLightbox } = useLightbox()
         ></div>
 
         <h2
-          class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
+          class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
         >
           <span class="inline-block border-b-[3px] border-[#032650] pb-1">Unsere Legenden</span>
         </h2>

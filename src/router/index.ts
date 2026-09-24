@@ -38,7 +38,7 @@ const router = createRouter({
       component: () => import('@/views/Teams.vue'),
     },
     {
-      path: '/training/trainings',
+      path: '/teams/trainings',
       name: 'training',
       meta: { title: 'Trainingszeiten' },
       component: () => import('@/views/Trainingszeiten.vue'),

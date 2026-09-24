@@ -80,7 +80,7 @@ const aktuelleTermine = computed(() => {
         ></div>
 
         <h2
-          class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase text-center tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 mx-auto w-fit"
+          class="text-[#032650] text-2xl font-black mt-0 uppercase text-center tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 mx-auto w-fit"
         >
           Skating-Angebote
         </h2>

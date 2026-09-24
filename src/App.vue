@@ -162,7 +162,7 @@ const navItems = computed(() =>
       </transition>
     </header>
 
-    <main class="flex-grow flex flex-col">
+    <main class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
       <Suspense>
         <router-view :key="route.path" />
       </Suspense>

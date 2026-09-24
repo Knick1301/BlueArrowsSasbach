@@ -51,7 +51,7 @@ const { open: openLightbox } = useLightbox()
     <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
       <DecoratedCard>
         <h2
-          class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
+          class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
         >
           <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vereinsgeschichte</span>
         </h2>
@@ -68,7 +68,7 @@ const { open: openLightbox } = useLightbox()
 
         <h2
           v-if="meisterschaften.length"
-          class="text-[#B8860B] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
+          class="text-[#B8860B] text-2xl font-black mt-0 uppercase tracking-wide mb-4 text-center"
         >
           <span class="inline-block border-b-[3px] border-[#B8860B] pb-1">Erfolge</span>
         </h2>
@@ -108,7 +108,7 @@ const { open: openLightbox } = useLightbox()
 
         <div v-if="meilensteine.length">
           <h2
-            class="text-[#032650] text-2xl 3xl:text-3xl font-black mt-0 uppercase tracking-wide mb-6 text-center"
+            class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-6 text-center"
           >
             <span class="inline-block border-b-[3px] border-[#032650] pb-1">Geschichte</span>
           </h2>
