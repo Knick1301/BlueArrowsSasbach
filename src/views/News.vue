@@ -200,7 +200,7 @@ const loadLess = () => {
           </span>
 
           <span v-if="latestNews.score"
-            class="bg-white text-[#032650] text-md font-bold px-2.5 py-1 rounded-md tracking-wide shrink-0">
+            class="bg-white text-[#032650] text-base font-bold px-2.5 py-1 rounded-md tracking-wide shrink-0">
             {{ latestNews.score }}
           </span>
         </div>
@@ -209,10 +209,10 @@ const loadLess = () => {
           {{ latestNews.title }}
         </h2>
 
-        <div class="text-gray-200 text-md mb-7 line-clamp-5 flex-grow break-words"
+        <div class="text-gray-200 text-base mb-7 line-clamp-5 flex-grow break-words"
           v-html="renderRichText(latestNews.content)"></div>
 
-        <span class="inline-flex items-center gap-1.5 text-white font-bold text-md mt-auto shrink-0">
+        <span class="inline-flex items-center gap-1.5 text-white font-bold text-base mt-auto shrink-0">
           Weiterlesen
           <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">&rarr;</span>
         </span>

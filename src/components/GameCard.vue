@@ -40,7 +40,7 @@ const formatTime = (dateStr: string) => {
 
       <span
         v-if="home"
-        class="absolute top-0 right-0 inline-block bg-[#032650] text-white text-[0.8rem] xl:text-[0.7rem] 3xl:text-xs! font-bold px-2 py-0.5 3xl:px-3! rounded-full border border-emerald-600/25"
+        class="absolute top-0 right-0 inline-block bg-[#032650] text-white text-xs 3xl:text-sm! font-bold px-2 py-0.5 3xl:px-3! rounded-full border border-emerald-600/25"
       >
         Heim
       </span>
@@ -59,7 +59,7 @@ const formatTime = (dateStr: string) => {
         </div>
       </div>
 
-      <div class="text-[0.8rem] lg:text-sm 3xl:text-base! text-gray-400 font-bold shrink-0">vs</div>
+      <div class="text-[0.8rem] lg:text-sm 3xl:text-base! text-gray-500 font-bold shrink-0">vs</div>
 
       <div class="flex-1 min-w-0 flex flex-col items-center justify-center">
         <img

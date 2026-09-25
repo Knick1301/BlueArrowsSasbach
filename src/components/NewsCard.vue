@@ -37,7 +37,7 @@ defineProps<{
                 {{ title }}
             </h3>
 
-            <div class="text-gray-700 text-md mb-4 line-clamp-2 font-medium flex-grow break-words"
+            <div class="text-gray-700 text-base mb-4 line-clamp-2 font-medium flex-grow break-words"
                 v-html="renderRichText(content)"></div>
 
             <span class="inline-flex items-center gap-1.5 text-[#032650] font-bold text-sm mt-auto">

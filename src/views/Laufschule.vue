@@ -290,7 +290,7 @@ const trainingsByTeam = computed(() => {
             </div>
           </div>
 
-          <div class="flex flex-col text-sm font-bold text-gray-400 text-right pr-4">
+          <div class="flex flex-col text-sm font-bold text-gray-500 text-right pr-4">
             <div v-for="hour in calendarHours" :key="hour" class="h-[105px] whitespace-nowrap">
               {{ hour }}:00
             </div>

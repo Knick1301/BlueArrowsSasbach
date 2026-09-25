@@ -84,7 +84,6 @@ const router = createRouter({
       name: 'kontakt',
       meta: { title: 'Kontakt' },
       component: () => import('@/views/Kontakt.vue'),
-      // Alte Links auf den früheren Vorstand-Abschnitt der Kontaktseite
       beforeEnter: (to) => (to.hash === '#vorstand' ? { name: 'vorstand' } : true),
     },
     {

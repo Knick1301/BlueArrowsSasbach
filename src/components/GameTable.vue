@@ -146,7 +146,7 @@ const buttonText = computed(() => {
 
                 <span
                   v-if="game.home"
-                  class="bg-[#032650] text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm"
+                  class="bg-[#032650] text-white text-[11px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider shadow-sm"
                 >
                   Heim
                 </span>
@@ -199,7 +199,7 @@ const buttonText = computed(() => {
                 </div>
                 <span
                   v-if="game.venue"
-                  class="block pl-[26px] mt-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest"
+                  class="block pl-[26px] mt-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-widest"
                 >
                   @ {{ game.venue }}
                 </span>
@@ -229,7 +229,7 @@ const buttonText = computed(() => {
                     </div>
                     <span
                       v-if="game.venue"
-                      class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1"
+                      class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-1"
                     >
                       @ {{ game.venue }}
                     </span>
@@ -256,7 +256,7 @@ const buttonText = computed(() => {
           </tr>
 
           <tr v-if="!displayedGames.length">
-            <td colspan="3" class="px-4 py-12 text-center text-gray-400 italic text-xs">
+            <td colspan="3" class="px-4 py-12 text-center text-gray-500 italic text-xs">
               <div class="flex flex-col items-center gap-2">
                 <i class="fa-regular fa-calendar-xmark text-2xl text-gray-200"></i>
                 Keine Spiele in dieser Kategorie eingetragen.

@@ -31,7 +31,7 @@ const sortedTable = computed(() => {
         <div class="w-2 h-6 bg-[#032650] rounded-full"></div>
         <h3 class="font-bold text-[#032650] uppercase tracking-widest text-sm">Ligatabelle</h3>
       </div>
-      <span class="text-[13px] text-gray-400 font-bold uppercase tracking-tighter"
+      <span class="text-[13px] text-gray-500 font-bold uppercase tracking-tighter"
         >Saison 2026</span
       >
     </div>
@@ -39,7 +39,7 @@ const sortedTable = computed(() => {
     <div class="overflow-x-auto rounded-xl border border-gray-100 flex-grow">
       <table class="w-full text-sm text-left border-collapse">
         <thead
-          class="bg-gray-50/80 text-[11px] text-gray-400 uppercase tracking-widest border-b border-gray-100"
+          class="bg-gray-50/80 text-[11px] text-gray-500 uppercase tracking-widest border-b border-gray-100"
         >
           <tr>
             <th class="px-2 sm:px-3 py-3 font-bold text-center w-10 sm:w-12">Pos.</th>
@@ -68,7 +68,7 @@ const sortedTable = computed(() => {
             ]"
           >
             <td
-              class="px-2 sm:px-3 py-4 text-center font-bold text-gray-400 group-hover:text-[#032650]"
+              class="px-2 sm:px-3 py-4 text-center font-bold text-gray-500 group-hover:text-[#032650]"
             >
               {{ index + 1 }}.
             </td>
@@ -101,11 +101,11 @@ const sortedTable = computed(() => {
             </td>
 
             <td class="px-2 py-4 text-center text-gray-500 font-medium">{{ row.gamesPlayed }}</td>
-            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">{{ row.wins }}</td>
-            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">{{ row.wins }}</td>
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">
               {{ row.draws }}
             </td>
-            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-400">
+            <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">
               {{ row.losses }}
             </td>
             <td class="hidden sm:table-cell px-3 py-4 text-center text-gray-500 font-mono text-xs">
@@ -116,10 +116,10 @@ const sortedTable = computed(() => {
               class="hidden min-[370px]:table-cell px-2 sm:px-3 py-4 text-center font-bold"
               :class="[
                 row.goalDifference > 0
-                  ? 'text-emerald-500'
+                  ? 'text-emerald-700'
                   : row.goalDifference < 0
-                    ? 'text-rose-400'
-                    : 'text-gray-300',
+                    ? 'text-rose-600'
+                    : 'text-gray-500',
               ]"
             >
               {{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
@@ -135,7 +135,7 @@ const sortedTable = computed(() => {
           </tr>
 
           <tr v-if="!sortedTable.length">
-            <td colspan="9" class="px-4 py-12 text-center text-gray-400 italic text-xs">
+            <td colspan="9" class="px-4 py-12 text-center text-gray-500 italic text-xs">
               <div class="flex flex-col items-center gap-2">
                 <i class="fa-solid fa-list-ol text-2xl text-gray-200"></i>
                 Keine Daten vorhanden.

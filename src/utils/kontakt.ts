@@ -14,7 +14,6 @@ interface KontaktEintrag {
   image?: { filename?: string }
 }
 
-// Google-Maps-Link zur Blue Arrows Arena (Kontakt & Vereinsstätte)
 export const MAPS_URL =
   'https://www.google.com/maps/place/Blue+Arrows+Arena+Sasbach/@48.6447567,8.0801272,365m/data=!3m1!1e3!4m6!3m5!1s0x4796d8e348db6f7d:0x63629dbd73f23464!8m2!3d48.6448296!4d8.0801818!16s%2Fg%2F1tmqq97s?entry=ttu&g_ep=EgoyMDI2MDkyMi4wIKXMDSoASAFQAw%3D%3D'
 

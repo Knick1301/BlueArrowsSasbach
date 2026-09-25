@@ -183,7 +183,7 @@ const trainingsByTeam = computed(() => {
               {{ training.from }} - {{ training.to }}
             </div>
             <div
-              class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-md leading-tight">
+              class="flex-1 flex items-center justify-center text-center font-black text-[#032650] text-base leading-tight">
               {{ teamMapping[training.team] || training.team }}
             </div>
           </div>

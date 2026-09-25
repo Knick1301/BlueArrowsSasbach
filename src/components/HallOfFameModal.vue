@@ -77,7 +77,6 @@ watch(
           </span>
         </div>
 
-        <!-- Desktop: Bild gibt die Höhe vor, nur der Text scrollt, Buttons bleiben unten. Handy: ganzes Popup scrollt -->
         <div class="relative flex-1 shrink-0 md:shrink md:min-h-0 md:min-w-0 flex flex-col">
           <div class="md:absolute md:inset-0 flex flex-col">
             <div class="hof-modal-text md:flex-1 md:min-h-0 md:overflow-y-auto px-6 pt-6 md:px-8 md:pt-8 pb-4">

@@ -17,7 +17,6 @@ const personen = computed(
   () => (story?.value?.content.personen as HallOfFamer[] | undefined) ?? [],
 )
 
-// Teilbarer Link: /historie/hall-of-fame?legende=stephan-kistner
 const slugify = (name: string) =>
   name
     .toLowerCase()
