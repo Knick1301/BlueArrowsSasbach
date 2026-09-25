@@ -6,11 +6,11 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(({ command, mode }) => ({
   plugins: [
     vue(),
     tailwindcss(),
-    ...(command === 'serve' ? [vueDevTools(), basicSsl()] : []),
+    ...(command === 'serve' && mode !== 'test' ? [vueDevTools(), basicSsl()] : []),
   ],
   resolve: {
     alias: {
