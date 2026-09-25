@@ -1,21 +1,9 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { computed, nextTick, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
-import PersonCard from '@/components/PersonCard.vue'
-
-interface KontaktpersonBlok {
-  _uid: string
-  component: string
-  name: string
-  role?: string
-  categorie: 'vorstand' | 'sonstiges'
-  image?: { filename: string }
-  email?: string
-  phone?: string
-}
+import { MAPS_URL } from '@/utils/kontakt'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -24,41 +12,14 @@ try {
   console.error('Storyblok-Story "verein/kontakt" konnte nicht geladen werden.', e)
 }
 
-const route = useRoute()
-
-const scrollToHash = async () => {
-  if (!route.hash) return
-  await nextTick()
-  document.querySelector(route.hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-onMounted(scrollToHash)
-watch(() => route.hash, scrollToHash)
-
-const ansprechpartner = computed(
-  () => (story?.value?.content.kontakt as KontaktpersonBlok[] | undefined) ?? [],
-)
-const vorstand = computed(() => ansprechpartner.value.filter((p) => p.categorie === 'vorstand'))
-const weitereAnsprechpartner = computed(() =>
-  ansprechpartner.value.filter((p) => p.categorie === 'sonstiges'),
-)
-
-const address = computed(
-  () => story?.value?.content.address || 'Sasbachrieder Str. 93, 77880 Sasbach',
-)
 const email = computed(() => story?.value?.content.email || 'info@bluearrows.de')
 const phone = computed(() => story?.value?.content.phone || '')
-const mapsUrl = computed(
-  () => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address.value)}`,
-)
 </script>
 
 <template>
   <div class="mb-15">
     <div class="w-full py-13 bg-[#032650] text-center px-4">
-      <h1 class="text-3xl font-black text-white uppercase tracking-wider">
-        {{ story?.content.title || 'Kontakt' }}
-      </h1>
+      <h1 class="text-3xl font-black text-white uppercase tracking-wider">Kontakt</h1>
     </div>
 
     <div class="max-w-6xl w-[95%] mx-auto mt-15 px-5">
@@ -75,8 +36,8 @@ const mapsUrl = computed(
           {{
             story?.content.intro ||
             `Du hast eine Frage, möchtest mit dem Verein in Kontakt treten oder
-                    suchst einen bestimmten Ansprechpartner? Hier findest du alle wichtigen Kontaktmöglichkeiten der
-                    Blue Arrows Sasbach.`
+          suchst einen bestimmten Ansprechpartner? Hier findest du alle wichtigen Kontaktmöglichkeiten der
+          Blue Arrows Sasbach.`
           }}
         </p>
 
@@ -91,7 +52,7 @@ const mapsUrl = computed(
             Sasbachrieder Str. 93, 77880 Sasbach
           </p>
 
-          <a :href="mapsUrl" target="_blank" class="block w-150 max-w-full mx-auto group">
+          <a :href="MAPS_URL" target="_blank" class="block w-150 max-w-full mx-auto group">
             <div class="relative">
               <img
                 v-if="story?.content.mapsImage?.filename"
@@ -163,44 +124,19 @@ const mapsUrl = computed(
           </div>
         </div>
 
-        <div id="vorstand" class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8 scroll-mt-28">
-          <h2
-            class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-6 text-center"
-          >
-            <span class="inline-block border-b-[3px] border-[#032650] pb-1">Vorstand</span>
-          </h2>
-
-          <div v-if="vorstand.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <PersonCard v-for="person in vorstand" :key="person._uid" :person="person" />
-          </div>
-
-          <div
-            v-else
-            class="bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 font-bold text-lg text-center px-4 py-12"
-          >
-            Hier kommen Vorstandsmitglieder hin
-          </div>
-        </div>
-
-        <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8">
+        <div class="border-t-2 border-gray-200 mt-10 lg:mt-15 pt-8 text-center">
           <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-5">
-            Weitere Ansprechpartner
+            Ansprechpartner
           </h3>
-
-          <div v-if="weitereAnsprechpartner.length" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <PersonCard
-              v-for="person in weitereAnsprechpartner"
-              :key="person._uid"
-              :person="person"
-            />
-          </div>
-
-          <div
-            v-else
-            class="bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 font-bold text-lg text-center px-4 py-12"
+          <p class="mb-6 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed">
+            Du suchst einen bestimmten Ansprechpartner? Hier findest du unseren Vorstand.
+          </p>
+          <router-link
+            :to="{ name: 'vorstand' }"
+            class="inline-block bg-[#032650] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004a87] transition-colors text-sm"
           >
-            Hier kommen weitere Ansprechpartner hin
-          </div>
+            Zum Vorstand
+          </router-link>
         </div>
       </DecoratedCard>
     </div>

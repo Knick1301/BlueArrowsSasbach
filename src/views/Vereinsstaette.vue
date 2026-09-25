@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { MAPS_URL } from '@/utils/kontakt'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
@@ -62,7 +63,7 @@ const spielstaetteImages = computed(() => {
         </p>
 
         <a
-          href="https://www.google.com/maps/search/?api=1&query=Sasbachrieder+Str.+93,+77880+Sasbach"
+          :href="MAPS_URL"
           target="_blank"
           class="block w-full md:w-150 max-w-full mx-auto mb-10 lg:mb-15 group"
         >
