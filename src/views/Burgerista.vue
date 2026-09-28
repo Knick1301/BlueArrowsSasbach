@@ -54,7 +54,7 @@ const aktuelleTermine = computed(() => {
           v-else
           class="w-full h-[340px] sm:h-[420px] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl"
         >
-          Hier kommt das Burger-Bild hin 🍔
+          Hier kommt das Burger-Bild hin
         </div>
       </div>
 
@@ -112,9 +112,41 @@ const aktuelleTermine = computed(() => {
                 }}
               </span>
               <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">
-                <span v-if="termin.uhrzeit">🕒 {{ termin.uhrzeit }}</span>
+                <span v-if="termin.uhrzeit" class="inline-flex items-center gap-1"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-4 h-4 shrink-0"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    /></svg
+                  >{{ termin.uhrzeit }}</span
+                >
                 <span v-if="termin.uhrzeit && termin.standort"> · </span>
-                <span v-if="termin.standort">📍 {{ termin.standort }}</span>
+                <span v-if="termin.standort" class="inline-flex items-center gap-1"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-4 h-4 shrink-0"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                    /></svg
+                  >{{ termin.standort }}</span
+                >
               </span>
             </div>
           </div>
@@ -147,7 +179,7 @@ const aktuelleTermine = computed(() => {
           v-else
           class="w-full h-[400px] lg:h-[600px] bg-gray-100 rounded-xl shadow-xl border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl"
         >
-          Hier kommt das Burger-Bild hin 🍔
+          Hier kommt das Burger-Bild hin
         </div>
       </div>
     </div>

@@ -154,7 +154,7 @@ const trainingsByTeam = computed(() => {
       </div>
     </div>
 
-    <div class="max-w-[1400px] mx-auto mt-10 px-4 hidden xl:grid grid-cols-[60px_1fr] gap-4">
+    <div class="max-w-[1400px] w-[95%] mx-auto mt-10 px-4 hidden xl:grid grid-cols-[60px_1fr] gap-4">
       <div></div>
 
       <div class="grid grid-cols-7 gap-4">

@@ -73,7 +73,7 @@ setPageMeta({
       </span>
     </div>
 
-    <div class="w-[95%] max-w-4xl mx-auto mt-10 px-4">
+    <div class="w-[95%] max-w-4xl mx-auto mt-15 px-4">
       <DecoratedCard content-class="flex flex-col">
         <div v-if="images.length > 1" class="w-full shrink-0">
           <div class="relative w-full aspect-[600/348] rounded-t-xl overflow-hidden">

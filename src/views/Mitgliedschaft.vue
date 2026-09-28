@@ -45,7 +45,7 @@ const downloads = [
       </h1>
     </div>
 
-    <div class="max-w-5xl w-[95%] mx-auto mt-15 px-4">
+    <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
       <div
         class="relative w-full bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800"
       >

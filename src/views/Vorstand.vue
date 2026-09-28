@@ -43,7 +43,7 @@ const weitereAnsprechpartner = computed(() =>
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">{{ title }}</h1>
     </div>
 
-    <div class="max-w-6xl w-[95%] mx-auto mt-15 px-5">
+    <div class="max-w-6xl w-[95%] mx-auto mt-15 px-4">
       <DecoratedCard content-class="p-6 px-4 md:p-10 md:px-6">
         <h2 class="text-[#032650] text-2xl font-black mt-0 uppercase tracking-wide mb-6 text-center">
           <span class="inline-block border-b-[3px] border-[#032650] pb-1">Unser Vorstand</span>

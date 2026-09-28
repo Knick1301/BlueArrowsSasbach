@@ -88,7 +88,21 @@ const sortedTable = computed(() => {
                     v-else
                     class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center"
                   >
-                    <i class="fa-solid fa-shield text-[10px] text-gray-300"></i>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-3.5 h-3.5 text-gray-400"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 2.714A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+                      />
+                    </svg>
                   </div>
                 </div>
                 <span
@@ -137,7 +151,21 @@ const sortedTable = computed(() => {
           <tr v-if="!sortedTable.length">
             <td colspan="9" class="px-4 py-12 text-center text-gray-500 italic text-xs">
               <div class="flex flex-col items-center gap-2">
-                <i class="fa-solid fa-list-ol text-2xl text-gray-200"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-7 h-7 text-gray-300"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
+                </svg>
                 Keine Daten vorhanden.
               </div>
             </td>
