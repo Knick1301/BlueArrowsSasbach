@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
+import { getNewsDate, getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 import { collectGames, sortTeams, type StoryblokBlok } from '@/utils/games'
@@ -37,8 +37,12 @@ interface Story {
   uuid: string
   name: string
   full_slug: string
+  first_published_at?: string | null
+  published_at?: string | null
+  created_at?: string
   content: {
     title?: string
+    date?: string
     image?: { filename: string }[]
     body?: StoryblokBlok[]
     [key: string]: unknown
@@ -76,6 +80,7 @@ try {
     starts_with: 'aktuelles/news/',
     is_startpage: false,
     sort_by: 'content.date:desc',
+    per_page: 100,
   })
   newsData = newsResponse.data
 
@@ -103,7 +108,12 @@ const NEWS_TEASER_LIMIT = 6
 const newsCards = computed(() => {
   const stories = (newsData?.stories ?? []) as Story[]
 
-  return stories.slice(0, NEWS_TEASER_LIMIT).map((newsItem) => ({
+  const newestFirst = [...stories].sort(
+    (a, b) =>
+      new Date(getNewsDate(b)).getTime() - new Date(getNewsDate(a)).getTime(),
+  )
+
+  return newestFirst.slice(0, NEWS_TEASER_LIMIT).map((newsItem) => ({
     _uid: newsItem.uuid,
     title: newsItem.content.title ?? '',
     image: newsItem.content.image?.[0],

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblokApi, type StoryblokRichTextNode } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { formatDate, resizeImage } from '@/utils/methods.ts'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { formatDate, getNewsDate, resizeImage } from '@/utils/methods.ts'
 import NewsCard from '@/components/NewsCard.vue'
 
 const storyblokApi = useStoryblokApi()
@@ -10,6 +10,9 @@ const storyblokApi = useStoryblokApi()
 interface NewsStory {
   uuid: string
   slug: string
+  first_published_at?: string | null
+  published_at?: string | null
+  created_at?: string
   content: {
     title: string
     date: string
@@ -77,15 +80,17 @@ onBeforeUnmount(() => {
 })
 
 const news = computed(() => {
-  return stories.value.map((story) => ({
-    _uid: story.uuid,
-    slug: story.slug,
-    title: story.content.title,
-    date: story.content.date,
-    image: story.content.image?.[0],
-    content: story.content.content,
-    score: story.content.score,
-  }))
+  return stories.value
+    .map((story) => ({
+      _uid: story.uuid,
+      slug: story.slug,
+      title: story.content.title,
+      date: getNewsDate(story),
+      image: story.content.image?.[0],
+      content: story.content.content,
+      score: story.content.score,
+    }))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 })
 
 const mainYear = computed(() => {
@@ -142,10 +147,23 @@ const loadMoreYear = (year: number) => {
   yearLimits.value = next
 }
 
+// Nach dem Zuklappen zum Anfang der Liste springen, damit man nicht mitten in anderen Inhalten landet
+const scrollToElement = async (element: Element | null | undefined) => {
+  await nextTick()
+  element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+const yearSections = new Map<number, Element>()
+const setYearSection = (year: number, element: unknown) => {
+  if (element instanceof Element) yearSections.set(year, element)
+  else yearSections.delete(year)
+}
+
 const loadLessYear = (year: number) => {
   const next = new Map(yearLimits.value)
-  next.set(year, Math.max(YEAR_INITIAL_LIMIT, getYearLimit(year) - columns.value))
+  next.delete(year)
   yearLimits.value = next
+  scrollToElement(yearSections.get(year))
 }
 
 const latestNews = computed(() => {
@@ -173,9 +191,11 @@ const loadMore = () => {
   visibleLimit.value += columns.value
 }
 
+const newsGrid = ref<HTMLElement | null>(null)
+
 const loadLess = () => {
-  visibleLimit.value -= columns.value
-  if (visibleLimit.value < 4) visibleLimit.value = 4
+  visibleLimit.value = 4
+  scrollToElement(newsGrid.value)
 }
 </script>
 
@@ -209,7 +229,7 @@ const loadLess = () => {
           {{ latestNews.title }}
         </h2>
 
-        <div class="text-gray-200 text-base mb-7 line-clamp-5 flex-grow break-words"
+        <div class="text-gray-200 text-base mb-7 line-clamp-5 break-words [&_*]:text-inherit!"
           v-html="renderRichText(latestNews.content)"></div>
 
         <span class="inline-flex items-center gap-1.5 text-white font-bold text-base mt-auto shrink-0">
@@ -219,8 +239,8 @@ const loadLess = () => {
       </div>
     </router-link>
 
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[calc(95%-2rem)] md:w-[80%] max-w-[1300px] mx-auto mb-10">
+    <div ref="newsGrid"
+      class="scroll-mt-32 3xl:scroll-mt-40 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-[calc(95%-2rem)] md:w-[80%] max-w-[1300px] mx-auto mb-10">
       <NewsCard v-for="newsItem in displayedOlderNews" :key="newsItem._uid" :slug="newsItem.slug"
         :title="newsItem.title" :date="newsItem.date" :image="newsItem.image" :content="newsItem.content"
         :score="newsItem.score" />
@@ -238,8 +258,8 @@ const loadLess = () => {
     </div>
 
     <div v-if="pastYears.length" class="w-[calc(95%-2rem)] md:w-[80%] max-w-[1300px] mx-auto mt-8 space-y-3">
-      <div v-for="group in pastYears" :key="group.year"
-        class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div v-for="group in pastYears" :key="group.year" :ref="(el) => setYearSection(group.year, el)"
+        class="scroll-mt-32 3xl:scroll-mt-40 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
         <button @click="toggleYear(group.year)"
           class="w-full flex items-center justify-between gap-4 px-6 py-4 text-left cursor-pointer hover:bg-gray-50 transition-colors">
           <span class="text-[#032650] font-black text-lg uppercase tracking-wide">

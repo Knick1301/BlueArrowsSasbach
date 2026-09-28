@@ -37,74 +37,58 @@ const aktuelleTermine = computed(() => {
       </h1>
     </div>
 
-    <div
-      class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start"
-    >
+    <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
       <div class="w-full lg:hidden">
-        <img
-          v-if="story?.content.image?.filename"
-          :src="story.content.image.filename"
-          alt="Inline Disco"
-          class="w-full h-[340px] sm:h-[420px] object-cover rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-          @click="openLightbox(story.content.image.filename)"
-        />
-        <div
-          v-else
-          class="w-full h-[340px] sm:h-[420px] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl"
-        >
+        <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
+          class="block mx-auto w-auto max-w-full h-auto max-h-[70vh] rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(story.content.image.filename)" />
+        <div v-else
+          class="w-full aspect-[4/3] sm:aspect-[16/10] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
           Hier kommt ein Bild hin
         </div>
       </div>
 
-      <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
-        <img
-          v-if="story?.content.image?.filename"
-          :src="story.content.image.filename"
-          alt="Inline Disco"
-          class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-          @click="openLightbox(story.content.image.filename)"
-        />
-        <div
-          v-else
-          class="w-full h-[400px] lg:h-[600px] bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl"
-        >
-          Hier kommt ein Bild hin
+      <!-- Bildspalte nimmt keine eigene Höhe ein, damit das Bild nie höher als die Karte wird -->
+      <div class="hidden lg:block relative lg:w-2/5 self-stretch">
+        <div class="absolute inset-0 flex justify-center items-start">
+          <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
+            class="block w-auto max-w-full h-auto max-h-full rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+            @click="openLightbox(story.content.image.filename)" />
+          <div v-else
+            class="w-full h-full bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
+            Hier kommt ein Bild hin
+          </div>
         </div>
       </div>
 
       <div
-        class="relative w-full lg:w-3/5 bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800 flex flex-col h-full"
-      >
+        class="relative w-full lg:w-3/5 bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-gray-800 flex flex-col h-full">
         <div
-          class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none"
-        ></div>
+          class="absolute -top-2 -left-2 w-6 h-6 border-t-[3px] border-l-[3px] border-[#032650] rounded-tl-md pointer-events-none">
+        </div>
         <div
-          class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none"
-        ></div>
+          class="absolute -top-2 -right-2 w-6 h-6 border-t-[3px] border-r-[3px] border-[#032650] rounded-tr-md pointer-events-none">
+        </div>
         <div
-          class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none"
-        ></div>
+          class="absolute -bottom-2 -left-2 w-6 h-6 border-b-[3px] border-l-[3px] border-[#032650] rounded-bl-md pointer-events-none">
+        </div>
         <div
-          class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none"
-        ></div>
+          class="absolute -bottom-2 -right-2 w-6 h-6 border-b-[3px] border-r-[3px] border-[#032650] rounded-br-md pointer-events-none">
+        </div>
 
         <h2
-          class="text-[#032650] text-2xl font-black mt-0 uppercase text-center tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 mx-auto w-fit"
-        >
+          class="text-[#032650] text-2xl font-black mt-0 uppercase text-center tracking-wide mb-4 border-b-[3px] border-[#032650] inline-block pb-1 mx-auto w-fit">
           Disco auf Rollen
         </h2>
 
-        <p
-          class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto"
-        >
+        <p class="mb-10 text-lg 2xl:text-xl font-medium text-gray-700 leading-relaxed text-center max-w-2xl mx-auto">
           Wir verwandeln unsere Hockeyarena in eine rollende Tanzfläche – mit Musik, Licht und jeder
           Menge Spaß auf Rollen. Egal ob Anfänger oder alter Hase, für Jung und Alt ist bei unserer
           Inline Disco etwas dabei.
         </p>
 
         <div
-          class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 md:divide-x-2 md:divide-gray-200 border-t-2 border-gray-200 pt-8 mb-8"
-        >
+          class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 md:divide-x-2 md:divide-gray-200 border-t-2 border-gray-200 pt-8 mb-8">
           <div class="md:pr-8">
             <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
               Programm
@@ -114,9 +98,7 @@ const aktuelleTermine = computed(() => {
               DJ, Discolicht und eine geräumige Fläche zum Skaten und Tanzen – bei uns kommt echtes
               Rollschuhdisco-Feeling auf.
             </p>
-            <ul
-              class="space-y-2 text-[#032650] font-bold text-base list-disc list-inside marker:text-[#032650]"
-            >
+            <ul class="space-y-2 text-[#032650] font-bold text-base list-disc list-inside marker:text-[#032650]">
               <li>DJ & Lichtshow</li>
               <li>Essen & Getränke vor Ort</li>
               <li>Für alle Alters- und Könnensstufen</li>
@@ -133,16 +115,12 @@ const aktuelleTermine = computed(() => {
               sind natürlich auch jederzeit willkommen.
             </p>
             <div
-              class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-medium text-base mt-auto"
-            >
+              class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-medium text-base mt-auto">
               <span class="font-bold block mb-1">Nächste Termine:</span>
 
               <span v-if="aktuelleTermine.length > 0">
-                <span
-                  v-for="(termin, index) in aktuelleTermine"
-                  :key="index"
-                  class="block mb-2 border-b border-gray-200 pb-2 last:border-b-0"
-                >
+                <span v-for="(termin, index) in aktuelleTermine" :key="index"
+                  class="block mb-2 border-b border-gray-200 pb-2 last:border-b-0">
                   <span class="font-bold text-[#032650] block">
                     {{ termin.title }}
                   </span>

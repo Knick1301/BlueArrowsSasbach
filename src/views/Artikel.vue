@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { formatDate, resizeImage } from '@/utils/methods.ts'
+import { formatDate, getNewsDate, resizeImage } from '@/utils/methods.ts'
 import { setPageMeta } from '@/utils/seo'
 import { useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
@@ -100,7 +100,7 @@ setPageMeta({
         <div class="md:hidden px-6 pt-5 pb-5 border-b border-gray-200">
           <div class="flex items-center justify-between mb-3">
             <span class="text-[#032650] font-bold text-sm uppercase tracking-wider">
-              {{ formatDate(story.content.date) }}
+              {{ formatDate(getNewsDate(story)) }}
             </span>
             <span v-if="story.content.score"
               class="bg-[#032650] text-white text-sm font-bold px-2.5 py-1 rounded-md tracking-wide shrink-0">
@@ -115,7 +115,7 @@ setPageMeta({
         <div class="min-w-0 px-6 pb-6 pt-4 md:p-10 lg:p-12">
           <p
             class="hidden md:inline-block text-gray-500 font-bold uppercase tracking-wider text-sm mb-8 text-center border-b border-gray-200 pb-4 w-full">
-            {{ formatDate(story.content.date) }}
+            {{ formatDate(getNewsDate(story)) }}
           </p>
 
           <div

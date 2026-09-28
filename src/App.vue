@@ -178,11 +178,11 @@ const navItems = computed(() =>
       <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
         class="absolute right-24 3xl:right-40 hover:scale-110 transition-transform hidden md:block"
         aria-label="Facebook">
-        <img :src="facebookLogo" class="w-13 h-13 3xl:w-20 3xl:h-20 object-contain" alt="Facebook" />
+        <img :src="facebookLogo" class="w-13 h-13 3xl:w-16 3xl:h-16 object-contain" alt="Facebook" />
       </a>
       <a href="https://www.instagram.com/bluearrows.de/" target="_blank" rel="noopener noreferrer"
         class="absolute right-6 3xl:right-10 hover:scale-110 transition-transform" aria-label="Instagram">
-        <img :src="instagramLogo" class="w-13 h-13 3xl:w-20 3xl:h-20 object-contain" alt="Instagram" />
+        <img :src="instagramLogo" class="w-13 h-13 3xl:w-16 3xl:h-16 object-contain" alt="Instagram" />
       </a>
     </footer>
 
