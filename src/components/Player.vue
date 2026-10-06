@@ -8,8 +8,18 @@ const props = defineProps<{
   position: string
   nummer: number | string
   bild?: string
+  role?: string
   blok: object
 }>()
+
+// Storyblok-Option "role": Captain -> C, Assistant Captain -> A
+const roleBadge = computed(() => {
+  const role = props.role?.trim().toLowerCase().replace(/[\s_-]+/g, ' ') ?? ''
+  if (!role) return ''
+  if (role.startsWith('assistant') || role === 'a' || role === 'ac') return 'A'
+  if (role.startsWith('captain') || role.startsWith('kapit') || role === 'c') return 'C'
+  return ''
+})
 
 const nameParts = computed(() => {
   const parts = props.name.trim().split(/\s+/)
@@ -58,6 +68,15 @@ const { open: openLightbox } = useLightbox()
       style="text-shadow: 0 1cqw 5cqw rgba(0, 0, 0, 0.5)"
     >
       {{ nummer }}
+    </span>
+
+    <span
+      v-if="roleBadge"
+      :aria-label="roleBadge === 'C' ? 'Captain' : 'Assistant Captain'"
+      class="absolute top-[6cqw] right-[6cqw] text-white font-jersey font-black leading-none text-[length:24cqw] tracking-wide"
+      style="text-shadow: 0 1cqw 5cqw rgba(0, 0, 0, 0.5)"
+    >
+      {{ roleBadge }}
     </span>
 
     <div

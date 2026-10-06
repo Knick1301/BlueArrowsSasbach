@@ -39,6 +39,7 @@ interface PlayerBlok {
   name: string
   position: 'goalie' | 'defender' | 'forward'
   nummer: number | string
+  role?: string
   bild: {
     filename: string
   }
@@ -133,6 +134,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 :name="player.name"
                 :position="player.position"
                 :nummer="player.nummer"
+                :role="player.role"
                 :bild="player.bild?.filename"
                 :blok="player"
               />
@@ -152,6 +154,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 :name="player.name"
                 :position="player.position"
                 :nummer="player.nummer"
+                :role="player.role"
                 :bild="player.bild?.filename"
                 :blok="player"
               />
@@ -171,6 +174,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 :name="player.name"
                 :position="player.position"
                 :nummer="player.nummer"
+                :role="player.role"
                 :bild="player.bild?.filename"
                 :blok="player"
               />
