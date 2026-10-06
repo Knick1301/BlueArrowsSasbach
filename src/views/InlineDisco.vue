@@ -40,24 +40,21 @@ const aktuelleTermine = computed(() => {
     <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
       <div class="w-full lg:hidden">
         <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
-          class="block mx-auto w-auto max-w-full h-auto max-h-[70vh] rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          class="w-full aspect-[4/3] sm:aspect-[16/9] object-cover rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.image.filename)" />
         <div v-else
-          class="w-full aspect-[4/3] sm:aspect-[16/10] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
+          class="w-full aspect-[4/3] sm:aspect-[16/19] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
           Hier kommt ein Bild hin
         </div>
       </div>
 
-      <!-- Bildspalte nimmt keine eigene Höhe ein, damit das Bild nie höher als die Karte wird -->
-      <div class="hidden lg:block relative lg:w-2/5 self-stretch">
-        <div class="absolute inset-0 flex justify-center items-start">
-          <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
-            class="block w-auto max-w-full h-auto max-h-full rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-            @click="openLightbox(story.content.image.filename)" />
-          <div v-else
-            class="w-full h-full bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
-            Hier kommt ein Bild hin
-          </div>
+      <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
+        <img v-if="story?.content.image?.filename" :src="story.content.image.filename" alt="Inline Disco"
+          class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(story.content.image.filename)" />
+        <div v-else
+          class="w-full h-[400px] lg:h-[600px] bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
+          Hier kommt ein Bild hin
         </div>
       </div>
 
