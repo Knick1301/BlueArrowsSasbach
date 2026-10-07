@@ -11,6 +11,7 @@ import Lightbox from '@/components/Lightbox.vue'
 import { computed, onMounted, ref } from 'vue'
 
 const isMenuOpen = ref(false)
+const pageLoaded = ref(false)
 const route = useRoute()
 
 const toggleMenu = () => {
@@ -162,12 +163,14 @@ const navItems = computed(() =>
       </transition>
     </header>
 
-    <main class="flex-grow flex flex-col min-h-svh" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
-      <Suspense>
+    <main class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
+      <Suspense @resolve="pageLoaded = true">
         <router-view :key="route.path" />
       </Suspense>
     </main>
 
+    <!-- Footer erst nach dem ersten Laden zeigen, sonst springt er beim Start nach unten -->
+    <template v-if="pageLoaded">
     <footer class="bg-[#032650] relative flex justify-center items-center h-24 3xl:h-32 mt-auto px-6">
       <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
         class="absolute left-6 3xl:left-10 hover:scale-110 transition-transform md:hidden block" aria-label="Facebook">
@@ -197,6 +200,7 @@ const navItems = computed(() =>
         Datenschutz
       </router-link>
     </div>
+    </template>
 
     <Lightbox />
   </div>
