@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { STORYBLOK_VERSION, CONFIG_STORY } from '@/storyblok'
 import { useRoute } from 'vue-router'
-import basLogo from '@/assets/BASlogo.png'
+import basLogo from '@/assets/BASlogo.webp'
 import instagramLogo from '@/assets/InstagramLogo.webp'
 import facebookLogo from '@/assets/FacebookLogo.webp'
 import { useStoryblokApi } from '@storyblok/vue'
@@ -162,7 +162,7 @@ const navItems = computed(() =>
       </transition>
     </header>
 
-    <main class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
+    <main class="flex-grow flex flex-col min-h-svh" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
       <Suspense>
         <router-view :key="route.path" />
       </Suspense>
@@ -173,7 +173,7 @@ const navItems = computed(() =>
         class="absolute left-6 3xl:left-10 hover:scale-110 transition-transform md:hidden block" aria-label="Facebook">
         <img :src="facebookLogo" class="w-13 h-13 object-contain" alt="Facebook" />
       </a>
-      <img :src="basLogo" class="h-20 3xl:h-28 w-auto object-contain" alt="BAS Footer Logo" />
+      <img :src="basLogo" width="300" height="225" class="h-20 3xl:h-28 w-auto object-contain" alt="BAS Footer Logo" />
 
       <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
         class="absolute right-24 3xl:right-40 hover:scale-110 transition-transform hidden md:block"

@@ -3,7 +3,7 @@ import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { getNewsDate, getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import basLogo from '@/assets/BASlogo.png'
+import basLogo from '@/assets/BASlogo.webp'
 import GameCard from '@/components/GameCard.vue'
 import { sortTeams, type StoryblokBlok } from '@/utils/games'
 import { useIshdGamesForTeams } from '@/composables/useIshd'
@@ -234,7 +234,7 @@ const spieleBreakpoints = computed(() => {
             class="relative w-full h-auto min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))] px-8 [@media(pointer:coarse)]:max-xl:px-0">
             <template v-if="newsCards.length > 0">
               <button
-                class="news-prev [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                aria-label="Vorherige News" class="news-prev [@media(pointer:coarse)]:max-xl:hidden absolute left-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -259,7 +259,7 @@ const spieleBreakpoints = computed(() => {
               </Swiper>
 
               <button
-                class="news-next [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
+                aria-label="Nächste News" class="news-next [@media(pointer:coarse)]:max-xl:hidden absolute right-0 top-1/2 -translate-y-1/2 z-10 text-[#032650] hover:scale-110 transition-transform cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                   stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

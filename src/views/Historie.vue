@@ -2,7 +2,7 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
-import basLogo from '@/assets/BASlogo.png'
+import basLogo from '@/assets/BASlogo.webp'
 import DecoratedCard from '@/components/DecoratedCard.vue'
 import { useLightbox } from '@/composables/useLightbox'
 
