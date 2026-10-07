@@ -210,7 +210,7 @@ const spieleBreakpoints = computed(() => {
               class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
               <img v-if="team.image?.filename" loading="lazy" decoding="async" :src="resizeImage(team.image.filename, 400)"
                 class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
-                alt="Team Image" />
+                :alt="`Teamfoto ${team.title}`" />
               <div v-else
                 class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto shrink-0 bg-[#032650] flex items-center justify-center border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100">
                 <img :src="basLogo" alt="" class="h-3/4 w-auto object-contain" />
@@ -353,7 +353,7 @@ const spieleBreakpoints = computed(() => {
 .mainPicture {
   background-image:
     linear-gradient(to right, rgba(2, 23, 49, 0.95) 30%, rgba(14, 112, 231, 0) 70%),
-    url(@/assets/team.png);
+    url(@/assets/team.webp);
   background-size: cover;
   color: rgb(3, 38, 80);
 }

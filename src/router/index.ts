@@ -137,4 +137,32 @@ router.afterEach((to) => {
   else if (typeof to.meta.title === 'string') setPageMeta({ title: to.meta.title })
 })
 
+// Nach einem Update fehlen die alten Dateien in assets/. Wer die Seite noch offen hat,
+// bekommt beim Seitenwechsel einen Ladefehler – dann die Zielseite einmal neu laden.
+const RELOAD_KEY = 'chunk-reload'
+router.onError((error, to) => {
+  const message = error instanceof Error ? error.message : String(error)
+  const isChunkError =
+    /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i.test(
+      message,
+    )
+  if (!isChunkError) return
+
+  try {
+    if (sessionStorage.getItem(RELOAD_KEY) === to.fullPath) return
+    sessionStorage.setItem(RELOAD_KEY, to.fullPath)
+  } catch {
+    // ohne sessionStorage trotzdem neu laden
+  }
+  window.location.assign(to.fullPath)
+})
+
+router.afterEach(() => {
+  try {
+    sessionStorage.removeItem(RELOAD_KEY)
+  } catch {
+    // ignorieren
+  }
+})
+
 export default router

@@ -12,6 +12,7 @@ import LetztesErgebnis from '@/components/LetztesErgebnis.vue'
 import { useIshdSchedule, useIshdTables } from '@/composables/useIshd'
 import { gameDate, isPlayed, isUpcoming } from '@/utils/ishd'
 import { useLightbox } from '@/composables/useLightbox'
+import { getTeamTrainings } from '@/utils/trainings'
 
 const route = useRoute()
 
@@ -25,6 +26,8 @@ try {
 }
 
 setPageMeta({ title: story?.value?.content.title ?? 'Team' })
+
+const trainings = await getTeamTrainings(teamSlug.value)
 
 interface TrainerBlok {
   _uid: string
@@ -108,8 +111,8 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story.content.title || 'Teamseite' }}
       </h1>
-      <h5 class="text-sm text-blue-200 mt-5 font-medium uppercase tracking-wide">
-        {{ story.content.liga || 'Liga nicht angegeben' }}
+      <h5 v-if="story.content.liga" class="text-sm text-blue-200 mt-5 font-medium uppercase tracking-wide">
+        {{ story.content.liga }}
       </h5>
     </div>
 
@@ -123,16 +126,12 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
     </div>
 
     <div class="mx-auto px-4 w-[95%] mt-8 flex flex-col xl:grid xl:grid-cols-5 gap-8 relative">
-      <div class="order-4 xl:order-1 xl:col-span-3">
+      <div v-if="allPlayers.length" class="order-4 xl:order-1 xl:col-span-3">
         <h2 class="text-3xl font-bold text-[#032650] border-b-3 border-blue-200 pb-2 mb-6">
           Kader
         </h2>
 
-        <p v-if="!allPlayers.length" class="text-gray-500 italic">
-          Noch keine Spieler eingetragen.
-        </p>
-
-        <div v-else class="space-y-8">
+        <div class="space-y-8">
           <div v-if="goalies.length">
             <h3
               class="font-bold text-[#032650] uppercase tracking-wider text-sm border-b-3 inline-block pb-1 mb-4"
@@ -195,7 +194,13 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
         </div>
       </div>
 
-      <div class="order-1 xl:order-2 xl:col-span-2">
+      <!-- Ohne Kader steht die Seitenleiste mittig, statt links neben einer leeren Spalte -->
+      <div
+        :class="[
+          'order-1 xl:order-2',
+          allPlayers.length ? 'xl:col-span-2' : 'xl:col-start-2 xl:col-span-3',
+        ]"
+      >
         <div class="sticky top-32 flex flex-col gap-5">
           <div
             v-if="story.content.heroImage?.filename"
@@ -245,6 +250,35 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                 </a>
               </div>
             </div>
+          </div>
+
+          <div
+            v-if="trainings.length"
+            class="bg-white p-5 rounded-xl shadow-sm border border-gray-200"
+          >
+            <h3
+              class="font-bold text-[#032650] mb-4 uppercase tracking-wider text-sm border-b-2 pb-2"
+            >
+              Training
+            </h3>
+            <ul class="flex flex-col">
+              <li
+                v-for="training in trainings"
+                :key="training._uid"
+                class="flex items-center justify-between gap-4 py-2.5 border-b border-gray-100 last:border-0 last:pb-0"
+              >
+                <span class="font-bold text-[#032650]">{{ training.dayLabel }}</span>
+                <span class="text-gray-700 font-medium tabular-nums">
+                  {{ training.from }} – {{ training.to }} Uhr
+                </span>
+              </li>
+            </ul>
+            <router-link
+              to="/teams/trainings"
+              class="inline-block mt-4 text-sm font-bold text-blue-600 hover:text-blue-800 hover:underline"
+            >
+              Alle Trainingszeiten &rarr;
+            </router-link>
           </div>
 
           <NaechstesSpiel v-if="ishdTeam" :game="nextGame" />
