@@ -10,6 +10,12 @@ const router = createRouter({
       component: () => import('@/views/Main.vue'),
     },
     {
+      path: '/platz',
+      name: 'platz',
+      meta: { title: 'Mach mit!' },
+      component: () => import('@/views/Platz.vue'),
+    },
+    {
       path: '/aktuelles/news/:slug',
       name: 'artikel',
       component: () => import('@/views/Artikel.vue'),

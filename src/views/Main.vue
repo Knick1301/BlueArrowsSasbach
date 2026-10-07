@@ -4,7 +4,9 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { getNewsDate, getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import GameCard from '@/components/GameCard.vue'
-import { collectGames, sortTeams, type StoryblokBlok } from '@/utils/games'
+import { sortTeams, type StoryblokBlok } from '@/utils/games'
+import { useIshdGamesForTeams } from '@/composables/useIshd'
+import { gameDate, ishdTeamsFromStories, isHomeGame, isUpcoming, logoUrl } from '@/utils/ishd'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
@@ -93,15 +95,19 @@ try {
   console.error('Storyblok-Story "home" konnte nicht geladen werden.', e)
 }
 
-const nextGames = computed(() => collectGames((allStoriesData?.stories ?? []) as Story[]))
+const ishdTeams = ishdTeamsFromStories((allStoriesData?.stories ?? []) as Story[])
+const { games: ishdGames } = useIshdGamesForTeams(ishdTeams)
 
-const teamOptions = computed(() => {
-  const now = new Date()
+const upcomingGames = computed(() =>
+  ishdGames.value
+    .filter(({ game }) => isUpcoming(game))
+    .sort((a, b) => gameDate(a.game).getTime() - gameDate(b.game).getTime()),
+)
 
-  const upcomingGames = nextGames.value.filter((g) => new Date(g.date) >= now)
-
-  return ['Alle', ...sortTeams([...new Set(upcomingGames.map((g) => g.team))])]
-})
+const teamOptions = computed(() => [
+  'Alle',
+  ...sortTeams([...new Set(upcomingGames.value.map(({ label }) => label))]),
+])
 
 const NEWS_TEASER_LIMIT = 6
 
@@ -137,17 +143,11 @@ const teamCards = computed(
     ) || [],
 )
 
-const filteredGames = computed(() => {
-  const now = new Date()
-  return nextGames.value
-    .filter((g) => {
-      const gameDate = new Date(g.date)
-      return !isNaN(gameDate.getTime()) && gameDate >= now
-    })
-    .filter((g) => selectedTeam.value === 'Alle' || g.team === selectedTeam.value)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .slice(0, 4)
-})
+const filteredGames = computed(() =>
+  upcomingGames.value
+    .filter(({ label }) => selectedTeam.value === 'Alle' || label === selectedTeam.value)
+    .slice(0, 4),
+)
 
 
 const istTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
@@ -305,11 +305,10 @@ const spieleBreakpoints = computed(() => {
                 :navigation="{ prevEl: '.swiper-prev-custom', nextEl: '.swiper-next-custom' }"
                 :key="filteredGames.length"
                 class="w-full h-auto min-[1550px]:max-[1799px]:min-h-full min-[1800px]:h-full! overflow-hidden">
-                <swiper-slide v-for="game in filteredGames" :key="game._uid">
-                  <GameCard :date="game.date" :home-team="game.hometeam || game.homeTeam || ''"
-                    :away-team="game.awayteam || game.awayTeam || ''" :homeLogo="game.homeLogo?.filename"
-                    :awayLogo="game.awayLogo?.filename" :venue="game.venue" :home="game.home" :team="game.team"
-                    v-editable="game"
+                <swiper-slide v-for="{ game, label } in filteredGames" :key="game.id">
+                  <GameCard :date="game.date_time" :home-team="game.home_team.full_name"
+                    :away-team="game.away_team.full_name" :homeLogo="logoUrl(game.home_team)"
+                    :awayLogo="logoUrl(game.away_team)" :venue="game.venue" :home="isHomeGame(game)" :team="label"
                     class="shadow-sm border border-gray-200 rounded-xl hover:-translate-y-1 hover:shadow-md transition-all" />
                 </swiper-slide>
               </swiper>

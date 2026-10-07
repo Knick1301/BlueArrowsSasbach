@@ -5,8 +5,12 @@ import { STORYBLOK_VERSION } from '@/storyblok'
 import { setPageMeta } from '@/utils/seo'
 import { computed } from 'vue'
 import PlayerCard from '@/components/Player.vue'
-import GameTable from '@/components/GameTable.vue'
-import Table from '@/components/Table.vue'
+import IshdSpielplan from '@/components/IshdSpielplan.vue'
+import IshdTabelle from '@/components/IshdTabelle.vue'
+import NaechstesSpiel from '@/components/NaechstesSpiel.vue'
+import LetztesErgebnis from '@/components/LetztesErgebnis.vue'
+import { useIshdSchedule, useIshdTables } from '@/composables/useIshd'
+import { gameDate, isPlayed, isUpcoming } from '@/utils/ishd'
 import { useLightbox } from '@/composables/useLightbox'
 
 const route = useRoute()
@@ -65,21 +69,29 @@ const allPlayers = computed(() => {
   return []
 })
 
-const allTeamGames = computed(() => {
-  const gamesData = story?.value?.content?.games
-  if (Array.isArray(gamesData)) {
-    return gamesData.filter((blok: { component: string }) => blok.component === 'games')
-  }
-  return []
+const ishdTeam = computed(() => {
+  const value = story?.value?.content?.ishd_team
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined
 })
 
-const allTeamTable = computed(() => {
-  const tableData = story?.value?.content?.table
-  if (Array.isArray(tableData)) {
-    return tableData.filter((blok: { component: string }) => blok.component === 'table')
-  }
-  return []
-})
+const schedule = useIshdSchedule(ishdTeam)
+const tables = useIshdTables(ishdTeam)
+
+const games = computed(() => schedule.data.value?.games ?? [])
+
+const nextGame = computed(
+  () =>
+    games.value
+      .filter((game) => isUpcoming(game))
+      .sort((a, b) => gameDate(a).getTime() - gameDate(b).getTime())[0] ?? null,
+)
+
+const lastGame = computed(
+  () =>
+    games.value
+      .filter(isPlayed)
+      .sort((a, b) => gameDate(b).getTime() - gameDate(a).getTime())[0] ?? null,
+)
 
 const { open: openLightbox } = useLightbox()
 
@@ -234,16 +246,30 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
               </div>
             </div>
           </div>
+
+          <NaechstesSpiel v-if="ishdTeam" :game="nextGame" />
+          <LetztesErgebnis v-if="lastGame" :game="lastGame" />
         </div>
       </div>
 
-      <div class="order-2 xl:order-3 xl:col-span-3">
-        <GameTable :games="allTeamGames" />
-      </div>
+      <template v-if="ishdTeam">
+        <div class="order-2 xl:order-3 xl:col-span-3">
+          <IshdSpielplan
+            :games="games"
+            :loading="schedule.loading.value"
+            :error="schedule.error.value"
+          />
+        </div>
 
-      <div class="order-3 xl:order-4 xl:col-span-2">
-        <Table :teams="allTeamTable" />
-      </div>
+        <div class="order-3 xl:order-4 xl:col-span-2">
+          <IshdTabelle
+            :tables="tables.data.value?.tables ?? []"
+            :season="tables.data.value?.season"
+            :loading="tables.loading.value"
+            :error="tables.error.value"
+          />
+        </div>
+      </template>
     </div>
   </div>
 

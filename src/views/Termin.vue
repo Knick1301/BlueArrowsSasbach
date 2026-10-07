@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { collectGames, sortTeams, type GameSourceStory, type GamesBlok } from '@/utils/games'
+import { sortTeams } from '@/utils/games'
+import { loadGamesForTeams, type LabeledGame } from '@/composables/useIshd'
+import { ishdTeamsFromStories, isHomeGame, isUpcoming, logoUrl, type TeamStory } from '@/utils/ishd'
 import { computed, ref, watch } from 'vue'
 import { RouterLink, type RouteLocationRaw } from 'vue-router'
-import { resizeImage } from '@/utils/methods'
 import DecoratedCard from '@/components/DecoratedCard.vue'
 
 type RawDate = Record<string, string | undefined>
@@ -40,13 +41,13 @@ const ladeDates = async (slug: string): Promise<RawDate[]> => {
   }
 }
 
-const ladeStories = async (): Promise<GameSourceStory[]> => {
+const ladeStories = async (): Promise<TeamStory[]> => {
   try {
     const { data } = await storyblokApi.get('cdn/stories', {
       version: STORYBLOK_VERSION,
       per_page: 100,
     })
-    return data.stories as GameSourceStory[]
+    return data.stories as TeamStory[]
   } catch (e) {
     console.error('Storyblok-Stories konnten nicht geladen werden.', e)
     return []
@@ -148,35 +149,35 @@ const ferienTermin = (raw: RawDate, index: number): TerminEintrag | null => {
   }
 }
 
-const heimspielTermin = (spiel: GamesBlok, index: number): TerminEintrag | null => {
-  const start = parseDatum(spiel.date)
-  if (!spiel.home || !start || start < heute) return null
+const heimspielTermin = ({ game, label, teamPath }: LabeledGame): TerminEintrag | null => {
+  if (!isHomeGame(game) || !isUpcoming(game, heute)) return null
+  const start = new Date(game.date_time)
 
-  const heim = spiel.hometeam || spiel.homeTeam || ''
-  const gast = spiel.awayteam || spiel.awayTeam || ''
-
-  const beschreibung = [spiel.team, wochentag(start), `${uhrzeitVon(start)} Uhr`, spiel.venue ?? '']
-    .filter(Boolean)
-    .join(' · ')
+  const heim = game.home_team.full_name
+  const gast = game.away_team.full_name
 
   return {
-    id: `spiel-${index}`,
+    id: `spiel-${game.id}`,
     kategorie: 'Heimspiele',
-    team: spiel.team,
-    titel: heim && gast ? `${heim} vs. ${gast}` : 'Spiel',
-    heim: heim && gast ? heim : undefined,
-    gast: heim && gast ? gast : undefined,
+    team: label,
+    titel: `${heim} vs. ${gast}`,
+    heim,
+    gast,
     start,
     tag: start.getDate(),
     monat: monatKurz(start),
-    beschreibung,
+    beschreibung: [label, wochentag(start), `${uhrzeitVon(start)} Uhr`, game.venue]
+      .filter(Boolean)
+      .join(' · '),
     countdown: countdownText(start),
-    logo: resizeImage(spiel.awayLogo?.filename, 160) || undefined,
-    to: `/${spiel.teamPath}`,
+    logo: logoUrl(game.away_team),
+    to: teamPath,
   }
 }
 
-const spielTermine = collectGames(stories)
+const { games: ishdSpiele } = await loadGamesForTeams(ishdTeamsFromStories(stories))
+
+const spielTermine = ishdSpiele
   .map(heimspielTermin)
   .filter((termin): termin is TerminEintrag => termin !== null)
 

@@ -2,6 +2,7 @@
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, type CSSProperties } from 'vue'
+import { TRAINING_TEAM_LABELS } from '@/utils/games'
 
 interface TrainingsBlok {
   _uid: string
@@ -77,14 +78,7 @@ const getTrainingStyle = (from: string, to: string): CSSProperties => {
   }
 }
 
-const teamMapping: Record<string, string> = {
-  bambini: 'Bambini (U10)',
-  schueler: 'Schüler (U13)',
-  jugend: 'Jugend (U16)',
-  junioren: 'Junioren (U19)',
-  herren: 'Herren',
-  hobby: 'Hobby',
-}
+const teamMapping = TRAINING_TEAM_LABELS
 
 const weekDays = Object.keys(allDays)
 
