@@ -31,7 +31,7 @@ describe('resizeImage', () => {
   const url = 'https://a.storyblok.com/f/123/foto.jpg'
 
   it('hängt Image-Service-Parameter an Storyblok-Bilder an', () => {
-    expect(resizeImage(url, 600)).toBe(`${url}/m/600x0/filters:format(webp)`)
+    expect(resizeImage(url, 600)).toBe(`${url}/m/600x0/filters:format(webp):quality(75)`)
   })
 
   it('lässt SVG, fremde und fehlende URLs unverändert', () => {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { getNewsDate, getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
+import { getNewsDate, getUrl, imageSrcset, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import basLogo from '@/assets/BASlogo.webp'
 import GameCard from '@/components/GameCard.vue'
@@ -209,6 +209,8 @@ const spieleBreakpoints = computed(() => {
               }"
               class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
               <img v-if="team.image?.filename" loading="lazy" decoding="async" :src="resizeImage(team.image.filename, 400)"
+                :srcset="imageSrcset(team.image.filename, [200, 300, 400, 600])"
+                sizes="(min-width: 1550px) 12vw, (min-width: 1280px) 22vw, 45vw"
                 class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
                 :alt="`Teamfoto ${team.title}`" />
               <div v-else
@@ -248,6 +250,8 @@ const spieleBreakpoints = computed(() => {
                     class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
                     <img v-if="news.image?.filename" loading="lazy" decoding="async"
                       :src="resizeImage(news.image.filename, 600)"
+                      :srcset="imageSrcset(news.image.filename, [300, 450, 600, 800])"
+                      sizes="(min-width: 1280px) 22vw, (min-width: 500px) 45vw, 85vw"
                       class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
                     <div v-else class="aspect-[600/348] w-full bg-gray-200 border-b border-gray-100"></div>
                     <div
@@ -353,7 +357,7 @@ const spieleBreakpoints = computed(() => {
 .mainPicture {
   background-image:
     linear-gradient(to right, rgba(2, 23, 49, 0.95) 30%, rgba(14, 112, 231, 0) 70%),
-    url(@/assets/team.webp);
+    url('/team.webp');
   background-size: cover;
   color: rgb(3, 38, 80);
 }

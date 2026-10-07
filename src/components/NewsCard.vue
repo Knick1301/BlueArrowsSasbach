@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { renderRichText, type StoryblokRichTextNode } from '@storyblok/vue'
-import { formatDate, resizeImage } from '@/utils/methods.ts'
+import { formatDate, imageSrcset, resizeImage } from '@/utils/methods.ts'
 
 defineProps<{
     slug: string
@@ -17,6 +17,8 @@ defineProps<{
         class="group bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col transition-all hover:-translate-y-1 hover:shadow-md shadow-sm h-full">
         <div class="w-full aspect-[600/348] shrink-0 min-h-0">
             <img loading="lazy" decoding="async" v-if="image?.filename" :src="resizeImage(image.filename, 600)"
+                :srcset="imageSrcset(image.filename, [300, 450, 600, 800])"
+                sizes="(min-width: 1280px) 27vw, (min-width: 768px) 40vw, 90vw"
                 alt="News Image" class="w-full h-full object-cover" />
             <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
         </div>
