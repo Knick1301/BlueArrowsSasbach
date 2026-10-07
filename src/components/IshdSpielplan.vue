@@ -90,7 +90,7 @@ const emptyText = computed(() =>
           :class="
             tab === option.key
               ? 'bg-white shadow-sm text-[#032650] font-bold border border-gray-200'
-              : 'text-gray-500 font-medium hover:text-gray-700'
+              : 'text-gray-600 font-medium hover:text-gray-700'
           "
           class="px-3 py-1.5 text-xs rounded-md transition-all cursor-pointer"
         >
@@ -102,7 +102,7 @@ const emptyText = computed(() =>
     <div class="overflow-x-auto rounded-xl border border-gray-100 flex-grow">
       <table class="w-full text-sm text-left border-collapse">
         <thead
-          class="bg-gray-50/80 text-[11px] text-gray-500 uppercase tracking-widest border-b border-gray-100"
+          class="bg-gray-50/80 text-[11px] text-gray-600 uppercase tracking-widest border-b border-gray-100"
         >
           <tr>
             <th class="pl-3 pr-1.5 sm:px-4 py-3 font-bold">Datum</th>
@@ -123,7 +123,7 @@ const emptyText = computed(() =>
           </tr>
 
           <tr v-else-if="error && !games.length">
-            <td colspan="3" class="px-4 py-12 text-center text-gray-500 italic text-xs">
+            <td colspan="3" class="px-4 py-12 text-center text-gray-600 italic text-xs">
               {{ error }}
             </td>
           </tr>
@@ -138,7 +138,12 @@ const emptyText = computed(() =>
               <td class="pl-3 pr-1.5 sm:px-4 py-3.5 whitespace-nowrap text-[#032650] align-top">
                 <div class="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
                   <span class="font-medium">
-                    {{ gameDate(game).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) }}
+                    {{
+                      gameDate(game).toLocaleDateString('de-DE', {
+                        day: '2-digit',
+                        month: '2-digit',
+                      })
+                    }}
                   </span>
                   <span
                     v-if="isHomeGame(game)"
@@ -147,8 +152,16 @@ const emptyText = computed(() =>
                     Heim
                   </span>
                 </div>
-                <div class="text-[11px] font-bold text-gray-500 mt-0.5" :title="formatGameDate(game)">
-                  {{ gameDate(game).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) }}
+                <div
+                  class="text-[11px] font-bold text-gray-600 mt-0.5"
+                  :title="formatGameDate(game)"
+                >
+                  {{
+                    gameDate(game).toLocaleTimeString('de-DE', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                  }}
                   UHR
                 </div>
               </td>
@@ -163,6 +176,8 @@ const emptyText = computed(() =>
                         class="flex items-center gap-1.5"
                       >
                         <img
+                          width="128"
+                          height="128"
                           v-if="logoUrl(team)"
                           loading="lazy"
                           decoding="async"
@@ -185,7 +200,7 @@ const emptyText = computed(() =>
                     </span>
                   </div>
                   <span
-                    class="block pl-[26px] mt-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-widest"
+                    class="block pl-[26px] mt-1.5 text-[11px] font-bold text-gray-600 uppercase tracking-widest"
                   >
                     @ {{ game.venue }}
                     <template v-if="resultSuffix(game)"> · {{ resultSuffix(game) }}</template>
@@ -196,6 +211,8 @@ const emptyText = computed(() =>
                   class="hidden sm:grid grid-cols-[2.5rem_1fr_auto_1fr_2.5rem] items-center gap-x-3"
                 >
                   <img
+                    width="128"
+                    height="128"
                     v-if="logoUrl(game.home_team)"
                     loading="lazy"
                     decoding="async"
@@ -207,11 +224,13 @@ const emptyText = computed(() =>
                   <span class="font-bold text-[#032650] leading-tight text-right">
                     {{ game.home_team.full_name }}
                   </span>
-                  <span class="text-gray-500 text-xs font-bold leading-none">vs.</span>
+                  <span class="text-gray-600 text-xs font-bold leading-none">vs.</span>
                   <span class="font-bold text-[#032650] leading-tight text-left">
                     {{ game.away_team.full_name }}
                   </span>
                   <img
+                    width="128"
+                    height="128"
                     v-if="logoUrl(game.away_team)"
                     loading="lazy"
                     decoding="async"
@@ -221,7 +240,7 @@ const emptyText = computed(() =>
                   />
                   <div v-else class="w-10 h-10"></div>
                   <div class="col-start-2 col-span-3 flex flex-col items-center text-center mt-1">
-                    <span class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+                    <span class="text-[11px] font-bold text-gray-600 uppercase tracking-widest">
                       @ {{ game.venue }}
                     </span>
                     <a
@@ -246,7 +265,7 @@ const emptyText = computed(() =>
                 </span>
                 <span
                   v-if="resultSuffix(game)"
-                  class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mt-1"
+                  class="block text-[11px] font-bold text-gray-600 uppercase tracking-widest mt-1"
                 >
                   {{ resultSuffix(game) }}
                 </span>
@@ -254,7 +273,7 @@ const emptyText = computed(() =>
             </tr>
 
             <tr v-if="!displayed.length">
-              <td colspan="3" class="px-4 py-12 text-center text-gray-500 italic text-xs">
+              <td colspan="3" class="px-4 py-12 text-center text-gray-600 italic text-xs">
                 {{ emptyText }}
               </td>
             </tr>
@@ -263,14 +282,17 @@ const emptyText = computed(() =>
       </table>
     </div>
 
-    <div v-if="list.length > VISIBLE" class="border-t border-gray-100 pt-4 flex justify-center mt-2">
+    <div
+      v-if="list.length > VISIBLE"
+      class="border-t border-gray-100 pt-4 flex justify-center mt-2"
+    >
       <button
         type="button"
         @click="showAll = !showAll"
         class="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-lg transition-colors border cursor-pointer"
         :class="
           showAll
-            ? 'text-gray-500 hover:text-gray-700 border-gray-200 bg-white'
+            ? 'text-gray-600 hover:text-gray-700 border-gray-200 bg-white'
             : 'text-[#032650] bg-gray-50 hover:bg-gray-100 border-gray-200'
         "
       >

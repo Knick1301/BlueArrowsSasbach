@@ -13,6 +13,7 @@ import { useIshdSchedule, useIshdTables } from '@/composables/useIshd'
 import { gameDate, isPlayed, isUpcoming } from '@/utils/ishd'
 import { useLightbox } from '@/composables/useLightbox'
 import { getTeamTrainings } from '@/utils/trainings'
+import { imageSize, imageSrcset, resizeImage } from '@/utils/methods.ts'
 
 const route = useRoute()
 
@@ -91,9 +92,8 @@ const nextGame = computed(
 
 const lastGame = computed(
   () =>
-    games.value
-      .filter(isPlayed)
-      .sort((a, b) => gameDate(b).getTime() - gameDate(a).getTime())[0] ?? null,
+    games.value.filter(isPlayed).sort((a, b) => gameDate(b).getTime() - gameDate(a).getTime())[0] ??
+    null,
 )
 
 const { open: openLightbox } = useLightbox()
@@ -111,17 +111,24 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story.content.title || 'Teamseite' }}
       </h1>
-      <h5 v-if="story.content.liga" class="text-sm text-blue-200 mt-5 font-medium uppercase tracking-wide">
+      <p
+        v-if="story.content.liga"
+        class="text-sm text-blue-200 mt-5 font-medium uppercase tracking-wide"
+      >
         {{ story.content.liga }}
-      </h5>
+      </p>
     </div>
 
     <div v-if="story.content.heroImage?.filename" class="block xl:hidden mx-auto px-4 mt-6 w-[95%]">
       <img
-        :src="story.content.heroImage.filename"
+        :src="resizeImage(story.content.heroImage.filename, 900)"
+        :srcset="imageSrcset(story.content.heroImage.filename, [450, 700, 900, 1200])"
+        sizes="95vw"
+        v-bind="imageSize(story.content.heroImage.filename)"
+        fetchpriority="high"
         alt="Teamfoto kompakt"
         class="w-full h-auto rounded-xl shadow-sm border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-        @click="openLightbox(story.content.heroImage.filename)"
+        @click="openLightbox(resizeImage(story.content.heroImage.filename, 1600))"
       />
     </div>
 
@@ -207,10 +214,14 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
             class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 hidden xl:block"
           >
             <img
-              :src="story.content.heroImage.filename"
+              :src="resizeImage(story.content.heroImage.filename, 900)"
+              :srcset="imageSrcset(story.content.heroImage.filename, [450, 700, 900])"
+              sizes="38vw"
+              v-bind="imageSize(story.content.heroImage.filename)"
+              loading="lazy"
               alt="Teamfoto kompakt"
               class="w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-              @click="openLightbox(story.content.heroImage.filename)"
+              @click="openLightbox(resizeImage(story.content.heroImage.filename, 1600))"
             />
           </div>
 
@@ -231,7 +242,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
                     loading="lazy"
                     decoding="async"
                     v-if="member.bild?.filename"
-                    :src="member.bild.filename"
+                    :src="resizeImage(member.bild.filename, 96)"
                     class="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200"
                     alt="Profilbild"
                   />

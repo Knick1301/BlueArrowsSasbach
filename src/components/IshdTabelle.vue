@@ -21,7 +21,7 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
         <div class="w-2 h-6 bg-[#032650] rounded-full"></div>
         <h3 class="font-bold text-[#032650] uppercase tracking-widest text-sm">Ligatabelle</h3>
       </div>
-      <span v-if="season" class="text-[13px] text-gray-500 font-bold uppercase tracking-tighter">
+      <span v-if="season" class="text-[13px] text-gray-600 font-bold uppercase tracking-tighter">
         Saison {{ season }}
       </span>
     </div>
@@ -29,17 +29,17 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
     <p v-if="loading && !tables.length" class="py-12 text-center text-gray-400 text-xs">
       Tabelle wird geladen …
     </p>
-    <p v-else-if="error && !tables.length" class="py-12 text-center text-gray-500 italic text-xs">
+    <p v-else-if="error && !tables.length" class="py-12 text-center text-gray-600 italic text-xs">
       {{ error }}
     </p>
-    <p v-else-if="!tables.length" class="py-12 text-center text-gray-500 italic text-xs">
+    <p v-else-if="!tables.length" class="py-12 text-center text-gray-600 italic text-xs">
       Keine Tabelle vorhanden.
     </p>
 
     <div v-for="table in tables" :key="table.league.code" class="mb-6 last:mb-0">
       <h4
         v-if="tables.length > 1 || table.league.name"
-        class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3"
+        class="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3"
       >
         {{ table.league.name }}
       </h4>
@@ -47,14 +47,17 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
       <div class="overflow-x-auto rounded-xl border border-gray-100">
         <table class="w-full text-sm text-left border-collapse">
           <thead
-            class="bg-gray-50/80 text-[11px] text-gray-500 uppercase tracking-widest border-b border-gray-100"
+            class="bg-gray-50/80 text-[11px] text-gray-600 uppercase tracking-widest border-b border-gray-100"
           >
             <tr>
               <th class="px-2 sm:px-3 py-3 font-bold text-center w-10 sm:w-12">Pl.</th>
               <th class="px-2 sm:px-4 py-3 font-bold">Mannschaft</th>
               <th class="px-2 py-3 font-bold text-center">Sp</th>
               <th class="hidden sm:table-cell px-2 py-3 font-bold text-center">S</th>
-              <th v-if="hasTies(table)" class="hidden sm:table-cell px-2 py-3 font-bold text-center">
+              <th
+                v-if="hasTies(table)"
+                class="hidden sm:table-cell px-2 py-3 font-bold text-center"
+              >
                 U
               </th>
               <th class="hidden sm:table-cell px-2 py-3 font-bold text-center">N</th>
@@ -71,7 +74,7 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
               :class="isOurTeam(row.team) ? 'bg-blue-50 hover:bg-blue-100/70' : 'hover:bg-gray-50'"
             >
               <td
-                class="px-2 sm:px-3 py-4 text-center font-bold text-gray-500 group-hover:text-[#032650]"
+                class="px-2 sm:px-3 py-4 text-center font-bold text-gray-600 group-hover:text-[#032650]"
               >
                 {{ index + 1 }}.
               </td>
@@ -80,6 +83,8 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
                 <div class="flex items-center gap-2 sm:gap-3">
                   <div class="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
                     <img
+                      width="128"
+                      height="128"
                       v-if="logoUrl(row.team)"
                       loading="lazy"
                       decoding="async"
@@ -97,17 +102,22 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
                 </div>
               </td>
 
-              <td class="px-2 py-4 text-center text-gray-500 font-medium">{{ row.total.games }}</td>
-              <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">
+              <td class="px-2 py-4 text-center text-gray-600 font-medium">{{ row.total.games }}</td>
+              <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-600">
                 {{ wins(row) }}
               </td>
-              <td v-if="hasTies(table)" class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">
+              <td
+                v-if="hasTies(table)"
+                class="hidden sm:table-cell px-2 py-4 text-center text-gray-600"
+              >
                 {{ row.total.ties }}
               </td>
-              <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-500">
+              <td class="hidden sm:table-cell px-2 py-4 text-center text-gray-600">
                 {{ losses(row) }}
               </td>
-              <td class="px-2 sm:px-3 py-4 text-center text-gray-500 font-mono text-xs whitespace-nowrap">
+              <td
+                class="px-2 sm:px-3 py-4 text-center text-gray-600 font-mono text-xs whitespace-nowrap"
+              >
                 {{ row.total.goals_for }}:{{ row.total.goals_against }}
               </td>
               <td
@@ -117,7 +127,7 @@ const hasTies = (table: IshdTable) => table.placements.some((row) => row.total.t
                     ? 'text-emerald-700'
                     : row.total.goals_difference < 0
                       ? 'text-rose-600'
-                      : 'text-gray-500'
+                      : 'text-gray-600'
                 "
               >
                 {{ row.total.goals_difference > 0 ? '+' : '' }}{{ row.total.goals_difference }}

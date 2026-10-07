@@ -43,6 +43,12 @@ export const resizeImage = (url: string | undefined, width: number): string => {
   return `${url}/m/${width}x0/filters:format(webp):quality(75)`
 }
 
+// Storyblok-URLs enthalten die Originalmaße (…/f/<space>/<breite>x<höhe>/…)
+export const imageSize = (url: string | undefined) => {
+  const match = url?.match(/\/f\/\d+\/(\d+)x(\d+)\//)
+  return match ? { width: Number(match[1]), height: Number(match[2]) } : {}
+}
+
 // Mehrere Bildbreiten, damit der Browser je nach Anzeigegröße die passende lädt
 export const imageSrcset = (url: string | undefined, widths: number[]): string | undefined => {
   if (!isResizable(url)) return undefined
