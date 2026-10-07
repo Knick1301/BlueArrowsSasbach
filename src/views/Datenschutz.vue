@@ -8,6 +8,147 @@ try {
 } catch (e) {
   console.error('Storyblok-Story "datenschutz" konnte nicht geladen werden.', e)
 }
+
+// Ersatztext, falls die Storyblok-Story "datenschutz" nicht geladen werden kann.
+// Bei Änderungen in Storyblok hier mitpflegen.
+const fallbackSections: { title: string; paragraphs: string[][] }[] = [
+  {
+    title: '1. Verantwortlicher',
+    paragraphs: [
+      ['Verantwortlich für die Datenverarbeitung auf dieser Website ist:'],
+      [
+        'Inlinehockey Club Blue Arrows Sasbach e. V.',
+        'Bühler Straße 25, 77880 Sasbach',
+        'vertreten durch Daniel Bühler (1. Vorsitzender)',
+        'E-Mail: mail@bluearrows.de',
+      ],
+      [
+        'Kontakt für Datenschutzfragen:',
+        'Daniel Bühler',
+        'Telefon: 0178 / 47 44 1 44',
+        'E-Mail: mail@bluearrows.de',
+      ],
+    ],
+  },
+  {
+    title: '2. Hosting und Server-Logfiles',
+    paragraphs: [
+      [
+        'Diese Website wird bei Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA, gehostet. Beim Aufruf der Website erhebt Vercel automatisch Informationen in sogenannten Server-Logfiles, die dein Browser übermittelt (z. B. IP-Adresse, Datum und Uhrzeit der Anfrage, aufgerufene Seite, verwendeter Browser, Betriebssystem, Referrer-URL). Diese Daten sind aus technischen Gründen für die Auslieferung der Website erforderlich und dienen der Erkennung und Abwehr von Missbrauch. Sie werden nur kurzzeitig gespeichert und anschließend automatisch gelöscht. Vercel liefert die Website über ein weltweites Servernetz aus, eine Übermittlung in die USA ist daher möglich. Vercel ist unter dem EU-US Data Privacy Framework zertifiziert, für das die EU-Kommission ein angemessenes Datenschutzniveau festgestellt hat. Mit Vercel besteht ein Vertrag zur Auftragsverarbeitung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem stabilen und sicheren Betrieb der Website). Weitere Informationen findest du in der Datenschutzerklärung von Vercel.',
+      ],
+    ],
+  },
+  {
+    title: '3. Bereitstellung der Inhalte (Storyblok)',
+    paragraphs: [
+      [
+        'Die Texte und Bilder dieser Website verwalten wir mit dem Content-Management-System Storyblok der Storyblok GmbH, Linz (Österreich). Beim Aufruf einer Seite lädt dein Browser die Inhalte und Bilder direkt von den Servern von Storyblok. Dabei wird technisch bedingt deine IP-Adresse an Storyblok übermittelt. Storyblok nutzt für die Auslieferung Server und Netzwerke von Dienstleistern, sodass eine Übermittlung in Länder außerhalb der EU nicht ausgeschlossen werden kann. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer zuverlässigen und effizienten Bereitstellung unserer Inhalte). Weitere Informationen findest du in der Datenschutzerklärung von Storyblok.',
+      ],
+    ],
+  },
+  {
+    title: '4. Spielpläne und Tabellen (ISHD)',
+    paragraphs: [
+      [
+        'Spielpläne, Ergebnisse und Tabellen beziehen wir vom Spielbetrieb des ISHD (ishd.de). Die Abfrage erfolgt über unseren Server, dein Browser stellt dabei keine Verbindung zu ishd.de her. Es werden keine personenbezogenen Daten von dir an den ISHD übermittelt.',
+      ],
+    ],
+  },
+  {
+    title: '5. Kontaktaufnahme',
+    paragraphs: [
+      [
+        'Wenn du uns per E-Mail oder telefonisch kontaktierst, werden deine Angaben zur Bearbeitung der Anfrage und für den Fall von Anschlussfragen gespeichert. Wir löschen sie, sobald sie dafür nicht mehr benötigt werden und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Die Kommunikation per E-Mail kann Sicherheitslücken aufweisen. Bitte übermittle uns daher keine besonders vertraulichen Informationen unverschlüsselt per E-Mail. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO. Wir geben diese Daten nicht ohne deine Einwilligung an Dritte weiter.',
+      ],
+    ],
+  },
+  {
+    title: '6. Anmeldung zur Laufschule (Microsoft Forms)',
+    paragraphs: [
+      [
+        'Für die Anmeldung zur Laufschule verlinken wir auf ein Online-Formular von Microsoft Forms (Microsoft Ireland Operations Limited). Das Formular öffnet sich erst, wenn du den Link anklickst. Die dort eingegebenen Daten (z. B. Name des Kindes, Kontaktdaten der Eltern) werden auf Servern von Microsoft gespeichert und von uns ausschließlich zur Organisation der Laufschule verwendet. Eine Übermittlung in die USA ist dabei nicht ausgeschlossen, Microsoft stützt sich hierfür auf Standardvertragsklauseln. Wir löschen die Angaben, sobald sie für die Durchführung nicht mehr erforderlich sind. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung der Anmeldung). Bei Kindern muss die Anmeldung durch einen Erziehungsberechtigten erfolgen. Weitere Informationen findest du in der Datenschutzerklärung von Microsoft.',
+      ],
+    ],
+  },
+  {
+    title: '7. Cookies und Speicherung im Browser',
+    paragraphs: [
+      [
+        'Diese Website setzt keine Cookies und verwendet keine Analyse- oder Tracking-Dienste. Nur in einem Fall legt sie kurzzeitig einen Eintrag im Sitzungsspeicher (sessionStorage) deines Browsers ab: Wurde die Website während deines Besuchs aktualisiert, merkt sie sich, dass eine Seite bereits einmal neu geladen wurde, damit sie nicht wiederholt neu lädt. Der Eintrag enthält keine personenbezogenen Daten und wird beim Schließen des Browser-Tabs gelöscht. Diese Speicherung ist technisch erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG).',
+      ],
+    ],
+  },
+  {
+    title: '8. Eingebundene Schriftarten',
+    paragraphs: [
+      [
+        'Diese Website nutzt die Schriftarten Inter, Montserrat und Anton. Sie sind lokal auf unserem Server gespeichert und werden von dort geladen. Es findet keine Verbindung zu Servern von Google oder anderen Anbietern statt.',
+      ],
+    ],
+  },
+  {
+    title: '9. Google Maps (externer Link)',
+    paragraphs: [
+      [
+        'Auf einzelnen Seiten (z. B. Kontakt und Vereinsstätte) verlinken wir auf Google Maps, um dir den Weg zu unserer Vereinsstätte zu zeigen. Es ist keine Karte direkt eingebettet. Erst wenn du aktiv auf den Link klickst, öffnet sich Google Maps in einem neuen Tab, und es werden Daten (u. a. deine IP-Adresse) an Google übertragen. Beim bloßen Aufruf unserer Website findet keine Datenübermittlung an Google statt. Betreiber ist Google Ireland Limited bzw. Google LLC. Weitere Informationen findest du in der Datenschutzerklärung von Google.',
+      ],
+    ],
+  },
+  {
+    title: '10. Soziale Medien (externe Links)',
+    paragraphs: [
+      [
+        'Wir verlinken auf unsere Auftritte bei Facebook und Instagram. Die Links öffnen die jeweiligen Netzwerke in einem neuen Tab. Es sind keine Social-Plugins eingebunden, die schon beim bloßen Aufruf unserer Website Daten an diese Netzwerke übermitteln. Sobald du einem Link folgst, gelten die Datenschutzbestimmungen des jeweiligen Anbieters.',
+      ],
+    ],
+  },
+  {
+    title: '11. Fotos auf dieser Website',
+    paragraphs: [
+      [
+        'Auf unserer Website zeigen wir Fotos von Mitgliedern, Spielen und Veranstaltungen. Wir veröffentlichen Fotos nur mit Einwilligung der abgebildeten Personen, bei Minderjährigen mit Einwilligung der Erziehungsberechtigten. Wenn du nicht mehr auf einem Foto zu sehen sein möchtest, genügt eine kurze Nachricht an die oben genannte Kontaktadresse, und wir entfernen das Foto.',
+      ],
+    ],
+  },
+  {
+    title: '12. Minderjährigenschutz',
+    paragraphs: [
+      [
+        'Personen unter 16 Jahren sollten ohne Zustimmung der Eltern oder Erziehungsberechtigten keine personenbezogenen Daten an uns übermitteln. Wir verarbeiten personenbezogene Daten von Kindern und Jugendlichen nur, soweit sie im Zusammenhang mit deren sportlicher Betätigung stehen (z. B. Meldungen zu Wettbewerben oder Trainingsangeboten). Eine Weitergabe dieser Daten an Dritte erfolgt nur, soweit dies für diese Zwecke erforderlich ist (z. B. Meldung an den Verband).',
+      ],
+    ],
+  },
+  {
+    title: '13. SSL-/TLS-Verschlüsselung',
+    paragraphs: [
+      [
+        'Diese Website nutzt eine SSL- bzw. TLS-Verschlüsselung zum Schutz der Übertragung. Eine verschlüsselte Verbindung erkennst du am Schloss-Symbol und an „https://“ in der Adresszeile deines Browsers.',
+      ],
+    ],
+  },
+  {
+    title: '14. Deine Rechte',
+    paragraphs: [
+      [
+        'Du hast das Recht auf Auskunft über deine gespeicherten personenbezogenen Daten (Art. 15 DSGVO), auf Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der Verarbeitung (Art. 18 DSGVO) und Datenübertragbarkeit (Art. 20 DSGVO). Eine erteilte Einwilligung kannst du jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO).',
+      ],
+      [
+        'Widerspruchsrecht: Soweit wir Daten auf Grundlage unseres berechtigten Interesses verarbeiten (Art. 6 Abs. 1 lit. f DSGVO), kannst du dieser Verarbeitung aus Gründen, die sich aus deiner besonderen Situation ergeben, jederzeit widersprechen (Art. 21 DSGVO).',
+      ],
+      [
+        'Wende dich dazu an die oben genannte Kontaktadresse. Außerdem hast du das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Für uns zuständig ist der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg (www.baden-wuerttemberg.datenschutz.de).',
+      ],
+    ],
+  },
+  {
+    title: '15. Änderungen dieser Datenschutzerklärung',
+    paragraphs: [
+      [
+        'Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die rechtlichen Vorgaben ändern. Es gilt die jeweils aktuelle Fassung auf dieser Seite.',
+      ],
+    ],
+  },
+]
 </script>
 
 <template>
@@ -42,198 +183,22 @@ try {
         ></div>
 
         <template v-else>
-          <div class="mb-8">
+          <div
+            v-for="(section, index) in fallbackSections"
+            :key="section.title"
+            :class="index > 0 ? 'border-t-2 border-gray-200 pt-6 mb-8' : 'mb-8'"
+          >
             <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              1. Verantwortlicher
+              {{ section.title }}
             </h2>
-            <p class="leading-relaxed">
-              Verantwortlich für die Datenverarbeitung auf dieser Website ist:
-            </p>
-            <p class="mt-2">Inlinehockey Club Blue Arrows Sasbach e. V.</p>
-            <p>Bühler Straße 25, 77880 Sasbach</p>
-            <p>
-              E-Mail:
-              <a href="mailto:mail@bluearrows.de" class="text-blue-600 hover:underline"
-                >mail@bluearrows.de</a
-              >
-            </p>
-            <p>vertreten durch Daniel Bühler (1. Vorsitzender)</p>
-
-            <p class="mt-4 font-bold text-[#032650]">Kontakt für Datenschutzfragen</p>
-            <p>Daniel Bühler</p>
-            <p>Telefon: 0178 / 47 44 1 44</p>
-            <p>
-              E-Mail:
-              <a href="mailto:mail@bluearrows.de" class="text-blue-600 hover:underline"
-                >mail@bluearrows.de</a
-              >
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              2. Hosting und Server-Logfiles
-            </h2>
-            <p class="leading-relaxed">
-              Beim Aufruf dieser Website erhebt unser Hosting-Anbieter automatisch Informationen in
-              sogenannten Server-Logfiles, die dein Browser übermittelt (z. B. IP-Adresse, Datum und
-              Uhrzeit der Anfrage, verwendeter Browser, Betriebssystem, Referrer-URL). Diese Daten
-              lassen keine direkten Rückschlüsse auf deine Person zu, sind aber aus technischen
-              Gründen für die Auslieferung der Website unverzichtbar und dienen zusätzlich unserer
-              Statistik sowie der Erkennung von Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f
-              DSGVO (berechtigtes Interesse an einem stabilen und sicheren Betrieb der Website).
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              3. Kontaktaufnahme
-            </h2>
-            <p class="leading-relaxed">
-              Wenn du uns per E-Mail oder telefonisch kontaktierst, werden deine Angaben zur
-              Bearbeitung der Anfrage und für den Fall von Anschlussfragen gespeichert. Die
-              Kommunikation via E-Mail kann grundsätzlich Sicherheitslücken aufweisen – auf dem Weg
-              zu uns können E-Mails theoretisch von Dritten eingesehen werden. Bitte übermittle uns
-              daher keine besonders vertraulichen Informationen unverschlüsselt per E-Mail.
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. b bzw. f DSGVO. Diese Daten geben wir nicht
-              ohne deine Einwilligung an Dritte weiter.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              4. Chat-Funktion
-            </h2>
-            <p class="leading-relaxed mb-3">
-              Auf dieser Website steht dir ein Chat-Assistent zur Beantwortung von Fragen zur
-              Verfügung. Bei aktiver Nutzung werden folgende Daten verarbeitet:
-            </p>
-            <ul class="list-disc pl-5 space-y-2 leading-relaxed">
-              <li>
-                <strong>Chatnachrichten:</strong> Der von dir eingegebene Text wird zur Erzeugung
-                einer Antwort an die Google Gemini API (Google Ireland Limited bzw. Google LLC)
-                übermittelt. Dabei kann es zu einer Datenübertragung in Länder außerhalb der EU/des
-                EWR (u. a. USA) kommen; Google verweist hierfür auf geeignete Garantien
-                (Standardvertragsklauseln). Die Gespräche werden aktuell nicht dauerhaft in einer
-                eigenen Datenbank gespeichert, sondern nur zur Erzeugung der Antwort verarbeitet.
-              </li>
-              <li>
-                <strong>IP-Adresse:</strong> wird zu technischen Zwecken (u. a. Schutz vor
-                Missbrauch) verarbeitet.
-              </li>
-            </ul>
-            <p class="leading-relaxed mt-3">
-              Rechtsgrundlage ist deine Einwilligung durch aktive Nutzung des Chats (Art. 6 Abs. 1
-              lit. a DSGVO) sowie unser berechtigtes Interesse an einem funktionierenden
-              Support-Angebot (Art. 6 Abs. 1 lit. f DSGVO). Weitere Informationen zur
-              Datenverarbeitung durch Google findest du in der
-              <a
-                href="https://policies.google.com/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-600 hover:underline"
-                >Datenschutzerklärung von Google</a
-              >.
-            </p>
-            <p class="leading-relaxed mt-3 text-sm text-gray-500 italic">
-              Hinweis: Sobald Chatverläufe zusätzlich dauerhaft gespeichert werden (z. B. für
-              Auswertungen in einem Admin-Dashboard), wird dieser Abschnitt um Angaben zu Zweck und
-              Speicherdauer dieser Speicherung ergänzt.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              5. Google Maps (externer Link)
-            </h2>
-            <p class="leading-relaxed">
-              Auf einzelnen Seiten (z. B. Anschrift/Kontakt) verlinken wir auf Google Maps, um dir
-              den Weg zu unserer Vereinsstätte zu zeigen. Dabei ist keine Karte direkt eingebettet –
-              erst wenn du aktiv auf den Link klickst, öffnet sich Google Maps in einem neuen Tab
-              und es werden Daten (u. a. deine IP-Adresse) an Google übertragen. Beim bloßen Aufruf
-              unserer Website findet keine automatische Datenübermittlung an Google statt. Betreiber
-              ist Google Ireland Limited bzw. Google LLC; weitere Informationen findest du in den
-              <a
-                href="https://www.google.com/intl/de_de/help/terms_maps.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-600 hover:underline"
-                >Nutzungsbedingungen für Google Maps</a
-              >.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              6. Soziale Medien (externe Links)
-            </h2>
-            <p class="leading-relaxed">
-              Wir verlinken auf unserer Website auf unsere Auftritte bei Facebook und Instagram.
-              Diese Links öffnen die jeweiligen Netzwerke in einem neuen Tab; es sind keine
-              Social-Plugins eingebunden, die schon beim bloßen Aufruf unserer Website Daten an
-              diese Netzwerke übermitteln. Sobald du einem Link folgst, gelten die
-              Datenschutzbestimmungen des jeweiligen Anbieters, auf deren Erhebung und Verwendung
-              von Daten wir keinen Einfluss haben.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              7. Eingebundene Schriftarten
-            </h2>
-            <p class="leading-relaxed">
-              Diese Website nutzt Schriftarten (Google Fonts), die lokal gehostet werden. Es findet
-              dabei keine Verbindung zu Servern von Google statt und es werden keine Daten an Google
-              übertragen.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              8. Minderjährigenschutz
-            </h2>
-            <p class="leading-relaxed">
-              Personen unter 18 Jahren sollten ohne Zustimmung der Eltern oder
-              Erziehungsberechtigten keine personenbezogenen Daten an uns übermitteln. Wir fordern
-              personenbezogene Daten von Kindern und Jugendlichen nur an, soweit sie im Zusammenhang
-              mit deren sportlicher Betätigung stehen (z. B. Meldungen zu Wettbewerben oder
-              Trainingsangeboten). Eine Weitergabe dieser Daten an Dritte erfolgt nicht.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              9. SSL-Verschlüsselung
-            </h2>
-            <p class="leading-relaxed">
-              Diese Website nutzt eine SSL-Verschlüsselung zum Schutz der Übertragung vertraulicher
-              Inhalte. Eine verschlüsselte Verbindung erkennst du daran, dass die Adresszeile deines
-              Browsers von „http://“ auf „https://“ wechselt.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6 mb-8">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              10. Deine Rechte
-            </h2>
-            <p class="leading-relaxed">
-              Du hast jederzeit das Recht auf Auskunft über deine gespeicherten personenbezogenen
-              Daten, auf Berichtigung, Löschung oder Einschränkung der Verarbeitung sowie auf
-              Datenübertragbarkeit. Außerdem kannst du einer Verarbeitung widersprechen und eine
-              erteilte Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Wende dich
-              dazu an die oben genannte Kontaktadresse. Dir steht zudem ein Beschwerderecht bei
-              einer Datenschutz-Aufsichtsbehörde zu.
-            </p>
-          </div>
-
-          <div class="border-t-2 border-gray-200 pt-6">
-            <h2 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-3">
-              11. Änderungen dieser Datenschutzerklärung
-            </h2>
-            <p class="leading-relaxed">
-              Im Zuge der Weiterentwicklung dieser Website können Änderungen dieser
-              Datenschutzerklärung erforderlich werden. Wir empfehlen, sich diese Erklärung von Zeit
-              zu Zeit erneut durchzulesen.
+            <p
+              v-for="(lines, pIndex) in section.paragraphs"
+              :key="pIndex"
+              class="leading-relaxed mt-3 first-of-type:mt-0"
+            >
+              <template v-for="(line, lIndex) in lines" :key="lIndex">
+                <br v-if="lIndex > 0" />{{ line }}
+              </template>
             </p>
           </div>
         </template>

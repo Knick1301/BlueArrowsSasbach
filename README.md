@@ -39,10 +39,6 @@ Die Seite ist eine SPA mit History-Routing. Der Hoster muss unbekannte Pfade auf
 - `src/utils/methods.ts` – Link-, Datums- und Bild-Helfer
 - `src/utils/seo.ts` – Seitentitel und Meta-Tags; statische Routen setzen `meta.title` im Router, dynamische Seiten (Artikel, Teams) rufen `setPageMeta` selbst auf
 
-## Chat-Assistent
-
-Das Skript in `index.html` lädt den Chat-Assistenten von einem externen Vercel-Deployment. Er ist in der Datenschutzerklärung beschrieben; bei Änderungen dort mitpflegen.
-
 ## Bekannte Einschränkung
 
 Titel und Open-Graph-Tags werden per JavaScript gesetzt. Suchmaschinen wie Google werten das aus, die Link-Vorschau von Facebook/WhatsApp meist nicht und zeigt daher die Standardwerte aus `index.html`. Für seitenspezifische Vorschauen wäre Prerendering nötig.
