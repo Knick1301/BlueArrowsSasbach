@@ -200,7 +200,7 @@ const loadLess = () => {
 </script>
 
 <template>
-  <div class="bg-gray-100 flex-grow pb-10">
+  <div class="bg-gray-100 min-h-screen pb-10">
     <div class="w-full py-13 bg-[#032650] text-center px-4 mb-15">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">Aktuelle News</h1>
     </div>

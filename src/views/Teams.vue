@@ -106,7 +106,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
 </script>
 
 <template>
-  <div v-if="story" v-editable="story" class="flex-grow mb-15">
+  <div v-if="story" v-editable="story" class="min-h-screen mb-15">
     <div class="w-full py-8 bg-[#032650] text-center px-4 mb-15">
       <h1 class="text-3xl font-black text-white uppercase tracking-wider">
         {{ story.content.title || 'Teamseite' }}
@@ -318,7 +318,7 @@ const forwards = computed(() => allPlayers.value.filter((player) => player.posit
     </div>
   </div>
 
-  <div v-else class="flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
+  <div v-else class="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20">
     <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
       Team nicht gefunden
     </h1>
