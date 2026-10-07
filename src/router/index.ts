@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/platz',
       name: 'platz',
-      meta: { title: 'Mach mit!' },
+      meta: { title: 'Willkommen' },
       component: () => import('@/views/Platz.vue'),
     },
     {

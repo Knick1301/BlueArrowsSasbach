@@ -3,6 +3,7 @@ import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { getNewsDate, getUrl, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import basLogo from '@/assets/BASlogo.png'
 import GameCard from '@/components/GameCard.vue'
 import { sortTeams, type StoryblokBlok } from '@/utils/games'
 import { useIshdGamesForTeams } from '@/composables/useIshd'
@@ -201,11 +202,19 @@ const spieleBreakpoints = computed(() => {
 
           <div
             class="grid grid-cols-2 gap-3 min-[1550px]:auto-rows-fr min-[1550px]:h-[calc(clamp(150px,19vh,300px)+var(--chips-extra,44px))]">
-            <router-link v-for="team in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
+            <router-link v-for="(team, index) in teamCards" :key="team._uid" :to="getUrl(team.link)" v-editable="team"
+              :class="{
+                'col-span-2 justify-self-center w-[calc(50%-0.375rem)]':
+                  teamCards.length % 2 === 1 && index === teamCards.length - 1,
+              }"
               class="bg-white rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col min-[1550px]:flex-row min-[1550px]:items-center overflow-hidden active:scale-95">
-              <img loading="lazy" decoding="async" :src="resizeImage(team.image?.filename, 400)"
+              <img v-if="team.image?.filename" loading="lazy" decoding="async" :src="resizeImage(team.image.filename, 400)"
                 class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto object-cover shrink-0 border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100"
                 alt="Team Image" />
+              <div v-else
+                class="aspect-[600/348] w-full h-auto min-[1550px]:h-full min-[1550px]:w-auto shrink-0 bg-[#032650] flex items-center justify-center border-b min-[1550px]:border-b-0 min-[1550px]:border-r border-gray-100">
+                <img :src="basLogo" alt="" class="h-3/4 w-auto object-contain" />
+              </div>
               <div
                 class="text-sm lg:text-base 3xl:text-lg! font-bold text-[#032650] flex items-center justify-center p-2 text-center min-h-[40px] flex-grow min-w-0">
                 <span class="line-clamp-2">{{ team.title }}</span>
