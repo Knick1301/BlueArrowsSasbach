@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resizeImage } from '@/utils/methods.ts'
 import { MAPS_URL } from '@/utils/kontakt'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
@@ -70,7 +71,7 @@ const spielstaetteImages = computed(() => {
           <div class="relative">
             <img
               v-if="story?.content.mapsImage?.filename"
-              :src="story.content.mapsImage.filename"
+              :src="resizeImage(story.content.mapsImage.filename, 1200)"
               alt="Luftbild Vereinsstätte Blue Arrows Sasbach"
               class="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-sm group-hover:opacity-90 transition-opacity"
             />
@@ -121,7 +122,7 @@ const spielstaetteImages = computed(() => {
               <figure v-if="story.content.images[0]">
                 <img
                   v-if="story.content.images[0].image?.filename"
-                  :src="story.content.images[0].image.filename"
+                  :src="resizeImage(story.content.images[0].image.filename, 1200)"
                   :alt="story.content.images[0].title || 'Spielstätte'"
                   class="w-full aspect-[600/348] object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                   @click="openLightbox(spielstaetteImages, 0)"
@@ -140,7 +141,7 @@ const spielstaetteImages = computed(() => {
                     loading="lazy"
                     decoding="async"
                     v-if="bild.image?.filename"
-                    :src="bild.image.filename"
+                    :src="resizeImage(bild.image.filename, 800)"
                     :alt="bild.title || 'Spielstätte'"
                     class="w-full aspect-[600/348] object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                     @click="openLightbox(spielstaetteImages, Number(index) + 1)"
@@ -191,7 +192,7 @@ const spielstaetteImages = computed(() => {
             <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
               <img
                 v-if="story?.content.bildVereinsheim?.filename"
-                :src="story.content.bildVereinsheim.filename"
+                :src="resizeImage(story.content.bildVereinsheim.filename, 1200)"
                 alt="Vereinsheim"
                 class="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
                 @click="openLightbox(story.content.bildVereinsheim.filename)"

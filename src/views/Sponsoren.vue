@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
-import { getUrl, type StoryblokLink } from '@/utils/methods.ts'
+import { getUrl, type StoryblokLink, resizeImage } from '@/utils/methods.ts'
 import { computed } from 'vue'
 
 interface SponsorBlok {
@@ -92,7 +92,7 @@ const sponsoren = computed(
                 loading="lazy"
                 decoding="async"
                 v-if="sponsor.logo?.filename"
-                :src="sponsor.logo.filename"
+                :src="resizeImage(sponsor.logo.filename, 400)"
                 :alt="sponsor.name"
                 class="w-full h-32 object-contain"
               />
@@ -138,7 +138,7 @@ const sponsoren = computed(
                 loading="lazy"
                 decoding="async"
                 v-if="sponsor.logo?.filename"
-                :src="sponsor.logo.filename"
+                :src="resizeImage(sponsor.logo.filename, 400)"
                 :alt="sponsor.name"
                 class="w-full h-20 object-contain"
               />

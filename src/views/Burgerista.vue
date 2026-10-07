@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resizeImage } from '@/utils/methods.ts'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
@@ -44,7 +45,7 @@ const aktuelleTermine = computed(() => {
       <div class="w-full lg:hidden">
         <img
           v-if="story?.content.bild?.filename"
-          :src="story.content.bild.filename"
+          :src="resizeImage(story.content.bild.filename, 1000)"
           alt="Blueburgerista Burger"
           class="w-full h-[340px] sm:h-[420px] object-cover rounded-xl shadow-md border-2 border-gray-100 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.bild.filename)"
@@ -169,7 +170,7 @@ const aktuelleTermine = computed(() => {
       <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
         <img
           v-if="story?.content.bild?.filename"
-          :src="story.content.bild.filename"
+          :src="resizeImage(story.content.bild.filename, 1000)"
           alt="Blueburgerista Burger"
           class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-xl border-2 border-gray-100 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.bild.filename)"

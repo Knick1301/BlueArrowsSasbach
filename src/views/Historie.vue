@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resizeImage } from '@/utils/methods.ts'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
@@ -140,7 +141,7 @@ const { open: openLightbox } = useLightbox()
                   loading="lazy"
                   decoding="async"
                   v-if="eintrag.image?.filename"
-                  :src="eintrag.image.filename"
+                  :src="resizeImage(eintrag.image.filename, 800)"
                   :alt="eintrag.title"
                   class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
                   @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"
@@ -174,7 +175,7 @@ const { open: openLightbox } = useLightbox()
                     loading="lazy"
                     decoding="async"
                     v-if="eintrag.image?.filename"
-                    :src="eintrag.image.filename"
+                    :src="resizeImage(eintrag.image.filename, 800)"
                     :alt="eintrag.title"
                     class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm ml-auto cursor-pointer hover:opacity-90 transition-opacity"
                     @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"
@@ -205,7 +206,7 @@ const { open: openLightbox } = useLightbox()
                     loading="lazy"
                     decoding="async"
                     v-if="eintrag.image?.filename"
-                    :src="eintrag.image.filename"
+                    :src="resizeImage(eintrag.image.filename, 800)"
                     :alt="eintrag.title"
                     class="mt-3 w-full max-w-[140px] rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition-opacity"
                     @click="openLightbox({ src: eintrag.image.filename, alt: eintrag.title })"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { resizeImage } from '@/utils/methods.ts'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
@@ -56,7 +57,7 @@ const phone = computed(() => story?.value?.content.phone || '')
             <div class="relative">
               <img
                 v-if="story?.content.mapsImage?.filename"
-                :src="story.content.mapsImage.filename"
+                :src="resizeImage(story.content.mapsImage.filename, 1200)"
                 alt="Luftbild Vereinsstätte Blue Arrows Sasbach"
                 class="w-full h-64 object-cover rounded-xl border-2 border-gray-200 shadow-sm group-hover:opacity-90 transition-opacity"
               />
