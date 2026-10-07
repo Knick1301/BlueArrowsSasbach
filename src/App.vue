@@ -164,7 +164,7 @@ const navItems = computed(() =>
     </header>
 
     <main class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
-      <Suspense @resolve="pageLoaded = true">
+      <Suspense @resolve="pageLoaded = route.matched.length > 0">
         <router-view :key="route.path" />
       </Suspense>
     </main>
