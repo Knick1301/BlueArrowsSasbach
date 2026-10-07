@@ -345,7 +345,7 @@ const spieleBreakpoints = computed(() => {
     </div>
   </template>
 
-  <div v-else class="min-h-screen flex flex-col items-center justify-center text-center px-4 py-20">
+  <div v-else class="flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
     <h1 class="text-2xl font-black text-[#032650] uppercase tracking-wide mb-4">
       Startseite konnte nicht geladen werden
     </h1>
