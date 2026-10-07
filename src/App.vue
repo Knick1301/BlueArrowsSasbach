@@ -11,6 +11,28 @@ import Lightbox from '@/components/Lightbox.vue'
 import { computed, onMounted, ref } from 'vue'
 
 const isMenuOpen = ref(false)
+
+// Footer beim ersten Laden unsichtbar lassen, bis die Seite da ist. Sonst steht er kurz
+// direkt unter dem Header und springt dann nach unten. Position und Aussehen bleiben gleich.
+const footerVisible = ref(false)
+const mainEl = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  const main = mainEl.value
+  const show = () => {
+    footerVisible.value = true
+    observer.disconnect()
+    clearTimeout(fallback)
+  }
+  // Sichtbar, sobald die Seite Inhalt in <main> gerendert hat
+  const observer = new MutationObserver(() => {
+    if (main?.firstElementChild) show()
+  })
+  // Zur Sicherheit spätestens nach 4 Sekunden einblenden
+  const fallback = setTimeout(show, 4000)
+  if (main?.firstElementChild) show()
+  else if (main) observer.observe(main, { childList: true })
+})
 const route = useRoute()
 
 const toggleMenu = () => {
@@ -162,13 +184,13 @@ const navItems = computed(() =>
       </transition>
     </header>
 
-    <main class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
+    <main ref="mainEl" class="flex-grow flex flex-col" :class="{ '3xl:[zoom:1.25]': route.name !== 'home' }">
       <Suspense>
         <router-view :key="route.path" />
       </Suspense>
     </main>
 
-    <footer class="bg-[#032650] relative flex justify-center items-center h-24 3xl:h-32 mt-auto px-6">
+    <footer :class="{ invisible: !footerVisible }" class="bg-[#032650] relative flex justify-center items-center h-24 3xl:h-32 mt-auto px-6">
       <a href="https://www.facebook.com/bluearrows.de" target="_blank" rel="noopener noreferrer"
         class="absolute left-6 3xl:left-10 hover:scale-110 transition-transform md:hidden block" aria-label="Facebook">
         <img :src="facebookLogo" class="w-13 h-13 object-contain" alt="Facebook" />
@@ -186,7 +208,7 @@ const navItems = computed(() =>
       </a>
     </footer>
 
-    <div class="bg-[#021b3d] flex justify-center items-center gap-4 3xl:gap-6 py-2 3xl:py-3 px-6">
+    <div :class="{ invisible: !footerVisible }" class="bg-[#021b3d] flex justify-center items-center gap-4 3xl:gap-6 py-2 3xl:py-3 px-6">
       <router-link to="/impressum"
         class="text-blue-200 text-xs 3xl:text-sm font-medium hover:text-white transition-colors">
         Impressum
