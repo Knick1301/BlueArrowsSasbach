@@ -127,22 +127,21 @@ const aktuelleTermine = computed(() => {
               Schläger verbessern möchten – bei unserem Ferienprogramm steht der Spaß im
               Vordergrund!
             </p>
-            <div
-              class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-medium text-base mt-auto"
-            >
-              <span class="font-bold block mb-1">Aktuelle Termine:</span>
-
-              <span v-if="aktuelleTermine.length > 0">
-                <span
+            <div class="mt-auto bg-[#032650] text-white rounded-xl shadow-sm p-5">
+              <h3 class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-1">
+                Aktuelle Termine
+              </h3>
+              <div v-if="aktuelleTermine.length > 0">
+                <div
                   v-for="(termin, index) in aktuelleTermine"
                   :key="index"
-                  class="block mb-2 border-b border-gray-200 pb-2 last:border-b-0"
+                  class="py-3 border-b border-white/15 last:border-b-0 last:pb-0"
                 >
-                  <span class="font-bold text-[#032650]">
+                  <span class="text-white font-bold block text-lg">
                     {{ new Date(termin.ferienDatumStart).toLocaleDateString('de-DE') }} –
                     {{ new Date(termin.ferienDatumEnde).toLocaleDateString('de-DE') }}
                   </span>
-                  <span class="text-gray-600 block text-sm mt-1">
+                  <span class="text-blue-100 font-medium block">
                     {{
                       new Date(termin.ferienDatumStart).toLocaleTimeString('de-DE', {
                         hour: '2-digit',
@@ -158,13 +157,12 @@ const aktuelleTermine = computed(() => {
                     }}
                     Uhr
                   </span>
-                </span>
-              </span>
-
-              <span v-else class="text-gray-600">
+                </div>
+              </div>
+              <p v-else class="text-blue-100 font-medium">
                 Die Termine für das kommende Ferienprogramm werden rechtzeitig hier und in unseren
                 News bekannt gegeben.
-              </span>
+              </p>
             </div>
           </div>
         </div>

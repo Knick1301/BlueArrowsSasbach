@@ -92,17 +92,17 @@ const aktuelleTermine = computed(() => {
           – wir bringen den Geschmack direkt zu euch!
         </p>
 
-        <h3 class="text-[#032650] text-sm font-black uppercase tracking-widest mb-2">
-          Nächste Einsatztermine
-        </h3>
-        <div class="mb-6">
+        <div class="mb-6 bg-[#032650] text-white rounded-xl shadow-sm p-5">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-1">
+            Nächste Einsatztermine
+          </h3>
           <div v-if="aktuelleTermine.length > 0">
             <div
               v-for="(termin, index) in aktuelleTermine"
               :key="index"
-              class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b-2 border-gray-200"
+              class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-6 py-3 border-b border-white/15 last:border-b-0 last:pb-0"
             >
-              <span class="text-[#032650] font-bold shrink-0 text-lg">
+              <span class="text-white font-bold shrink-0 text-lg">
                 {{
                   new Date(termin.datum).toLocaleDateString('de-DE', {
                     weekday: 'long',
@@ -112,7 +112,7 @@ const aktuelleTermine = computed(() => {
                   })
                 }}
               </span>
-              <span class="text-gray-600 font-medium sm:text-right min-w-0 sm:flex-1">
+              <span class="text-blue-100 font-medium sm:text-right min-w-0 sm:flex-1">
                 <span v-if="termin.uhrzeit" class="inline-flex items-center gap-1"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +152,7 @@ const aktuelleTermine = computed(() => {
             </div>
           </div>
 
-          <p v-else class="text-gray-600 font-medium">
+          <p v-else class="text-blue-100 font-medium">
             Aktuell stehen keine neuen Termine fest. Schaut bald wieder vorbei!
           </p>
         </div>

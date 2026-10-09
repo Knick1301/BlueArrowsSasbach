@@ -40,7 +40,8 @@ const aktuelleTermine = computed(() => {
 
     <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
       <div class="w-full lg:hidden">
-        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)" alt="Inline Disco"
+        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)"
+          alt="Inline Disco"
           class="w-full aspect-[4/3] sm:aspect-[16/9] object-cover rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.image.filename)" />
         <div v-else
@@ -50,7 +51,8 @@ const aktuelleTermine = computed(() => {
       </div>
 
       <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
-        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)" alt="Inline Disco"
+        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)"
+          alt="Inline Disco"
           class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.image.filename)" />
         <div v-else
@@ -112,17 +114,15 @@ const aktuelleTermine = computed(() => {
               Inliner und Schutzausrüstung können bei uns vor Ort ausgeliehen werden. Eigene Inliner
               sind natürlich auch jederzeit willkommen.
             </p>
-            <div
-              class="bg-blue-50 border-l-4 border-[#032650] p-4 rounded-xl text-[#032650] font-medium text-base mt-auto">
-              <span class="font-bold block mb-1">Nächste Termine:</span>
-
-              <span v-if="aktuelleTermine.length > 0">
-                <span v-for="(termin, index) in aktuelleTermine" :key="index"
-                  class="block mb-2 border-b border-gray-200 pb-2 last:border-b-0">
-                  <span class="font-bold text-[#032650] block">
-                    {{ termin.title }}
-                  </span>
-                  <span class="text-gray-600 block text-sm mt-1">
+            <div class="mt-auto bg-[#032650] text-white rounded-xl shadow-sm p-5">
+              <h3 class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-1">
+                Nächste Disco-Termine
+              </h3>
+              <div v-if="aktuelleTermine.length > 0">
+                <div v-for="(termin, index) in aktuelleTermine" :key="index"
+                  class="py-3 border-b border-white/15 last:border-b-0 last:pb-0">
+                  <span class="text-white font-bold block text-lg">{{ termin.title }}</span>
+                  <span class="text-blue-100 font-medium block">
                     {{
                       new Date(termin.date).toLocaleDateString('de-DE', {
                         weekday: 'long',
@@ -131,14 +131,13 @@ const aktuelleTermine = computed(() => {
                         year: 'numeric',
                       })
                     }}
-                    <span v-if="termin.time"> · {{ termin.time }} Uhr</span>
+                    <span v-if="termin.time" class="block">{{ termin.time }} Uhr</span>
                   </span>
-                </span>
-              </span>
-
-              <span v-else class="text-gray-600">
+                </div>
+              </div>
+              <p v-else class="text-blue-100 font-medium">
                 Aktuell stehen keine neuen Termine fest. Schaut bald wieder vorbei!
-              </span>
+              </p>
             </div>
           </div>
         </div>

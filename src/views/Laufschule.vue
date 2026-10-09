@@ -158,7 +158,7 @@ const trainingsByTeam = computed(() => {
 
         <div
           v-if="story?.content?.fullyBooked"
-          class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-3 mb-6 font-bold text-base rounded-r-md"
+          class="bg-orange-50 border border-orange-200 text-orange-800 px-4 py-3 mb-6 font-bold text-base rounded-lg"
         >
           Aktuell sind alle Kurse voll belegt! Voranmeldungen für die Warteliste sind möglich.
         </div>
@@ -206,25 +206,23 @@ const trainingsByTeam = computed(() => {
 
           <div class="xl:hidden py-3 border-b-2 border-gray-200">
             <span class="text-[#032650] font-bold shrink-0 text-lg block mb-3">Wann</span>
-            <div
-              v-for="[teamKey, teamTrainings] in trainingsByTeam"
-              :key="teamKey"
-              class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm mb-3 last:mb-0 p-4 border-l-4 border-l-[#032650]"
-            >
-              <h4 class="font-black text-[#032650] text-xl mb-3 border-b pb-2 border-gray-100">
-                {{ teamMapping[teamKey] || teamKey }}
-              </h4>
-              <div class="space-y-2">
+            <div class="bg-[#032650] text-white rounded-xl shadow-sm px-5 py-2">
+              <div
+                v-for="[teamKey, teamTrainings] in trainingsByTeam"
+                :key="teamKey"
+                class="py-3 border-b border-white/15 last:border-b-0"
+              >
+                <h4 class="font-black text-white text-lg mb-1">
+                  {{ teamMapping[teamKey] || teamKey }}
+                </h4>
                 <div
                   v-for="training in teamTrainings"
                   :key="training._uid"
-                  class="flex flex-wrap justify-between items-center gap-x-3 gap-y-0.5 bg-[#f0f7fd] p-2.5 rounded-md"
+                  class="flex flex-wrap justify-between items-center gap-x-3 py-1"
                 >
-                  <span class="font-bold text-gray-700 text-base">
-                    {{ getGermanDayName(training.day) }}
-                  </span>
-                  <span class="font-black text-[#032650] text-base whitespace-nowrap">
-                    {{ training.from }} - {{ training.to }} Uhr
+                  <span class="text-blue-100">{{ getGermanDayName(training.day) }}</span>
+                  <span class="font-bold text-white tabular-nums whitespace-nowrap">
+                    {{ training.from }} – {{ training.to }} Uhr
                   </span>
                 </div>
               </div>
