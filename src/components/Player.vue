@@ -76,7 +76,7 @@ const nummerAngetippt = () => {
 
     <span
       @click="nummerAngetippt"
-      class="absolute top-[6cqw] left-[6cqw] select-none text-white font-jersey font-black leading-none text-[length:28cqw] tracking-wide"
+      class="absolute top-[6cqw] left-[6cqw] select-none cursor-default text-white font-jersey font-black leading-none text-[length:28cqw] tracking-wide"
       style="text-shadow: 0 1cqw 5cqw rgba(0, 0, 0, 0.5)"
     >
       {{ nummer }}
