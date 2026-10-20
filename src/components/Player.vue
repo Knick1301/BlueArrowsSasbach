@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { resizeImage } from '@/utils/methods.ts'
 import { useLightbox } from '@/composables/useLightbox'
+import { useRouter } from 'vue-router'
+import { tippeGoatCode } from '@/utils/easterEgg'
 
 const props = defineProps<{
   name: string
@@ -14,7 +16,11 @@ const props = defineProps<{
 
 // Storyblok-Option "role": Captain -> C, Assistant Captain -> A
 const roleBadge = computed(() => {
-  const role = props.role?.trim().toLowerCase().replace(/[\s_-]+/g, ' ') ?? ''
+  const role =
+    props.role
+      ?.trim()
+      .toLowerCase()
+      .replace(/[\s_-]+/g, ' ') ?? ''
   if (!role) return ''
   if (role.startsWith('assistant') || role === 'a' || role === 'ac') return 'A'
   if (role.startsWith('captain') || role.startsWith('kapit') || role === 'c') return 'C'
@@ -29,6 +35,11 @@ const nameParts = computed(() => {
 })
 
 const { open: openLightbox } = useLightbox()
+
+const router = useRouter()
+const nummerAngetippt = () => {
+  if (tippeGoatCode(props.nummer)) router.push({ name: 'goat' })
+}
 </script>
 
 <template>
@@ -64,7 +75,8 @@ const { open: openLightbox } = useLightbox()
     </div>
 
     <span
-      class="absolute top-[6cqw] left-[6cqw] text-white font-jersey font-black leading-none text-[length:28cqw] tracking-wide"
+      @click="nummerAngetippt"
+      class="absolute top-[6cqw] left-[6cqw] select-none text-white font-jersey font-black leading-none text-[length:28cqw] tracking-wide"
       style="text-shadow: 0 1cqw 5cqw rgba(0, 0, 0, 0.5)"
     >
       {{ nummer }}

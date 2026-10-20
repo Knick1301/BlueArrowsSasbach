@@ -16,6 +16,12 @@ const router = createRouter({
       component: () => import('@/views/Platz.vue'),
     },
     {
+      path: '/goat',
+      name: 'goat',
+      meta: { title: 'GOAT Duo' },
+      component: () => import('@/views/GoatDuo.vue'),
+    },
+    {
       path: '/aktuelles/news/:slug',
       name: 'artikel',
       component: () => import('@/views/Artikel.vue'),
