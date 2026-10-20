@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImagePlaceholder from '@/components/ImagePlaceholder.vue'
 import { resizeImage } from '@/utils/methods.ts'
 import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
@@ -44,10 +45,8 @@ const aktuelleTermine = computed(() => {
           alt="Inline Disco"
           class="w-full aspect-[4/3] sm:aspect-[16/9] object-cover rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.image.filename)" />
-        <div v-else
-          class="w-full aspect-[4/3] sm:aspect-[16/19] bg-gray-100 rounded-xl shadow-md border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
-          Hier kommt ein Bild hin
-        </div>
+        <ImagePlaceholder v-else
+          class="w-full aspect-[4/3] sm:aspect-[16/19] rounded-xl shadow-md" />
       </div>
 
       <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
@@ -55,10 +54,8 @@ const aktuelleTermine = computed(() => {
           alt="Inline Disco"
           class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
           @click="openLightbox(story.content.image.filename)" />
-        <div v-else
-          class="w-full h-[400px] lg:h-[600px] bg-gray-100 rounded-xl shadow-lg border-2 border-gray-200 flex items-center justify-center text-gray-400 font-bold text-xl">
-          Hier kommt ein Bild hin
-        </div>
+        <ImagePlaceholder v-else
+          class="w-full h-[400px] lg:h-[600px] rounded-xl shadow-lg" />
       </div>
 
       <div

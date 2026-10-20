@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImagePlaceholder from '@/components/ImagePlaceholder.vue'
 import { useStoryblok, useStoryblokApi } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { getNewsDate, getUrl, imageSrcset, resizeImage, type StoryblokLink } from '@/utils/methods.ts'
@@ -248,12 +249,12 @@ const spieleBreakpoints = computed(() => {
                 <swiper-slide v-for="news in newsCards" :key="news._uid">
                   <router-link :to="getUrl(news.link)" v-editable="news"
                     class="bg-white w-full h-full rounded-xl shadow-sm border border-gray-200 hover:-translate-y-1 hover:shadow-md transition-all flex flex-col overflow-hidden active:scale-95">
-                    <img v-if="news.image?.filename" loading="lazy" decoding="async"
+                    <img v-if="news.image?.filename" decoding="async"
                       :src="resizeImage(news.image.filename, 600)"
                       :srcset="imageSrcset(news.image.filename, [300, 450, 600, 800])"
                       sizes="(min-width: 1280px) 22vw, (min-width: 500px) 45vw, 85vw"
                       class="aspect-[600/348] w-full h-auto object-cover border-b border-gray-100" alt="News Image" />
-                    <div v-else class="aspect-[600/348] w-full bg-gray-200 border-b border-gray-100"></div>
+                    <ImagePlaceholder v-else class="aspect-[600/348] w-full border-b border-gray-100" />
                     <div
                       class="text-sm md:text-base 3xl:text-xl! font-bold text-[#032650] flex items-center justify-center p-2 3xl:py-4 text-center flex-grow">
                       <span class="line-clamp-2">{{ news.title }}</span>

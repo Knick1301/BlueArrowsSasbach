@@ -3,7 +3,7 @@ import { renderRichText, useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { formatDate, getNewsDate, resizeImage } from '@/utils/methods.ts'
 import { setPageMeta } from '@/utils/seo'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 import DecoratedCard from '@/components/DecoratedCard.vue'
 import { useLightbox } from '@/composables/useLightbox'
@@ -18,6 +18,16 @@ import 'swiper/css/pagination'
 const modules = [Navigation, Pagination]
 
 const route = useRoute()
+const router = useRouter()
+
+// Kommt man von der News-Übersicht, wie der Browser-Zurückpfeil zurückgehen,
+// damit Aufklappstand und Scrollposition erhalten bleiben
+const goBackToNews = (event: MouseEvent) => {
+  if (window.history.state?.back === '/aktuelles/news') {
+    event.preventDefault()
+    router.back()
+  }
+}
 const slug = route.params.slug
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
@@ -56,7 +66,7 @@ setPageMeta({
 <template>
   <div v-if="story" class="pb-20">
     <div class="w-full py-[54px] bg-[#032650] text-center px-4 relative flex items-center justify-center">
-      <router-link to="/aktuelles/news"
+      <router-link to="/aktuelles/news" @click="goBackToNews"
         class="absolute left-4 md:left-10 inline-flex items-center leading-none gap-1.5 text-white font-bold hover:text-gray-300 transition-colors text-sm">
         <span class="inline-block leading-none">&larr;</span>
         <span class="leading-none">Zurück</span>

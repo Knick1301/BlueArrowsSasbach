@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImagePlaceholder from '@/components/ImagePlaceholder.vue'
 import { renderRichText, type StoryblokRichTextNode } from '@storyblok/vue'
 import { formatDate, imageSrcset, resizeImage } from '@/utils/methods.ts'
 
@@ -20,7 +21,7 @@ defineProps<{
                 :srcset="imageSrcset(image.filename, [300, 450, 600, 800])"
                 sizes="(min-width: 1280px) 27vw, (min-width: 768px) 40vw, 90vw"
                 alt="News Image" class="w-full h-full object-cover" />
-            <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
+            <ImagePlaceholder v-else class="w-full h-full" />
         </div>
 
         <div class="p-5 pt-3 flex flex-col flex-grow">

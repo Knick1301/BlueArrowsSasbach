@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import ImagePlaceholder from '@/components/ImagePlaceholder.vue'
 import { renderRichText, useStoryblokApi, type StoryblokRichTextNode } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { formatDate, getNewsDate, resizeImage } from '@/utils/methods.ts'
 import NewsCard from '@/components/NewsCard.vue'
+import { onBeforeRouteLeave } from 'vue-router'
 
 const storyblokApi = useStoryblokApi()
 
@@ -68,6 +70,9 @@ let mqlMd: MediaQueryList | undefined
 let mqlXl: MediaQueryList | undefined
 
 onMounted(() => {
+  // Nur bei "Zurück" aus einem Artikel wiederherstellen, nicht bei neuem Aufruf über das Menü
+  const forward = window.history.state?.forward
+  if (typeof forward === 'string' && forward.startsWith('/aktuelles/news/')) restoreViewState()
   mqlMd = window.matchMedia('(min-width: 768px)')
   mqlXl = window.matchMedia('(min-width: 1280px)')
   mqlMd.addEventListener('change', updateColumns)
@@ -125,6 +130,48 @@ const toggleYear = (year: number) => {
 
 const YEAR_INITIAL_LIMIT = 3
 const yearLimits = ref<Map<number, number>>(new Map())
+
+// Beim Öffnen eines Artikels merken, wie weit aufgeklappt war und wo gescrollt wurde,
+// damit "Zurück" wieder an derselben Stelle landet
+const VIEW_STATE_KEY = 'news-view-state'
+
+interface NewsViewState {
+  visibleLimit: number
+  openYears: number[]
+  yearLimits: [number, number][]
+  scrollY: number
+}
+
+onBeforeRouteLeave((to) => {
+  if (!to.path.startsWith('/aktuelles/news/')) return
+  const state: NewsViewState = {
+    visibleLimit: visibleLimit.value,
+    openYears: [...openYears.value],
+    yearLimits: [...yearLimits.value],
+    scrollY: window.scrollY,
+  }
+  try {
+    sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(state))
+  } catch {
+    // ohne sessionStorage einfach nicht merken
+  }
+})
+
+const restoreViewState = () => {
+  let state: NewsViewState | null = null
+  try {
+    const raw = sessionStorage.getItem(VIEW_STATE_KEY)
+    sessionStorage.removeItem(VIEW_STATE_KEY)
+    state = raw ? JSON.parse(raw) : null
+  } catch {
+    return
+  }
+  if (!state) return
+  visibleLimit.value = state.visibleLimit
+  openYears.value = new Set(state.openYears)
+  yearLimits.value = new Map(state.yearLimits)
+  nextTick(() => requestAnimationFrame(() => window.scrollTo({ top: state.scrollY })))
+}
 
 const getYearLimit = (year: number) => yearLimits.value.get(year) ?? YEAR_INITIAL_LIMIT
 
@@ -210,7 +257,7 @@ const loadLess = () => {
       <div class="md:w-1/2 w-full relative aspect-[600/348] shrink-0 min-h-0">
         <img v-if="latestNews.image?.filename" :src="resizeImage(latestNews.image.filename, 900)" fetchpriority="high"
           alt="News Image" class="w-full h-full object-cover" />
-        <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center"></div>
+        <ImagePlaceholder v-else class="w-full h-full" />
       </div>
 
       <div class="md:w-1/2 w-full p-8 lg:p-10 flex flex-col bg-[#004a87] text-white">
