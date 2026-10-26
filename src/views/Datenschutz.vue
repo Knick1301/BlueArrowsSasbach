@@ -63,10 +63,10 @@ const fallbackSections: { title: string; paragraphs: string[][] }[] = [
     ],
   },
   {
-    title: '6. Anmeldung zur Laufschule (Microsoft Forms)',
+    title: '6. Anmeldung zur Laufschule',
     paragraphs: [
       [
-        'Für die Anmeldung zur Laufschule verlinken wir auf ein Online-Formular von Microsoft Forms (Microsoft Ireland Operations Limited). Das Formular öffnet sich erst, wenn du den Link anklickst. Die dort eingegebenen Daten (z. B. Name des Kindes, Kontaktdaten der Eltern) werden auf Servern von Microsoft gespeichert und von uns ausschließlich zur Organisation der Laufschule verwendet. Eine Übermittlung in die USA ist dabei nicht ausgeschlossen, Microsoft stützt sich hierfür auf Standardvertragsklauseln. Wir löschen die Angaben, sobald sie für die Durchführung nicht mehr erforderlich sind. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung der Anmeldung). Bei Kindern muss die Anmeldung durch einen Erziehungsberechtigten erfolgen. Weitere Informationen findest du in der Datenschutzerklärung von Microsoft.',
+        'Für die Anmeldung zur Laufschule bieten wir ein Online-Formular auf dieser Website an. Die eingegebenen Daten (Name, Geschlecht und Geburtsdatum des Kindes, Name, Handynummer, E-Mail-Adresse und Wohnort eines Erziehungsberechtigten, Angaben zu Erfahrung, Leihausrüstung, möglichen Trainingstagen sowie freiwillige Anmerkungen) werden verschlüsselt an unseren Server übertragen und von dort per E-Mail an den Verein weitergeleitet. Eine Speicherung in einer Datenbank auf dem Server findet nicht statt. Zum Schutz vor Missbrauch speichern wir für höchstens eine Stunde einen nicht rückrechenbaren Hashwert deiner IP-Adresse zusammen mit dem Zeitpunkt der Anmeldung. Wir verwenden die Angaben ausschließlich zur Organisation der Laufschule und löschen sie, sobald sie dafür nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung der Anmeldung). Bei Kindern muss die Anmeldung durch einen Erziehungsberechtigten erfolgen.',
       ],
     ],
   },

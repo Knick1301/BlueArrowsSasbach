@@ -19,11 +19,32 @@ const ishdDevApi = (): Plugin => ({
   },
 })
 
+// Lokal gibt es kein PHP: Anmeldungen nur in der Konsole ausgeben statt Mails zu verschicken.
+const anmeldungDevApi = (): Plugin => ({
+  name: 'anmeldung-dev-api',
+  configureServer(server) {
+    server.middlewares.use('/api/anmeldung', async (req, res) => {
+      res.setHeader('Content-Type', 'application/json; charset=utf-8')
+      if (req.method !== 'POST') {
+        res.statusCode = 405
+        res.end(JSON.stringify({ error: 'Nur POST erlaubt.' }))
+        return
+      }
+      let body = ''
+      for await (const chunk of req) body += chunk
+      console.log('[anmeldung] Neue Laufschul-Anmeldung (nicht versendet):', JSON.parse(body))
+      res.end(JSON.stringify({ ok: true }))
+    })
+  },
+})
+
 export default defineConfig(({ command, mode }) => ({
   plugins: [
     vue(),
     tailwindcss(),
-    ...(command === 'serve' && mode !== 'test' ? [vueDevTools(), basicSsl(), ishdDevApi()] : []),
+    ...(command === 'serve' && mode !== 'test'
+      ? [vueDevTools(), basicSsl(), ishdDevApi(), anmeldungDevApi()]
+      : []),
   ],
   server: {
     port: 5173,

@@ -24,6 +24,7 @@ Vor dem Abschluss einer Änderung: `npm run build` (inkl. Type-Check), `npx vite
   - Entwicklung: Preview-Token → lädt **Entwürfe** (`draft`).
   - Produktion: Public-Token → lädt nur **veröffentlichte** Inhalte (`published`).
 - `VITE_ISHD_API_URL` – Adresse des ISHD-Proxys. Leer = `/api/ishd`. Beim Webhoster `/api/ishd.php`. Lokal leer lassen.
+- `VITE_ANMELDUNG_API_URL` – Endpunkt der Laufschul-Anmeldung. Leer = `/api/anmeldung`. Beim Webhoster `/api/anmeldung.php`. Lokal leer lassen.
 
 `.env.local` ist per `*.local` ignoriert – niemals Tokens committen.
 
@@ -63,6 +64,13 @@ public/api/ishd.php  ISHD-Proxy für den PHP-Webhoster, mit Datei-Cache in publi
 - Im Dev-Server stellt ein Vite-Plugin (`ishdDevApi` in `vite.config.ts`) `/api/ishd` aus `api/ishd.ts` bereit.
 - Eigene Vereins-ID bei ISHD: `OUR_CLUB_ID = 116` (`src/utils/ishd.ts`).
 - `useIshd.ts` dedupliziert parallele Anfragen über eine Map; fehlgeschlagene Anfragen werden wieder entfernt.
+
+### Laufschul-Anmeldung
+
+- Formular `src/views/LaufschulAnmeldung.vue` (`/skating/laufschule/anmeldung`) schickt JSON per POST an `public/api/anmeldung.php`; das Skript prüft erneut und verschickt per `mail()` an `EMPFAENGER`.
+- Auswahlwerte und Prüfregeln stehen in `src/utils/laufschulAnmeldung.ts` **und** in `anmeldung.php` – immer beide ändern.
+- Spam-Schutz: Honeypot-Feld `website` und Rate-Limit pro IP (Hash-Dateien in `public/api/cache/`).
+- Im Dev-Server gibt das Vite-Plugin `anmeldungDevApi` Anmeldungen nur in der Konsole aus; auf Vercel gibt es keinen Endpunkt.
 
 ### Routing & SEO
 

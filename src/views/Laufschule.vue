@@ -257,13 +257,12 @@ const trainingsByTeam = computed(() => {
           <KontaktBlock :person="daniel" class="mb-5" />
 
           <div class="flex flex-col sm:flex-row gap-3">
-            <a
-              href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=0zjPOmDwmE6Fom6vADXC9_fd0gqtyfFIk3ESRMdyEo1UQkhaNjNWOEVTSE9YTllVU0NVSEpZS0RQWS4u&route=shorturl"
-              target="_blank"
+            <router-link
+              :to="{ name: 'laufschulAnmeldung' }"
               class="text-center bg-[#032650] text-white px-4 py-2 rounded font-bold hover:bg-blue-900 transition-colors text-sm"
             >
-              Zur Warteliste
-            </a>
+              {{ story?.content?.fullyBooked ? 'Zur Warteliste' : 'Online anmelden' }}
+            </router-link>
             <a
               href="https://www.bluearrows.de/fileadmin/user_upload/downloads/Anmeldung-Inline-Skating-Laufschule.pdf"
               target="_blank"

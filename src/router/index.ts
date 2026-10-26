@@ -45,6 +45,12 @@ const router = createRouter({
       component: () => import('@/views/Laufschule.vue'),
     },
     {
+      path: '/skating/laufschule/anmeldung',
+      name: 'laufschulAnmeldung',
+      meta: { title: 'Anmeldung Laufschule' },
+      component: () => import('@/views/LaufschulAnmeldung.vue'),
+    },
+    {
       path: '/teams/:teamName',
       name: 'teams',
       component: () => import('@/views/Teams.vue'),
