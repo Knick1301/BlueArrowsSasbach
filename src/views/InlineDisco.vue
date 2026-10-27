@@ -5,6 +5,7 @@ import { useStoryblok } from '@storyblok/vue'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { computed } from 'vue'
 import { useLightbox } from '@/composables/useLightbox'
+import { kommendeTermine, parseStoryblokDatum, terminBild, type TerminBlok } from '@/utils/disco'
 
 let story: Awaited<ReturnType<typeof useStoryblok>> | null = null
 try {
@@ -13,22 +14,27 @@ try {
   console.error('Storyblok-Story "events/inlinedisco" konnte nicht geladen werden.', e)
 }
 
-interface DiscoTermin {
-  date: string
-  title: string
-  time?: string
-}
-
 const { open: openLightbox } = useLightbox()
 
-const aktuelleTermine = computed(() => {
-  if (!story?.value?.content?.dates) return []
-  const jetzt = new Date().getTime()
+const aktuelleTermine = computed(() =>
+  kommendeTermine((story?.value?.content?.dates as TerminBlok[] | undefined) ?? []),
+)
 
-  return [...(story.value.content.dates as DiscoTermin[])]
-    .filter((termin) => new Date(termin.date).getTime() >= jetzt)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-})
+// Bild der nächsten Disco; ohne eigenes Bild das allgemeine Bild der Seite
+const bildQuer = computed(() =>
+  terminBild(aktuelleTermine.value[0], 'quer', story?.value?.content?.image),
+)
+const bildHoch = computed(() =>
+  terminBild(aktuelleTermine.value[0], 'hoch', story?.value?.content?.image),
+)
+
+const datumText = (wert?: string) =>
+  parseStoryblokDatum(wert)?.toLocaleDateString('de-DE', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  })
 </script>
 
 <template>
@@ -39,23 +45,24 @@ const aktuelleTermine = computed(() => {
       </h1>
     </div>
 
-    <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+    <div class="max-w-[1400px] w-[95%] mx-auto mt-15 px-4 flex flex-col lg:flex-row gap-10 lg:gap-16 items-start lg:items-stretch">
       <div class="w-full lg:hidden">
-        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)"
+        <img v-if="bildQuer" :src="resizeImage(bildQuer, 1000)"
           alt="Inline Disco"
-          class="w-full aspect-[4/3] sm:aspect-[16/9] object-cover rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-          @click="openLightbox(story.content.image.filename)" />
+          class="block w-full h-auto rounded-xl shadow-md border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(bildQuer)" />
         <ImagePlaceholder v-else
-          class="w-full aspect-[4/3] sm:aspect-[16/19] rounded-xl shadow-md" />
+          class="w-full aspect-[4/3] sm:aspect-[16/9] rounded-xl shadow-md" />
       </div>
 
-      <div class="w-full lg:w-2/5 h-full sticky top-32 hidden lg:block">
-        <img v-if="story?.content.image?.filename" :src="resizeImage(story.content.image.filename, 1000)"
+      <!-- Bild genau so hoch wie die Textbox rechts; absolute, damit es die Höhe nicht selbst vorgibt -->
+      <div class="relative w-full lg:w-2/5 hidden lg:block">
+        <img v-if="bildHoch" :src="resizeImage(bildHoch, 1000)"
           alt="Inline Disco"
-          class="w-full h-[400px] lg:h-[600px] object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
-          @click="openLightbox(story.content.image.filename)" />
+          class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-lg border-2 border-gray-200 cursor-pointer hover:opacity-90 transition-opacity"
+          @click="openLightbox(bildHoch)" />
         <ImagePlaceholder v-else
-          class="w-full h-[400px] lg:h-[600px] rounded-xl shadow-lg" />
+          class="absolute inset-0 w-full h-full rounded-xl shadow-lg" />
       </div>
 
       <div
@@ -120,14 +127,7 @@ const aktuelleTermine = computed(() => {
                   class="py-3 border-b border-white/15 last:border-b-0 last:pb-0">
                   <span class="text-white font-bold block text-lg">{{ termin.title }}</span>
                   <span class="text-blue-100 font-medium block">
-                    {{
-                      new Date(termin.date).toLocaleDateString('de-DE', {
-                        weekday: 'long',
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                      })
-                    }}
+                    {{ datumText(termin.date) }}
                     <span v-if="termin.time" class="block">{{ termin.time }} Uhr</span>
                   </span>
                 </div>

@@ -10,6 +10,7 @@ import {
 import { computed, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import DecoratedCard from '@/components/DecoratedCard.vue'
+import { imageSrcset, resizeImage } from '@/utils/methods'
 
 const SCHRITT = 20
 
@@ -127,7 +128,30 @@ const chipKlasse = (aktiv: boolean) => [
           hero.to ? 'transition-all hover:-translate-y-1 hover:shadow-lg' : '',
         ]"
       >
+        <!-- Mit Bild: Bild ungetrübt zeigen, Datum nur als kleines Schild in der Ecke -->
         <div
+          v-if="hero.bild"
+          class="relative md:w-2/5 shrink-0 bg-[#032650] aspect-video md:aspect-auto overflow-hidden"
+        >
+          <img
+            :src="resizeImage(hero.bild, 800)"
+            :srcset="imageSrcset(hero.bild, [400, 600, 800, 1200])"
+            sizes="(min-width: 768px) 360px, 100vw"
+            alt=""
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div
+            class="absolute top-3 left-3 bg-white text-[#032650] rounded-lg shadow-md px-3 py-2 text-center leading-none"
+          >
+            <span class="block text-2xl font-black">{{ hero.tag }}</span>
+            <span class="block text-xs font-black uppercase tracking-wider mt-1">
+              {{ hero.monat }}
+            </span>
+          </div>
+        </div>
+        <div
+          v-else
           class="md:w-2/5 shrink-0 bg-[#032650] text-white flex items-center justify-center gap-6 px-6 py-8"
         >
           <div class="text-center leading-none">

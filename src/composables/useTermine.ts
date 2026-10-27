@@ -3,8 +3,14 @@ import type { RouteLocationRaw } from 'vue-router'
 import { STORYBLOK_VERSION } from '@/storyblok'
 import { loadGamesForTeams, type LabeledGame } from '@/composables/useIshd'
 import { ishdTeamsFromStories, isHomeGame, isUpcoming, logoUrl, type TeamStory } from '@/utils/ishd'
+import { parseStoryblokDatum, terminBild, type StoryblokBild } from '@/utils/disco'
 
-type RawDate = Record<string, string | undefined>
+type RawDate = Record<string, unknown>
+
+interface EventStory {
+  dates: RawDate[]
+  image?: StoryblokBild
+}
 
 export interface TerminEintrag {
   id: string
@@ -19,6 +25,8 @@ export interface TerminEintrag {
   beschreibung: string
   countdown?: string
   logo?: string
+  /** Bild im Querformat für den großen Kasten auf der Terminseite */
+  bild?: string
   to?: RouteLocationRaw
 }
 
@@ -27,13 +35,16 @@ export const KATEGORIE_REIHENFOLGE = ['Heimspiele', 'Inline Disco', 'Burgerista'
 const ladeDates = async (
   storyblokApi: ReturnType<typeof useStoryblokApi>,
   slug: string,
-): Promise<RawDate[]> => {
+): Promise<EventStory> => {
   try {
     const { data } = await storyblokApi.get(`cdn/stories/${slug}`, { version: STORYBLOK_VERSION })
-    return (data.story.content.dates as RawDate[] | undefined) ?? []
+    return {
+      dates: (data.story.content.dates as RawDate[] | undefined) ?? [],
+      image: data.story.content.image as StoryblokBild | undefined,
+    }
   } catch (e) {
     console.error(`Storyblok-Story "${slug}" konnte nicht geladen werden.`, e)
-    return []
+    return { dates: [] }
   }
 }
 
@@ -52,13 +63,10 @@ const ladeStories = async (
   }
 }
 
-const parseDatum = (wert: string | undefined): Date | null => {
-  if (!wert) return null
-  const datum = new Date(wert.replace(' ', 'T'))
-  return isNaN(datum.getTime()) ? null : datum
-}
+const parseDatum = parseStoryblokDatum
 
-const feld = (raw: RawDate, ...keys: string[]) => keys.map((key) => raw[key]).find((wert) => wert)
+const feld = (raw: RawDate, ...keys: string[]) =>
+  keys.map((key) => raw[key]).find((wert): wert is string => typeof wert === 'string' && !!wert)
 
 const heuteFrueh = () => {
   const heute = new Date()
@@ -93,6 +101,7 @@ const eventTermin = (
   kategorie: string,
   fallbackTitel: string,
   to?: RouteLocationRaw,
+  fallbackBild?: StoryblokBild,
 ): TerminEintrag | null => {
   const start = parseDatum(feld(raw, 'date', 'datum'))
   const ende = parseDatum(raw.date_end)
@@ -118,6 +127,7 @@ const eventTermin = (
     monat: monatKurz(start),
     beschreibung,
     countdown: countdownText(start),
+    bild: terminBild(raw, 'quer', fallbackBild),
     to,
   }
 }
@@ -170,7 +180,7 @@ const heimspielTermin = ({ game, label, teamPath }: LabeledGame): TerminEintrag 
 
 export const ladeTermine = async (): Promise<TerminEintrag[]> => {
   const storyblokApi = useStoryblokApi()
-  const [discoRaw, burgerRaw, ferienRaw, manuellRaw, stories] = await Promise.all([
+  const [disco, burger, ferien, manuell, stories] = await Promise.all([
     ladeDates(storyblokApi, 'events/inlinedisco'),
     ladeDates(storyblokApi, 'events/burgerista'),
     ladeDates(storyblokApi, 'skating/schuleferien'),
@@ -181,14 +191,22 @@ export const ladeTermine = async (): Promise<TerminEintrag[]> => {
 
   return [
     ...ishdSpiele.map(heimspielTermin),
-    ...discoRaw.map((raw, i) =>
-      eventTermin(raw, `disco-${i}`, 'Inline Disco', 'Inline Disco', { name: 'inlinedisco' }),
+    // Bei Discos ohne eigenes Bild das Bild der Disco-Seite nehmen
+    ...disco.dates.map((raw, i) =>
+      eventTermin(
+        raw,
+        `disco-${i}`,
+        'Inline Disco',
+        'Inline Disco',
+        { name: 'inlinedisco' },
+        disco.image,
+      ),
     ),
-    ...burgerRaw.map((raw, i) =>
+    ...burger.dates.map((raw, i) =>
       eventTermin(raw, `burger-${i}`, 'Burgerista', 'Burgerista', { name: 'burgerista' }),
     ),
-    ...ferienRaw.map((raw, i) => ferienTermin(raw, i)),
-    ...manuellRaw.map((raw, i) =>
+    ...ferien.dates.map((raw, i) => ferienTermin(raw, i)),
+    ...manuell.dates.map((raw, i) =>
       eventTermin(raw, `manuell-${i}`, feld(raw, 'category', 'kategorie') ?? 'Sonstiges', 'Termin'),
     ),
   ]
